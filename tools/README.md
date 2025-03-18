@@ -119,7 +119,7 @@ dotbins analyze REPO   # Analyze GitHub repo for new tool
 ```
 </details>
 
-## ⚙️ Configuration File
+## 📁 Configuration File
 
 dotbins is configured using a YAML file (`dotbins.yaml`). Here's the configuration file used to manage these tools:
 
