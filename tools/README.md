@@ -27,6 +27,7 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 | [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [eget](https://github.com/zyedidia/eget) | zyedidia/eget | 1.3.4 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 17, 2025 | linux (amd64, arm64) |
 | [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -40,7 +41,7 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 27 Tools | 💾 446.73 MB Total Size</h3></div>
+<div align='center'><h3>📦 44 Tools | 💾 453.28 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
@@ -56,6 +57,7 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 | ripgrep | 15.46 MB | 5.15 MB |
 | fzf | 11.29 MB | 3.76 MB |
 | fd | 9.65 MB | 3.22 MB |
+| duf | 6.55 MB | 2.18 MB |
 | eza | 4.01 MB | 2.0 MB |
 | zoxide | 3.16 MB | 1.05 MB |
 
@@ -224,7 +226,9 @@ tools:
 
   fd:
     repo: sharkdp/fd
-    binary_name: fd
+
+  duf:
+    repo: muesli/duf
 ```
 
 ## ℹ️ Additional Information
