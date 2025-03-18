@@ -23,20 +23,20 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 
 | Tool | Repository | Version | Updated | Platforms & Architectures |
 | :--- | :--------- | :------ | :------ | :------------------------ |
-| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.4.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [eget](https://github.com/zyedidia/eget) | zyedidia/eget | 1.3.4 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.4.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [eget](https://github.com/zyedidia/eget) | zyedidia/eget | 1.3.4 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 17, 2025 | linux (amd64, arm64) |
-| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.7-0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.7-0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
@@ -44,7 +44,7 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
-| uv | 101.87 MB | 16.98 MB |
+| uv | 101.87 MB | 33.96 MB |
 | atuin | 93.02 MB | 31.01 MB |
 | lazygit | 54.16 MB | 18.05 MB |
 | micromamba | 46.27 MB | 15.42 MB |
