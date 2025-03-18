@@ -84,6 +84,21 @@
     "updated_at": "2025-03-17T10:31:49.573881",
     "sha256": "e3083f294a8be8dbd875dbaf77522420257e9bc6fad743c9103a95ff34be86ec"
   },
+  "fd/linux/amd64": {
+    "version": "10.2.0",
+    "updated_at": "2025-03-17T21:50:39.758843",
+    "sha256": "5f9030bcb0e1d03818521ed2e3d74fdb046480a45a4418ccff4f070241b4ed25"
+  },
+  "fd/linux/arm64": {
+    "version": "10.2.0",
+    "updated_at": "2025-03-17T21:50:39.732084",
+    "sha256": "6de8be7a3d8ca27954a6d1e22bc327af4cf6fc7622791e68b820197f915c422b"
+  },
+  "fd/macos/arm64": {
+    "version": "10.2.0",
+    "updated_at": "2025-03-17T21:50:39.777130",
+    "sha256": "ae6327ba8c9a487cd63edd8bddd97da0207887a66d61e067dfe80c1430c5ae36"
+  },
   "fzf/linux/amd64": {
     "version": "0.60.3",
     "updated_at": "2025-03-17T10:31:50.185663",

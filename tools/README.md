@@ -8,6 +8,7 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 
 - [What is dotbins?](#-what-is-dotbins)
 - [Installed Tools](#-installed-tools)
+- [Tool Statistics](#-tool-statistics)
 - [Shell Integration](#-shell-integration)
 - [Updating Tools](#-updating-tools)
 - [Quick Commands](#-quick-commands)
@@ -22,19 +23,45 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 
 | Tool | Repository | Version | Updated | Platforms & Architectures |
 | :--- | :--------- | :------ | :------ | :------------------------ |
-| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.4.0 | 2025-03-17T10:31:50.145654 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | 2025-03-17T10:31:50.290697 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | 2025-03-17T10:31:49.459999 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | 2025-03-17T20:31:44.792607 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [eget](https://github.com/zyedidia/eget) | zyedidia/eget | 1.3.4 | 2025-03-17T10:31:50.368733 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | 2025-03-17T10:31:49.690870 | linux (amd64, arm64) |
-| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | 2025-03-17T10:31:50.185663 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | 2025-03-17T10:31:50.039547 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | 2025-03-17T20:31:44.626871 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.7-0 | 2025-03-17T10:31:50.263784 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | 2025-03-17T10:31:49.221497 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.7 | 2025-03-17T20:31:44.570002 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
-| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | 2025-03-17T10:31:49.177880 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.4.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [eget](https://github.com/zyedidia/eget) | zyedidia/eget | 1.3.4 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 17, 2025 | linux (amd64, arm64) |
+| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.7-0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64 ***(current)***) |
+
+## 📊 Tool Statistics
+
+<div align='center'><h3>📦 27 Tools | 💾 446.73 MB Total Size</h3></div>
+
+<details open>
+<summary><b>Tool Size Distribution</b></summary>
+
+| Tool | Size | Percentage |
+| :--- | :--- | :--------- |
+| uv | 101.87 MB | `██████░░░░░░░░░░░░░░░░░░░░░░░░` 22.8% |
+| atuin | 93.02 MB | `██████░░░░░░░░░░░░░░░░░░░░░░░░` 20.8% |
+| lazygit | 54.16 MB | `███░░░░░░░░░░░░░░░░░░░░░░░░░░░` 12.1% |
+| micromamba | 46.27 MB | `███░░░░░░░░░░░░░░░░░░░░░░░░░░░` 10.4% |
+| git-lfs | 34.49 MB | `██░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 7.7% |
+| direnv | 20.0 MB | `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 4.5% |
+| eget | 18.59 MB | `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 4.2% |
+| delta | 18.49 MB | `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 4.1% |
+| bat | 16.3 MB | `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 3.6% |
+| ripgrep | 15.46 MB | `█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 3.5% |
+| fzf | 11.29 MB | `░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 2.5% |
+| fd | 9.65 MB | `░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 2.2% |
+| eza | 4.01 MB | `░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 0.9% |
+| zoxide | 3.16 MB | `░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` 0.7% |
+</details>
 
 ## 💻 Shell Integration
 
@@ -198,10 +225,14 @@ tools:
 
   lazygit:
     repo: jesseduffield/lazygit
+
+  fd:
+    repo: sharkdp/fd
+    binary_name: fd
 ```
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on 2025-03-17
+* This README was automatically generated on Mar 17, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
