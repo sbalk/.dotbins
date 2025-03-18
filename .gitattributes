@@ -1,3 +1,4 @@
-tools/* filter=lfs diff=lfs merge=lfs -text
-tools/versions.json !filter !diff !merge
-tools/README.md !filter !diff !merge
+linux/* filter=lfs diff=lfs merge=lfs -text
+macos/* filter=lfs diff=lfs merge=lfs -text
+versions.json !filter !diff !merge
+README.md !filter !diff !merge
