@@ -4,6 +4,16 @@
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
+## 📋 Table of Contents
+
+- [What is dotbins?](#-what-is-dotbins)
+- [Installed Tools](#-installed-tools)
+- [Shell Integration](#-shell-integration)
+- [Updating Tools](#-updating-tools)
+- [Quick Commands](#-quick-commands)
+- [Configuration File](#-configuration-file)
+- [Additional Information](#ℹ️-additional-information)
+
 ## 📦 What is dotbins?
 
 **dotbins** is a utility for managing CLI tool binaries in your dotfiles repository. It downloads and organizes binaries for popular tools across multiple platforms (macOS, Linux) and architectures (amd64, arm64).
@@ -108,6 +118,87 @@ dotbins versions       # Show installed tool versions
 dotbins analyze REPO   # Analyze GitHub repo for new tool
 ```
 </details>
+
+## ⚙️ Configuration File
+
+dotbins is configured using a YAML file (`dotbins.yaml`). Here's the configuration file used to manage these tools:
+
+```yaml
+# Configuration
+tools_dir: ~/.mydotbins/tools
+
+platforms:
+  linux:
+    - amd64
+    - arm64
+  macos:
+    - arm64
+
+# Tool definitions
+tools:
+  fzf:
+    repo: junegunn/fzf
+
+  bat:
+    repo: sharkdp/bat
+
+  eza:
+    repo: eza-community/eza
+    arch_map:
+      amd64: x86_64
+      arm64: aarch64
+    asset_patterns:
+      linux: eza_{arch}-unknown-linux-gnu.tar.gz
+      macos: null  # No macOS binaries available as of now
+
+  zoxide:
+    repo: ajeetdsouza/zoxide
+
+  delta:
+    repo: dandavison/delta
+
+  uv:
+    repo: astral-sh/uv
+    binary_name: [uv, uvx]
+    binary_path: [uv-*/uv, uv-*/uvx]
+
+  micromamba:
+    repo: mamba-org/micromamba-releases
+    extract_binary: false
+    binary_path: bin/micromamba
+    arch_map:
+      amd64: 64
+      arm64: aarch64
+    asset_patterns:
+      linux: micromamba-linux-{arch}
+      macos: micromamba-osx-arm64
+
+  atuin:
+    repo: atuinsh/atuin
+    arch_map:
+      amd64: x86_64
+      arm64: aarch64
+    asset_patterns:
+      linux: atuin-{arch}-unknown-linux-gnu.tar.gz
+      macos: atuin-{arch}-apple-darwin.tar.gz
+
+  git-lfs:
+    repo: git-lfs/git-lfs
+
+  ripgrep:
+    repo: BurntSushi/ripgrep
+    binary_name: rg
+
+  eget:
+    repo: zyedidia/eget
+
+  direnv:
+    repo: direnv/direnv
+    extract_binary: false
+
+  lazygit:
+    repo: jesseduffield/lazygit
+```
 
 ## ℹ️ Additional Information
 
