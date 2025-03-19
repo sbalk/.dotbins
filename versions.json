@@ -160,19 +160,19 @@
     "sha256": "a14777516794ba7edb4af716f73b908af9cd4bfe784cbaac2a7a5028f3f21247"
   },
   "micromamba/linux/amd64": {
-    "version": "2.0.7-0",
-    "updated_at": "2025-03-17T23:04:33.842939",
-    "sha256": "64739ffd9e67cca5f1a524fcd39da5f6ce6847180150b98a54b9178fdfb17252"
+    "version": "2.0.8-0",
+    "updated_at": "2025-03-19T14:43:25.332825",
+    "sha256": "0905ea12f61d85964e6881b579db5291af290e8b666cdd0869828e1c1ba21487"
   },
   "micromamba/linux/arm64": {
-    "version": "2.0.7-0",
-    "updated_at": "2025-03-17T23:04:33.980395",
-    "sha256": "99fb340c539b49a17801ea610a30b1483cdbb59957ebcd2ee51248bcc3954d6f"
+    "version": "2.0.8-0",
+    "updated_at": "2025-03-19T14:43:25.190460",
+    "sha256": "6a2f8d40ac3ed9a295c9b006a9fb6be8057c4821abd91fce8fe19d4c6696a760"
   },
   "micromamba/macos/arm64": {
-    "version": "2.0.7-0",
-    "updated_at": "2025-03-17T23:04:34.279031",
-    "sha256": "fa688dba5b1c524fe2e38f5a5a882edc9f9293e93b116db07cfd64b01cc37183"
+    "version": "2.0.8-0",
+    "updated_at": "2025-03-19T14:43:25.207443",
+    "sha256": "901c547f66404b81095577532e8d9e7c69fe78ffac0b9ba980110f36e4cceffd"
   },
   "ripgrep/linux/amd64": {
     "version": "14.1.1",
@@ -190,19 +190,19 @@
     "sha256": "24ad76777745fbff131c8fbc466742b011f925bfa4fffa2ded6def23b5b937be"
   },
   "uv/linux/amd64": {
-    "version": "0.6.7",
-    "updated_at": "2025-03-17T23:04:32.895583",
-    "sha256": "601c2b1147117c4471a154b4cebbdb31c818105f796d5f8115fe42d2526689c8"
+    "version": "0.6.8",
+    "updated_at": "2025-03-19T14:43:25.566756",
+    "sha256": "2378ea0122bd56a11ee7ae2ad6116c1f22f4657c03b9efb78ac150236bf7974c"
   },
   "uv/linux/arm64": {
-    "version": "0.6.7",
-    "updated_at": "2025-03-17T23:04:32.686077",
-    "sha256": "b64c4ec32d55bd8e8b726b3162be0dfb3c117c3ca4cd798862497d33fe68e7b9"
+    "version": "0.6.8",
+    "updated_at": "2025-03-19T14:43:25.442117",
+    "sha256": "3ffcaa4f4dba917fa58484a1c3dcb96a958a4baca0204e9c10a4799f81b9ee2f"
   },
   "uv/macos/arm64": {
-    "version": "0.6.7",
-    "updated_at": "2025-03-17T23:04:33.809388",
-    "sha256": "1a4d04477893c215e3def30149208fabe58a70d031388684d0125f553e3cd74f"
+    "version": "0.6.8",
+    "updated_at": "2025-03-19T14:43:25.314670",
+    "sha256": "e4f83fc42d9735512198c2d86a6fc136e2f5a2b59b3ccc4f104018ed07465499"
   },
   "zoxide/linux/amd64": {
     "version": "0.9.7",

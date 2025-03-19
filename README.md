@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.12.0.post8+gf7b98cc.d20250317-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.17.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -28,28 +28,30 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 | [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [eget](https://github.com/zyedidia/eget) | zyedidia/eget | 1.3.4 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 17, 2025 | linux (amd64, arm64) |
 | [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.7-0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.8-0 | Mar 19, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.8 | Mar 19, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 41 Tools | 💾 434.7 MB Total Size</h3></div>
+<div align='center'><h3>📦 44 Tools | 💾 453.42 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
-| uv | 101.87 MB | 33.96 MB |
+| uv | 102.03 MB | 34.01 MB |
 | atuin | 93.02 MB | 31.01 MB |
 | lazygit | 54.16 MB | 18.05 MB |
-| micromamba | 46.27 MB | 15.42 MB |
+| micromamba | 46.24 MB | 15.41 MB |
 | git-lfs | 34.49 MB | 11.5 MB |
 | direnv | 20.0 MB | 6.67 MB |
+| eget | 18.59 MB | 6.2 MB |
 | delta | 18.49 MB | 6.16 MB |
 | bat | 16.3 MB | 5.43 MB |
 | ripgrep | 15.46 MB | 5.15 MB |
@@ -138,7 +140,6 @@ dotbins init           # Initialize directory structure
 dotbins update         # Update all tools
 dotbins readme         # Regenerate this README
 dotbins versions       # Show installed tool versions
-dotbins analyze REPO   # Analyze GitHub repo for new tool
 dotbins get REPO       # Install tool directly to ~/.local/bin
 ```
 </details>
@@ -213,6 +214,9 @@ tools:
     repo: BurntSushi/ripgrep
     binary_name: rg
 
+  eget:
+    repo: zyedidia/eget
+
   direnv:
     repo: direnv/direnv
     extract_binary: false
@@ -229,6 +233,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Mar 18, 2025
+* This README was automatically generated on Mar 19, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
