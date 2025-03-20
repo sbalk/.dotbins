@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.17.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.17.1.post2+g399c50f.d20250320-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -28,7 +28,6 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 | [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [eget](https://github.com/zyedidia/eget) | zyedidia/eget | 1.3.4 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 17, 2025 | linux (amd64, arm64) |
 | [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -37,11 +36,12 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 | [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.8-0 | Mar 19, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.8 | Mar 19, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.3.2 | Mar 19, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 44 Tools | 💾 453.42 MB Total Size</h3></div>
+<div align='center'><h3>📦 44 Tools | 💾 472.71 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
@@ -49,15 +49,15 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 | atuin | 93.02 MB | 31.01 MB |
 | lazygit | 54.16 MB | 18.05 MB |
 | micromamba | 46.24 MB | 15.41 MB |
+| yazi | 37.87 MB | 12.62 MB |
 | git-lfs | 34.49 MB | 11.5 MB |
 | direnv | 20.0 MB | 6.67 MB |
-| eget | 18.59 MB | 6.2 MB |
 | delta | 18.49 MB | 6.16 MB |
 | bat | 16.3 MB | 5.43 MB |
 | ripgrep | 15.46 MB | 5.15 MB |
 | fzf | 11.29 MB | 3.76 MB |
 | fd | 9.65 MB | 3.22 MB |
-| duf | 6.55 MB | 2.18 MB |
+| duf | 6.56 MB | 2.19 MB |
 | eza | 4.01 MB | 2.0 MB |
 | zoxide | 3.16 MB | 1.05 MB |
 
@@ -214,9 +214,6 @@ tools:
     repo: BurntSushi/ripgrep
     binary_name: rg
 
-  eget:
-    repo: zyedidia/eget
-
   direnv:
     repo: direnv/direnv
     extract_binary: false
@@ -229,6 +226,9 @@ tools:
 
   duf:
     repo: muesli/duf
+
+  yazi:
+    repo: sxyazi/yazi
 ```
 
 ## ℹ️ Additional Information
