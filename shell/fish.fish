@@ -7,3 +7,4 @@ test "$_arch" = "x86_64"; and set _arch "amd64"
 test "$_arch" = "aarch64" -o "$_arch" = "arm64"; and set _arch "arm64"
 
 fish_add_path $HOME/.dotbins/$_os/$_arch/bin
+

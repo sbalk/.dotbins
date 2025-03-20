@@ -8,3 +8,4 @@ _arch=$(uname -m)
 [[ "$_arch" == "aarch64" || "$_arch" == "arm64" ]] && _arch="arm64"
 
 export PATH="$HOME/.dotbins/$_os/$_arch/bin:$PATH"
+

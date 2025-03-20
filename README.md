@@ -65,52 +65,25 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 
 Add one of the following snippets to your shell configuration file to use the platform-specific binaries:
 
-<details>
-<summary><b>Bash/Zsh</b> (Click to expand)</summary>
-
+For **Bash**:
 ```bash
-# dotbins - Add platform-specific binaries to PATH
-_os=$(uname -s | tr '[:upper:]' '[:lower:]')
-[[ "$_os" == "darwin" ]] && _os="macos"
-
-_arch=$(uname -m)
-[[ "$_arch" == "x86_64" ]] && _arch="amd64"
-[[ "$_arch" == "aarch64" || "$_arch" == "arm64" ]] && _arch="arm64"
-
-export PATH="$HOME/.dotbins/$_os/$_arch/bin:$PATH"
+source $HOME/.dotbins/shell/bash.sh
 ```
-</details>
 
-<details>
-<summary><b>Fish</b> (Click to expand)</summary>
+For **Zsh**:
+```bash
+source $HOME/.dotbins/shell/zsh.sh
+```
 
+For **Fish**:
 ```fish
-# dotbins - Add platform-specific binaries to PATH
-set -l _os (uname -s | tr '[:upper:]' '[:lower:]')
-test "$_os" = "darwin"; and set _os "macos"
-
-set -l _arch (uname -m)
-test "$_arch" = "x86_64"; and set _arch "amd64"
-test "$_arch" = "aarch64" -o "$_arch" = "arm64"; and set _arch "arm64"
-
-fish_add_path $HOME/.dotbins/$_os/$_arch/bin
+source $HOME/.dotbins/shell/fish.fish
 ```
-</details>
 
-<details>
-<summary><b>Nushell</b> (Click to expand)</summary>
-
+For **Nushell**:
 ```nu
-# dotbins - Add platform-specific binaries to PATH
-let _os = (sys).host.name | str downcase
-let _os = if $_os == "darwin" { "macos" } else { $_os }
-
-let _arch = (sys).host.arch
-let _arch = if $_arch == "x86_64" { "amd64" } else if $_arch in ["aarch64", "arm64"] { "arm64" } else { $_arch }
-
-$env.PATH = [$"$HOME/.dotbins/$_os/$_arch/bin", ...$env.PATH]
+source $HOME/.dotbins/shell/nushell.nu
 ```
-</details>
 
 ## 🔄 Updating Tools
 
