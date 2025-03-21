@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.19.1.post1+gac4ecdf-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.20.0.post2+gf998dc1.d20250321-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -134,11 +134,20 @@ platforms:
 
 # Tool definitions
 tools:
-  fzf:
-    repo: junegunn/fzf
+  bat: sharkdp/bat
+  delta: dandavison/delta
+  direnv: direnv/direnv
+  duf: muesli/duf
+  fd: sharkdp/fd
+  fzf: junegunn/fzf
+  git-lfs: git-lfs/git-lfs
+  lazygit: jesseduffield/lazygit
+  yazi: sxyazi/yazi
+  zoxide: ajeetdsouza/zoxide
 
-  bat:
-    repo: sharkdp/bat
+  ripgrep:
+    repo: BurntSushi/ripgrep
+    binary_name: rg
 
   eza:
     repo: eza-community/eza
@@ -148,12 +157,6 @@ tools:
     asset_patterns:
       linux: eza_{arch}-unknown-linux-gnu.tar.gz
       macos: null  # No macOS binaries available as of now
-
-  zoxide:
-    repo: ajeetdsouza/zoxide
-
-  delta:
-    repo: dandavison/delta
 
   uv:
     repo: astral-sh/uv
@@ -179,29 +182,6 @@ tools:
     asset_patterns:
       linux: atuin-{arch}-unknown-linux-gnu.tar.gz
       macos: atuin-{arch}-apple-darwin.tar.gz
-
-  git-lfs:
-    repo: git-lfs/git-lfs
-
-  ripgrep:
-    repo: BurntSushi/ripgrep
-    binary_name: rg
-
-  direnv:
-    repo: direnv/direnv
-    extract_binary: false
-
-  lazygit:
-    repo: jesseduffield/lazygit
-
-  fd:
-    repo: sharkdp/fd
-
-  duf:
-    repo: muesli/duf
-
-  yazi:
-    repo: sxyazi/yazi
 ```
 
 ## ℹ️ Additional Information
