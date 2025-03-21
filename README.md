@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.19.1.post1+gac4ecdf-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.22.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -122,6 +122,7 @@ dotbins get REPO       # Install tool directly to ~/.local/bin
 dotbins is configured using a YAML file (`dotbins.yaml`). Here's the configuration file used to manage these tools:
 
 ```yaml
+# Configuration
 tools_dir: ~/.dotbins
 
 platforms:
@@ -131,6 +132,7 @@ platforms:
   macos:
     - arm64
 
+# Tool definitions
 tools:
   bat: sharkdp/bat
   delta: dandavison/delta
@@ -147,15 +149,6 @@ tools:
     repo: BurntSushi/ripgrep
     binary_name: rg
 
-  atuin:
-    repo: atuinsh/atuin
-    arch_map:
-      amd64: x86_64
-      arm64: aarch64
-    asset_patterns:
-      linux: atuin-{arch}-unknown-linux-gnu.tar.gz
-      macos: atuin-{arch}-apple-darwin.tar.gz
-
   eza:
     repo: eza-community/eza
     arch_map:
@@ -164,6 +157,11 @@ tools:
     asset_patterns:
       linux: eza_{arch}-unknown-linux-gnu.tar.gz
       macos: null  # No macOS binaries available as of now
+
+  uv:
+    repo: astral-sh/uv
+    binary_name: [uv, uvx]
+    binary_path: [uv-*/uv, uv-*/uvx]
 
   micromamba:
     repo: mamba-org/micromamba-releases
@@ -176,10 +174,14 @@ tools:
       linux: micromamba-linux-{arch}
       macos: micromamba-osx-arm64
 
-  uv:
-    repo: astral-sh/uv
-    binary_name: [uv, uvx]
-    binary_path: [uv-*/uv, uv-*/uvx]
+  atuin:
+    repo: atuinsh/atuin
+    arch_map:
+      amd64: x86_64
+      arm64: aarch64
+    asset_patterns:
+      linux: atuin-{arch}-unknown-linux-gnu.tar.gz
+      macos: atuin-{arch}-apple-darwin.tar.gz
 ```
 
 ## ℹ️ Additional Information
