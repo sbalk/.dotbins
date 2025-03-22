@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.22.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.22.0.post7+g56d7184.d20250321-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -10,34 +10,44 @@ This directory contains command-line tools automatically managed by [dotbins](ht
 - [Installed Tools](#-installed-tools)
 - [Tool Statistics](#-tool-statistics)
 - [Shell Integration](#-shell-integration)
-- [Updating Tools](#-updating-tools)
+- [Installing and Updating Tools](#-installing-and-updating-tools)
 - [Quick Commands](#-quick-commands)
 - [Configuration File](#-configuration-file)
 - [Additional Information](#ℹ️-additional-information)
 
 ## 📦 What is dotbins?
 
-**dotbins** is a utility for managing CLI tool binaries in your dotfiles repository. It downloads and organizes binaries for popular tools across multiple platforms (macOS, Linux) and architectures (amd64, arm64).
+**dotbins** is a utility for managing CLI tool binaries in your dotfiles repository. It downloads and organizes binaries for popular command-line tools across multiple platforms (macOS, Linux) and architectures (amd64, arm64).
+
+**Key features:**
+
+- ✅ **Cross-platform support** - Manages tools for different OSes and CPU architectures
+- ✅ **No admin privileges** - Perfect for systems where you lack sudo access
+- ✅ **Version tracking** - Keeps track of installed tools with update timestamps
+- ✅ **GitHub integration** - Automatically downloads from GitHub releases
+- ✅ **Simple configuration** - YAML-based config with auto-detection capabilities
+
+Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbins)
 
 ## 🔍 Installed Tools
 
 | Tool | Repository | Version | Updated | Platforms & Architectures |
 | :--- | :--------- | :------ | :------ | :------------------------ |
-| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.4.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Mar 21, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 17, 2025 | linux (amd64, arm64) |
-| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.8-0 | Mar 19, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.9 | Mar 20, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.3.2 | Mar 19, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 17, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.4.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 22, 2025 | linux (amd64, arm64) |
+| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.8-0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.9 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.3.2 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
@@ -85,22 +95,28 @@ For **Nushell**:
 source $HOME/.dotbins/shell/nushell.nu
 ```
 
-## 🔄 Updating Tools
+## 🔄 Installing and Updating Tools
 
-### Update all tools
+### Install or update all tools
 ```bash
-dotbins update
+dotbins sync
 ```
 
-### Update specific tools only
+### Install or update specific tools only
 ```bash
-dotbins update tool1 tool2
+dotbins sync tool1 tool2
 ```
 
-### Update for current platform only
+### Install or update for current platform only
 ```bash
-dotbins update --current
+dotbins sync --current
 ```
+
+### Force reinstall of all tools
+```bash
+dotbins sync --force
+```
+
 
 ## 🚀 Quick Commands
 
@@ -110,16 +126,21 @@ dotbins update --current
 ```
 dotbins list           # List all available tools
 dotbins init           # Initialize directory structure
-dotbins update         # Update all tools
+dotbins sync           # Install and update tools to their latest versions
 dotbins readme         # Regenerate this README
 dotbins versions       # Show installed tool versions
 dotbins get REPO       # Install tool directly to ~/.local/bin
 ```
+
+For detailed usage information, run `dotbins --help` or `dotbins <command> --help`
 </details>
 
 ## 📁 Configuration File
 
-dotbins is configured using a YAML file (`dotbins.yaml`). Here's the configuration file used to manage these tools:
+dotbins is configured using a YAML file (`dotbins.yaml`).
+This configuration defines which tools to manage, their sources, and platform compatibility.
+
+**Current Configuration:**
 
 ```yaml
 tools_dir: ~/.dotbins
@@ -184,6 +205,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Mar 21, 2025
+* This README was automatically generated on Mar 22, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
