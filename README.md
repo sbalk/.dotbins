@@ -45,13 +45,14 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.8-0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [starship](https://github.com/starship/starship) | starship/starship | 1.22.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.9 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.3.2 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 44 Tools | 💾 472.97 MB Total Size</h3></div>
+<div align='center'><h3>📦 47 Tools | 💾 497.07 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
@@ -61,6 +62,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | micromamba | 46.24 MB | 15.41 MB |
 | yazi | 37.87 MB | 12.62 MB |
 | git-lfs | 34.49 MB | 11.5 MB |
+| starship | 24.1 MB | 8.03 MB |
 | direnv | 20.0 MB | 6.67 MB |
 | delta | 18.49 MB | 6.16 MB |
 | bat | 16.3 MB | 5.43 MB |
@@ -153,16 +155,33 @@ platforms:
     - arm64
 
 tools:
-  bat: sharkdp/bat
   delta: dandavison/delta
-  direnv: direnv/direnv
   duf: muesli/duf
   fd: sharkdp/fd
-  fzf: junegunn/fzf
   git-lfs: git-lfs/git-lfs
-  lazygit: jesseduffield/lazygit
   yazi: sxyazi/yazi
-  zoxide: ajeetdsouza/zoxide
+
+  bat:
+    repo: sharkdp/bat
+    shell_code: |
+      alias bat="bat --paging=never"
+      alias cat="bat --plain --paging=never"
+  direnv:
+    repo: direnv/direnv
+    shell_code: |
+      eval "$(direnv hook zsh)"
+  fzf:
+    repo: junegunn/fzf
+    shell_code: |
+      source <(fzf --zsh)
+  lazygit:
+    repo: jesseduffield/lazygit
+    shell_code: |
+      alias lg="lazygit"
+  zoxide:
+    repo: ajeetdsouza/zoxide
+    shell_code: |
+      eval "$(zoxide init zsh)"
 
   ripgrep:
     repo: BurntSushi/ripgrep
@@ -176,6 +195,8 @@ tools:
     asset_patterns:
       linux: atuin-{arch}-unknown-linux-gnu.tar.gz
       macos: atuin-{arch}-apple-darwin.tar.gz
+    shell_code: |
+      source <(atuin init zsh --disable-up-arrow)
 
   eza:
     repo: eza-community/eza
@@ -185,6 +206,8 @@ tools:
     asset_patterns:
       linux: eza_{arch}-unknown-linux-gnu.tar.gz
       macos: null  # No macOS binaries available as of now
+    shell_code: |
+      alias l="eza -lah --git"
 
   micromamba:
     repo: mamba-org/micromamba-releases
@@ -196,15 +219,24 @@ tools:
     asset_patterns:
       linux: micromamba-linux-{arch}
       macos: micromamba-osx-arm64
+    shell_code: |
+      alias mm="micromamba"
 
   uv:
     repo: astral-sh/uv
     binary_name: [uv, uvx]
     binary_path: [uv-*/uv, uv-*/uvx]
+    shell_code: |
+      eval "$(uv generate-shell-completion zsh)"
+
+  starship:
+    repo: starship/starship
+    shell_code: |
+      eval "$(starship init zsh)"
 ```
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Mar 22, 2025
+* This README was automatically generated on Mar 23, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
