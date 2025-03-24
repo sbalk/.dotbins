@@ -130,7 +130,7 @@ dotbins list           # List all available tools
 dotbins init           # Initialize directory structure
 dotbins sync           # Install and update tools to their latest versions
 dotbins readme         # Regenerate this README
-dotbins versions       # Show installed tool versions
+dotbins status         # Show installed tool versions
 dotbins get REPO       # Install tool directly to ~/.local/bin
 ```
 
