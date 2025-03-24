@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.26.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.22.0.post7+g56d7184.d20250321-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -130,7 +130,7 @@ dotbins list           # List all available tools
 dotbins init           # Initialize directory structure
 dotbins sync           # Install and update tools to their latest versions
 dotbins readme         # Regenerate this README
-dotbins versions       # Show installed tool versions
+dotbins status         # Show installed tool versions
 dotbins get REPO       # Install tool directly to ~/.local/bin
 ```
 
