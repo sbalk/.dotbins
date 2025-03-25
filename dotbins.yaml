@@ -10,8 +10,10 @@ platforms:
 tools:
   delta: dandavison/delta
   duf: muesli/duf
+  dust: bootandy/dust
   fd: sharkdp/fd
   git-lfs: git-lfs/git-lfs
+  hyperfine: sharkdp/hyperfine
   yazi: sxyazi/yazi
 
   bat:
@@ -64,8 +66,8 @@ tools:
 
   micromamba:
     repo: mamba-org/micromamba-releases
-    extract_binary: false
-    binary_path: bin/micromamba
+    extract_archive: false
+    path_in_archive: bin/micromamba
     arch_map:
       amd64: 64
       arm64: aarch64
@@ -78,7 +80,7 @@ tools:
   uv:
     repo: astral-sh/uv
     binary_name: [uv, uvx]
-    binary_path: [uv-*/uv, uv-*/uvx]
+    path_in_archive: [uv-*/uv, uv-*/uvx]
     shell_code: |
       eval "$(uv generate-shell-completion zsh)"
 

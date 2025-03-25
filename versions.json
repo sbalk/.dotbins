@@ -144,6 +144,21 @@
     "updated_at": "2025-03-22T15:03:27.620748",
     "sha256": "83b4ea3b0c72ba19e3bc46e47e92476f4505cc96693333b9fa0a314dddacc4ba"
   },
+  "hyperfine/linux/amd64": {
+    "version": "1.19.0",
+    "updated_at": "2025-03-24T23:34:30.095709",
+    "sha256": "d5550bbdc240d2aaa8f43ea2dc8b03a306afb30ea8464cd8b2faa9486ed1019e"
+  },
+  "hyperfine/linux/arm64": {
+    "version": "1.19.0",
+    "updated_at": "2025-03-24T23:34:30.110347",
+    "sha256": "7f9c0522e1acf869e0558e085c43f2cea3e30e4f7a4b7bc3d5540cbdee7b4273"
+  },
+  "hyperfine/macos/arm64": {
+    "version": "1.19.0",
+    "updated_at": "2025-03-24T23:34:30.122782",
+    "sha256": "502e7c7f99e7e1919321eaa23a4a694c34b1b92d99cbd773a4a2497e100e088f"
+  },
   "lazygit/linux/amd64": {
     "version": "0.48.0",
     "updated_at": "2025-03-22T15:03:27.675714",

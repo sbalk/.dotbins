@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.30.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.29.0.post3+g605dcaf-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -38,10 +38,12 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [dust](https://github.com/bootandy/dust) | bootandy/dust | 1.1.2 | Mar 24, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 22, 2025 | linux (amd64, arm64) |
 | [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.60.3 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Mar 24, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.8-0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [ripgrep](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -52,7 +54,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 47 Tools | 💾 497.07 MB Total Size</h3></div>
+<div align='center'><h3>📦 53 Tools | 💾 508.54 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
@@ -69,8 +71,10 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | ripgrep | 15.46 MB | 5.15 MB |
 | fzf | 11.29 MB | 3.76 MB |
 | fd | 9.65 MB | 3.22 MB |
+| dust | 7.96 MB | 2.65 MB |
 | duf | 6.55 MB | 2.18 MB |
 | eza | 4.01 MB | 2.0 MB |
+| hyperfine | 3.5 MB | 1.17 MB |
 | zoxide | 3.16 MB | 1.05 MB |
 
 ## 💻 Shell Integration
@@ -157,8 +161,10 @@ platforms:
 tools:
   delta: dandavison/delta
   duf: muesli/duf
+  dust: bootandy/dust
   fd: sharkdp/fd
   git-lfs: git-lfs/git-lfs
+  hyperfine: sharkdp/hyperfine
   yazi: sxyazi/yazi
 
   bat:
@@ -211,8 +217,8 @@ tools:
 
   micromamba:
     repo: mamba-org/micromamba-releases
-    extract_binary: false
-    binary_path: bin/micromamba
+    extract_archive: false
+    path_in_archive: bin/micromamba
     arch_map:
       amd64: 64
       arm64: aarch64
@@ -225,7 +231,7 @@ tools:
   uv:
     repo: astral-sh/uv
     binary_name: [uv, uvx]
-    binary_path: [uv-*/uv, uv-*/uvx]
+    path_in_archive: [uv-*/uv, uv-*/uvx]
     shell_code: |
       eval "$(uv generate-shell-completion zsh)"
 
