@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.38.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-1.0.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -33,48 +33,48 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 
 | Tool | Repository | Version | Updated | Platforms & Architectures |
 | :--- | :--------- | :------ | :------ | :------------------------ |
-| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.4.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [dust](https://github.com/bootandy/dust) | bootandy/dust | 1.1.2 | Mar 24, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Mar 22, 2025 | linux (amd64, arm64) |
-| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.0 | Mar 30, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Mar 24, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.8-0 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [rg](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [starship](https://github.com/starship/starship) | starship/starship | 1.22.1 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.11 | Mar 30, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.3.2 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Mar 22, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.4.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [dust](https://github.com/bootandy/dust) | bootandy/dust | 1.1.2 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.20.24 | Apr 01, 2025 | linux (amd64, arm64) |
+| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.0.8-0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [rg](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [starship](https://github.com/starship/starship) | starship/starship | 1.22.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.11 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.3.2 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 53 Tools | 💾 509.89 MB Total Size</h3></div>
+<div align='center'><h3>📦 53 Tools | 💾 507.68 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
-| uv | 103.66 MB | 34.55 MB |
-| atuin | 93.02 MB | 31.01 MB |
+| uv | 102.58 MB | 34.19 MB |
+| atuin | 91.99 MB | 30.66 MB |
 | lazygit | 54.16 MB | 18.05 MB |
 | micromamba | 46.24 MB | 15.41 MB |
-| yazi | 37.87 MB | 12.62 MB |
+| yazi | 37.4 MB | 12.47 MB |
 | git-lfs | 34.49 MB | 11.5 MB |
-| starship | 24.1 MB | 8.03 MB |
+| starship | 24.21 MB | 8.07 MB |
 | direnv | 20.0 MB | 6.67 MB |
-| delta | 18.49 MB | 6.16 MB |
-| bat | 16.3 MB | 5.43 MB |
+| delta | 18.64 MB | 6.21 MB |
+| bat | 16.22 MB | 5.41 MB |
 | rg | 15.46 MB | 5.15 MB |
 | fzf | 11.29 MB | 3.76 MB |
-| fd | 9.65 MB | 3.22 MB |
-| dust | 7.96 MB | 2.65 MB |
+| fd | 9.6 MB | 3.2 MB |
+| dust | 7.92 MB | 2.64 MB |
 | duf | 6.55 MB | 2.18 MB |
-| eza | 4.01 MB | 2.0 MB |
-| hyperfine | 3.5 MB | 1.17 MB |
+| eza | 4.19 MB | 2.1 MB |
+| hyperfine | 3.6 MB | 1.2 MB |
 | zoxide | 3.16 MB | 1.05 MB |
 
 ## 💻 Shell Integration
