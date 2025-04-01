@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-1.0.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.29.0.post3+g605dcaf-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -170,48 +170,58 @@ tools:
 
   atuin:
     repo: atuinsh/atuin
-    shell_code: |
-      source <(atuin init zsh --disable-up-arrow)
+    shell_code:
+      zsh: |
+        source <(atuin init zsh --disable-up-arrow)
   bat:
     repo: sharkdp/bat
-    shell_code: |
-      alias bat="bat --paging=never"
-      alias cat="bat --plain --paging=never"
+    shell_code:
+      zsh: |
+        alias bat="bat --paging=never"
+        alias cat="bat --plain --paging=never"
   direnv:
     repo: direnv/direnv
-    shell_code: |
-      eval "$(direnv hook zsh)"
+    shell_code:
+      zsh: |
+        eval "$(direnv hook zsh)"
   eza:
     repo: eza-community/eza
-    shell_code: |
-      alias l="eza -lah --git"
+    shell_code:
+      zsh: |
+        alias l="eza -lah --git"
   fzf:
     repo: junegunn/fzf
-    shell_code: |
-      source <(fzf --zsh)
+    shell_code:
+      zsh: |
+        source <(fzf --zsh)
   lazygit:
     repo: jesseduffield/lazygit
-    shell_code: |
-      alias lg="lazygit"
+    shell_code:
+      zsh: |
+        alias lg="lazygit"
   micromamba:
     repo: mamba-org/micromamba-releases
-    shell_code: |
-      alias mm="micromamba"
+    shell_code:
+      zsh: |
+        alias mm="micromamba"
   starship:
     repo: starship/starship
-    shell_code: |
-      eval "$(starship init zsh)"
+    shell_code:
+      zsh: |
+        eval "$(starship init zsh)"
   zoxide:
     repo: ajeetdsouza/zoxide
-    shell_code: |
-      eval "$(zoxide init zsh)"
+    shell_code:
+      zsh: |
+        eval "$(zoxide init zsh)"
 
   uv:
     repo: astral-sh/uv
     binary_name: [uv, uvx]
     path_in_archive: [uv-*/uv, uv-*/uvx]
-    shell_code: |
-      eval "$(uv generate-shell-completion zsh)"
+    shell_code:
+      zsh: |
+        eval "$(uv generate-shell-completion zsh)"
 ```
 
 ## ℹ️ Additional Information
