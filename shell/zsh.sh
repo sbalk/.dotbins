@@ -56,8 +56,3 @@ if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init zsh)"
 fi
 
-# Configuration for uv
-if command -v uv >/dev/null 2>&1; then
-    eval "$(uv generate-shell-completion zsh)"
-fi
-

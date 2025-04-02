@@ -90,14 +90,14 @@
     "sha256": "f9955594d9ab15509116da41d5ebe000bb288d630e5f41d77ac2ac8fdc50555f"
   },
   "eza/linux/amd64": {
-    "version": "0.20.24",
-    "updated_at": "2025-04-01T14:33:19.851412",
-    "sha256": "74988e81e1b81e29629f4bbefec1d39f4c23563f398add03dd482079f9a6f55f"
+    "version": "0.21.0",
+    "updated_at": "2025-04-02T09:29:00.152531",
+    "sha256": "ddb11b0eea687cdea02fe3d8f6aef98bbca41580872be0899e5a34c6031c8406"
   },
   "eza/linux/arm64": {
-    "version": "0.20.24",
-    "updated_at": "2025-04-01T14:33:19.858784",
-    "sha256": "e3083f294a8be8dbd875dbaf77522420257e9bc6fad743c9103a95ff34be86ec"
+    "version": "0.21.0",
+    "updated_at": "2025-04-02T09:29:00.171613",
+    "sha256": "b31a125bb27c807f821ed0593c16ee6e67691e134234fe86021cd5f4f0f5deee"
   },
   "fd/linux/amd64": {
     "version": "10.2.0",
