@@ -10,11 +10,6 @@ _arch=$(uname -m)
 export PATH="$HOME/.dotbins/$_os/$_arch/bin:$PATH"
 
 # Tool-specific configurations
-# Configuration for atuin
-if command -v atuin >/dev/null 2>&1; then
-    eval "$(atuin init bash --disable-up-arrow)"
-fi
-
 # Configuration for bat
 if command -v bat >/dev/null 2>&1; then
     alias bat="bat --paging=never"
@@ -54,5 +49,10 @@ fi
 # Configuration for zoxide
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
+fi
+
+# Configuration for atuin
+if command -v atuin >/dev/null 2>&1; then
+    eval "$(atuin init bash --disable-up-arrow)"
 fi
 
