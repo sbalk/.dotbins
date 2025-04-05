@@ -12,7 +12,7 @@ export PATH="$HOME/.dotbins/$_os/$_arch/bin:$PATH"
 # Tool-specific configurations
 # Configuration for atuin
 if command -v atuin >/dev/null 2>&1; then
-    source <(atuin init zsh --disable-up-arrow)
+    eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
 # Configuration for bat
@@ -28,7 +28,7 @@ fi
 
 # Configuration for eza
 if command -v eza >/dev/null 2>&1; then
-    alias l="eza -lah --git"
+    alias l="eza -lah --git --icons"
 fi
 
 # Configuration for fzf

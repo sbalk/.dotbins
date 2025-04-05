@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-1.1.1-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-1.3.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -171,49 +171,51 @@ tools:
   atuin:
     repo: atuinsh/atuin
     shell_code:
-      zsh: |
-        source <(atuin init zsh --disable-up-arrow)
+      bash,zsh: |
+        eval "$(atuin init __DOTBINS_SHELL__ --disable-up-arrow)"
   bat:
     repo: sharkdp/bat
     shell_code:
-      zsh: |
+      bash,zsh: |
         alias bat="bat --paging=never"
         alias cat="bat --plain --paging=never"
   direnv:
     repo: direnv/direnv
     shell_code:
-      zsh: |
-        eval "$(direnv hook zsh)"
+      bash,zsh: |
+        eval "$(direnv hook __DOTBINS_SHELL__)"
   eza:
     repo: eza-community/eza
     shell_code:
-      zsh: |
-        alias l="eza -lah --git"
+      bash,zsh: |
+        alias l="eza -lah --git --icons"
   fzf:
     repo: junegunn/fzf
     shell_code:
       zsh: |
         source <(fzf --zsh)
+      bash: |
+        eval "$(fzf --bash)"
   lazygit:
     repo: jesseduffield/lazygit
     shell_code:
-      zsh: |
+      bash,zsh: |
         alias lg="lazygit"
   micromamba:
     repo: mamba-org/micromamba-releases
     shell_code:
-      zsh: |
+      bash,zsh: |
         alias mm="micromamba"
   starship:
     repo: starship/starship
     shell_code:
-      zsh: |
-        eval "$(starship init zsh)"
+      bash,zsh: |
+        eval "$(starship init __DOTBINS_SHELL__)"
   zoxide:
     repo: ajeetdsouza/zoxide
     shell_code:
-      zsh: |
-        eval "$(zoxide init zsh)"
+      bash,zsh: |
+        eval "$(zoxide init __DOTBINS_SHELL__)"
 
   uv:
     repo: astral-sh/uv
@@ -223,6 +225,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Apr 02, 2025
+* This README was automatically generated on Apr 05, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
