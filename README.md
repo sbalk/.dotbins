@@ -41,7 +41,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [dust](https://github.com/bootandy/dust) | bootandy/dust | 1.2.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.21.0 | Apr 02, 2025 | linux (amd64, arm64) |
 | [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.1 | Apr 06, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -225,6 +225,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Apr 05, 2025
-* Current platform: **macos/arm64**
+* This README was automatically generated on Apr 06, 2025
+* Current platform: **linux/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins

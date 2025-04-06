@@ -115,19 +115,19 @@
     "sha256": "ae6327ba8c9a487cd63edd8bddd97da0207887a66d61e067dfe80c1430c5ae36"
   },
   "fzf/linux/amd64": {
-    "version": "0.61.0",
-    "updated_at": "2025-04-01T14:33:19.914975",
-    "sha256": "69767835a69f0eaef03d4ea4117b32197382ebb59cae358ea22f08b46c33fa50"
+    "version": "0.61.1",
+    "updated_at": "2025-04-06T16:43:40.059599",
+    "sha256": "f728b94bbbf7008602581fc07ea00de5dccf55a2cb2bf9fd9a35f1071b3b9f6c"
   },
   "fzf/linux/arm64": {
-    "version": "0.61.0",
-    "updated_at": "2025-04-01T14:33:19.928090",
-    "sha256": "760f4f62c30af0f722430af099c40af191b3fe5a55b8f850926dac406f6bf9fe"
+    "version": "0.61.1",
+    "updated_at": "2025-04-06T16:43:40.100405",
+    "sha256": "25f6295f718b572ac2ff7de1ffa9e39e619f4f9587386d85bf5b647f0b98fd6b"
   },
   "fzf/macos/arm64": {
-    "version": "0.61.0",
-    "updated_at": "2025-04-01T14:33:19.941458",
-    "sha256": "d8230bb1a38817b7b7dc13100f9ef951fdc216e60df04e6c4015ee6acea54aeb"
+    "version": "0.61.1",
+    "updated_at": "2025-04-06T16:43:40.142849",
+    "sha256": "addc2d9af3281b09661223ea87887c69599d4cf7b7bc9219d7320daadc8639a1"
   },
   "git-lfs/linux/amd64": {
     "version": "3.6.1",
