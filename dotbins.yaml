@@ -17,6 +17,11 @@ tools:
   rg: BurntSushi/ripgrep
   yazi: sxyazi/yazi
 
+  keychain: 
+    repo: funtoo/keychain
+    tag: 2.9.0_alpha1
+    asset_patterns: keychain
+
   bat:
     repo: sharkdp/bat
     shell_code:

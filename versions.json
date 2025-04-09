@@ -159,6 +159,21 @@
     "updated_at": "2025-04-01T14:33:20.149540",
     "sha256": "502e7c7f99e7e1919321eaa23a4a694c34b1b92d99cbd773a4a2497e100e088f"
   },
+  "keychain/linux/amd64": {
+    "version": "2.9.0_alpha1",
+    "updated_at": "2025-04-09T14:13:39.927306",
+    "sha256": "c754a35dca6fb0dd0f62032cca4201f211df0fabf6344a050a877a77970df4e4"
+  },
+  "keychain/linux/arm64": {
+    "version": "2.9.0_alpha1",
+    "updated_at": "2025-04-09T14:13:39.936178",
+    "sha256": "c754a35dca6fb0dd0f62032cca4201f211df0fabf6344a050a877a77970df4e4"
+  },
+  "keychain/macos/arm64": {
+    "version": "2.9.0_alpha1",
+    "updated_at": "2025-04-09T14:13:39.943695",
+    "sha256": "c754a35dca6fb0dd0f62032cca4201f211df0fabf6344a050a877a77970df4e4"
+  },
   "lazygit/linux/amd64": {
     "version": "0.48.0",
     "updated_at": "2025-04-01T14:33:20.191700",
