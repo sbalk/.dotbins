@@ -1,18 +1,18 @@
 {
   "atuin/linux/amd64": {
-    "version": "18.4.0",
-    "updated_at": "2025-04-01T14:33:19.494573",
-    "sha256": "153f5e4bf0ed770bbb58b2ac3cce68e4be05bd785b9682a9686b1b642698426d"
+    "version": "18.5.0",
+    "updated_at": "2025-04-09T09:21:19.049914",
+    "sha256": "47a09d0b7e696b72b09fe37d5c1933ba22ee7bf131574493f66b1260aca2915d"
   },
   "atuin/linux/arm64": {
-    "version": "18.4.0",
-    "updated_at": "2025-04-01T14:33:19.573531",
-    "sha256": "62617b359a182e1b9132f4b83478dfb0454f44de6c3cf35b5fde3ab92c851d04"
+    "version": "18.5.0",
+    "updated_at": "2025-04-09T09:21:19.135791",
+    "sha256": "eaee559c1494be99e0043407c3cea5c79b28c359a5a9fa2d256d3f2842bde887"
   },
   "atuin/macos/arm64": {
-    "version": "18.4.0",
-    "updated_at": "2025-04-01T14:33:19.637906",
-    "sha256": "66e20535efd1c1e842b7a6fac761b326603ef594fbb8ed5b72360f66ef7d3248"
+    "version": "18.5.0",
+    "updated_at": "2025-04-09T09:21:19.206723",
+    "sha256": "2c57ff6ce55106dac337a02e828667c19bcad5ff98cfa695414e7abfc85ce8de"
   },
   "bat/linux/amd64": {
     "version": "0.25.0",
@@ -175,19 +175,19 @@
     "sha256": "a14777516794ba7edb4af716f73b908af9cd4bfe784cbaac2a7a5028f3f21247"
   },
   "micromamba/linux/amd64": {
-    "version": "2.0.8-0",
-    "updated_at": "2025-04-01T14:33:20.282821",
-    "sha256": "0905ea12f61d85964e6881b579db5291af290e8b666cdd0869828e1c1ba21487"
+    "version": "2.1.0-0",
+    "updated_at": "2025-04-09T09:21:19.217384",
+    "sha256": "15d4127a9b248907ab99e2804bd86789f1bbd1458d206065c16a9e86c02d6a30"
   },
   "micromamba/linux/arm64": {
-    "version": "2.0.8-0",
-    "updated_at": "2025-04-01T14:33:20.295963",
-    "sha256": "6a2f8d40ac3ed9a295c9b006a9fb6be8057c4821abd91fce8fe19d4c6696a760"
+    "version": "2.1.0-0",
+    "updated_at": "2025-04-09T09:21:19.230541",
+    "sha256": "693a3284101bef99139ac4d4febba5d4b7ca5bd1715df9de7293eb8db235cacc"
   },
   "micromamba/macos/arm64": {
-    "version": "2.0.8-0",
-    "updated_at": "2025-04-01T14:33:20.305088",
-    "sha256": "901c547f66404b81095577532e8d9e7c69fe78ffac0b9ba980110f36e4cceffd"
+    "version": "2.1.0-0",
+    "updated_at": "2025-04-09T09:21:19.239546",
+    "sha256": "31fa2da6eb9a7b632d6ca237ecd408c4efb19a5714b7412ddab0ad0549f3f8ec"
   },
   "rg/linux/amd64": {
     "version": "14.1.1",
@@ -235,19 +235,19 @@
     "sha256": "0ddb8458634cc3a02799b6da839cb546dff9dabc6f3394912c48dd479016683b"
   },
   "yazi/linux/amd64": {
-    "version": "25.3.2",
-    "updated_at": "2025-04-01T14:33:20.776571",
-    "sha256": "949cf981dc978150d3840f8ea3578043efe482979eaaeec24a71a7bae3029184"
+    "version": "25.4.8",
+    "updated_at": "2025-04-09T09:21:19.282599",
+    "sha256": "01128a2d9d79018721cc557976ade57c28c61daa47e9f7207f2cbd3d5553a734"
   },
   "yazi/linux/arm64": {
-    "version": "25.3.2",
-    "updated_at": "2025-04-01T14:33:20.813605",
-    "sha256": "151de6dfbd95471f07d6420c87929a573b3a19ee77ee373aae1af8adc7482be7"
+    "version": "25.4.8",
+    "updated_at": "2025-04-09T09:21:19.320929",
+    "sha256": "296f64017f71f14c561d0ef5f1add0412547a88ec3d6e3fbdbc698c0a183549f"
   },
   "yazi/macos/arm64": {
-    "version": "25.3.2",
-    "updated_at": "2025-04-01T14:33:20.848268",
-    "sha256": "ff72b6f7042683278f6038bf07ace75d118859da98c5c34d439cc4e14cef08f6"
+    "version": "25.4.8",
+    "updated_at": "2025-04-09T09:21:19.356281",
+    "sha256": "192c6729020c000600bc3505dcb9a8402ea7c2d1eb8ff4cfd13027bd07a8d550"
   },
   "zoxide/linux/amd64": {
     "version": "0.9.7",
