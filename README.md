@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-1.3.1-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.29.0.post3+g605dcaf-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -49,17 +49,17 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.1.0-0 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [rg](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [starship](https://github.com/starship/starship) | starship/starship | 1.22.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.13 | Apr 07, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.14 | Apr 10, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.4.8 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 56 Tools | 💾 520.53 MB Total Size</h3></div>
+<div align='center'><h3>📦 56 Tools | 💾 520.7 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
-| uv | 103.92 MB | 34.64 MB |
+| uv | 104.1 MB | 34.7 MB |
 | atuin | 98.78 MB | 32.93 MB |
 | lazygit | 54.16 MB | 18.05 MB |
 | micromamba | 47.77 MB | 15.92 MB |
@@ -170,11 +170,6 @@ tools:
   rg: BurntSushi/ripgrep
   yazi: sxyazi/yazi
 
-  keychain: 
-    repo: funtoo/keychain
-    tag: 2.9.0_alpha1
-    asset_patterns: keychain
-
   bat:
     repo: sharkdp/bat
     shell_code:
@@ -224,6 +219,11 @@ tools:
       bash,zsh: |
         eval "$(atuin init __DOTBINS_SHELL__ --disable-up-arrow)"
 
+  keychain:
+    repo: funtoo/keychain
+    tag: 2.9.0_alpha1
+    asset_patterns: keychain
+
   uv:
     repo: astral-sh/uv
     binary_name: [uv, uvx]
@@ -232,6 +232,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Apr 09, 2025
+* This README was automatically generated on Apr 10, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
