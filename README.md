@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.29.0.post3+g605dcaf-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-1.5.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -36,7 +36,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.5.0 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.35.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.36.0 | Apr 15, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [dust](https://github.com/bootandy/dust) | bootandy/dust | 1.2.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.21.0 | Apr 02, 2025 | linux (amd64, arm64) |
@@ -45,7 +45,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [keychain](https://github.com/funtoo/keychain) | funtoo/keychain | 2.9.0_alpha1 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.48.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.49.0 | Apr 15, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.1.0-0 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [rg](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [starship](https://github.com/starship/starship) | starship/starship | 1.22.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -55,18 +55,18 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 56 Tools | 💾 520.7 MB Total Size</h3></div>
+<div align='center'><h3>📦 56 Tools | 💾 529.07 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
 | uv | 104.1 MB | 34.7 MB |
 | atuin | 98.78 MB | 32.93 MB |
-| lazygit | 54.16 MB | 18.05 MB |
+| lazygit | 59.91 MB | 19.97 MB |
 | micromamba | 47.77 MB | 15.92 MB |
 | yazi | 40.41 MB | 13.47 MB |
 | git-lfs | 34.49 MB | 11.5 MB |
 | starship | 24.21 MB | 8.07 MB |
-| direnv | 20.0 MB | 6.67 MB |
+| direnv | 22.61 MB | 7.54 MB |
 | delta | 18.64 MB | 6.21 MB |
 | bat | 16.22 MB | 5.41 MB |
 | rg | 15.46 MB | 5.15 MB |
@@ -170,6 +170,11 @@ tools:
   rg: BurntSushi/ripgrep
   yazi: sxyazi/yazi
 
+  keychain: 
+    repo: funtoo/keychain
+    tag: 2.9.0_alpha1
+    asset_patterns: keychain
+
   bat:
     repo: sharkdp/bat
     shell_code:
@@ -219,11 +224,6 @@ tools:
       bash,zsh: |
         eval "$(atuin init __DOTBINS_SHELL__ --disable-up-arrow)"
 
-  keychain:
-    repo: funtoo/keychain
-    tag: 2.9.0_alpha1
-    asset_patterns: keychain
-
   uv:
     repo: astral-sh/uv
     binary_name: [uv, uvx]
@@ -232,6 +232,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Apr 10, 2025
+* This README was automatically generated on Apr 15, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins

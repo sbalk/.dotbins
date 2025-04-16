@@ -45,19 +45,19 @@
     "sha256": "6ba38dce9f91ee1b9a24aa4aede1db7195258fe176c3f8276ae2d4457d8170a0"
   },
   "direnv/linux/amd64": {
-    "version": "2.35.0",
-    "updated_at": "2025-04-01T14:33:19.775245",
-    "sha256": "55c294f4376397c68b1f659f049fb104dc2ecd0fcb15a15949d7f748e3f70b66"
+    "version": "2.36.0",
+    "updated_at": "2025-04-15T23:43:43.261668",
+    "sha256": "604f3dc51f05620d7ea8d8360b3a18d72ccc842a181edabca4d7bd75b6784f88"
   },
   "direnv/linux/arm64": {
-    "version": "2.35.0",
-    "updated_at": "2025-04-01T14:33:19.780709",
-    "sha256": "b7b49853c7c822714a922a53d6dffded516f72b9a0324d029975a83662e065c2"
+    "version": "2.36.0",
+    "updated_at": "2025-04-15T23:43:43.272461",
+    "sha256": "c00a71cdb6ebb28e8232e70a7147dfab40c6f694406729c2d0430bdba79fce10"
   },
   "direnv/macos/arm64": {
-    "version": "2.35.0",
-    "updated_at": "2025-04-01T14:33:19.786503",
-    "sha256": "edf7087c1a123f5a77424865a17139fbf776a3a25a2184da7c2fca227ad7a704"
+    "version": "2.36.0",
+    "updated_at": "2025-04-15T23:43:43.281887",
+    "sha256": "3647eec0cd072a19dda33a279b262ad8ab7af609b87ff3c55530a0e91ac8cb4f"
   },
   "duf/linux/amd64": {
     "version": "0.8.1",
@@ -175,19 +175,19 @@
     "sha256": "c754a35dca6fb0dd0f62032cca4201f211df0fabf6344a050a877a77970df4e4"
   },
   "lazygit/linux/amd64": {
-    "version": "0.48.0",
-    "updated_at": "2025-04-01T14:33:20.191700",
-    "sha256": "291722c643a10805de3bd7b58f51d5275878269aeadb046709708f8683f558d7"
+    "version": "0.49.0",
+    "updated_at": "2025-04-15T23:43:43.341540",
+    "sha256": "ae9c9a3fcea9cdaf6511a7ca0040210cc71ab481fc773e53737cbfe92da974ce"
   },
   "lazygit/linux/arm64": {
-    "version": "0.48.0",
-    "updated_at": "2025-04-01T14:33:20.231677",
-    "sha256": "37150ec77bd42d92b7dc96f05fca5f1cd310551936e32556011ac145ccd9d62b"
+    "version": "0.49.0",
+    "updated_at": "2025-04-15T23:43:43.386925",
+    "sha256": "68574882593b23f79a32b52ce2bc40c9a08b0b8f9e1b2240243fe69388ed7f47"
   },
   "lazygit/macos/arm64": {
-    "version": "0.48.0",
-    "updated_at": "2025-04-01T14:33:20.272053",
-    "sha256": "a14777516794ba7edb4af716f73b908af9cd4bfe784cbaac2a7a5028f3f21247"
+    "version": "0.49.0",
+    "updated_at": "2025-04-15T23:43:43.435062",
+    "sha256": "7fa7ecce79d31590d0a53efd15ede55962f1f4b5422dbfd7618a0a2ce4ae7e35"
   },
   "micromamba/linux/amd64": {
     "version": "2.1.0-0",
