@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-1.5.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.29.0.post3+g605dcaf-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -33,25 +33,25 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 
 | Tool | Repository | Version | Updated | Platforms & Architectures |
 | :--- | :--------- | :------ | :------ | :------------------------ |
-| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.5.0 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.5.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.36.0 | Apr 15, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [dust](https://github.com/bootandy/dust) | bootandy/dust | 1.2.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.21.0 | Apr 02, 2025 | linux (amd64, arm64) |
-| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.1 | Apr 06, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.36.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [dust](https://github.com/bootandy/dust) | bootandy/dust | 1.2.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.21.0 | Apr 16, 2025 | linux (amd64, arm64) |
+| [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [keychain](https://github.com/funtoo/keychain) | funtoo/keychain | 2.9.0_alpha1 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.49.0 | Apr 15, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.49.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.1.0-0 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [rg](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [starship](https://github.com/starship/starship) | starship/starship | 1.22.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [starship](https://github.com/starship/starship) | starship/starship | 1.22.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.6.14 | Apr 10, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.4.8 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.4.8 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
@@ -170,11 +170,6 @@ tools:
   rg: BurntSushi/ripgrep
   yazi: sxyazi/yazi
 
-  keychain: 
-    repo: funtoo/keychain
-    tag: 2.9.0_alpha1
-    asset_patterns: keychain
-
   bat:
     repo: sharkdp/bat
     shell_code:
@@ -224,6 +219,11 @@ tools:
       bash,zsh: |
         eval "$(atuin init __DOTBINS_SHELL__ --disable-up-arrow)"
 
+  keychain:
+    repo: funtoo/keychain
+    tag: 2.9.0_alpha1
+    asset_patterns: keychain
+
   uv:
     repo: astral-sh/uv
     binary_name: [uv, uvx]
@@ -232,6 +232,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Apr 15, 2025
+* This README was automatically generated on Apr 17, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
