@@ -109,16 +109,16 @@
     "url": "https://github.com/bootandy/dust/releases/download/v1.2.0/dust-v1.2.0-x86_64-apple-darwin.tar.gz"
   },
   "eza/linux/amd64": {
-    "tag": "v0.21.0",
-    "updated_at": "2025-04-16T13:09:07.014385",
-    "sha256": "ddb11b0eea687cdea02fe3d8f6aef98bbca41580872be0899e5a34c6031c8406",
-    "url": "https://github.com/eza-community/eza/releases/download/v0.21.0/eza_x86_64-unknown-linux-musl.tar.gz"
+    "tag": "v0.21.1",
+    "updated_at": "2025-04-21T07:56:52.528579",
+    "sha256": "c9ffa0f9fa0c1acc05e9d1ba0efa0296c78cf55d5529a986a809be0ed92b90c2",
+    "url": "https://github.com/eza-community/eza/releases/download/v0.21.1/eza_x86_64-unknown-linux-musl.tar.gz"
   },
   "eza/linux/arm64": {
-    "tag": "v0.21.0",
-    "updated_at": "2025-04-16T13:09:07.022329",
-    "sha256": "b31a125bb27c807f821ed0593c16ee6e67691e134234fe86021cd5f4f0f5deee",
-    "url": "https://github.com/eza-community/eza/releases/download/v0.21.0/eza_aarch64-unknown-linux-gnu.tar.gz"
+    "tag": "v0.21.1",
+    "updated_at": "2025-04-21T07:56:52.542740",
+    "sha256": "88debe2b2f8454b45c6d4b12ba32b5192fd345de0fdc31c6e543ef12daea8870",
+    "url": "https://github.com/eza-community/eza/releases/download/v0.21.1/eza_aarch64-unknown-linux-gnu.tar.gz"
   },
   "fd/linux/amd64": {
     "tag": "v10.2.0",
@@ -139,22 +139,22 @@
     "url": "https://github.com/sharkdp/fd/releases/download/v10.2.0/fd-v10.2.0-aarch64-apple-darwin.tar.gz"
   },
   "fzf/linux/amd64": {
-    "tag": "v0.61.1",
-    "updated_at": "2025-04-16T13:09:07.076585",
-    "sha256": "f728b94bbbf7008602581fc07ea00de5dccf55a2cb2bf9fd9a35f1071b3b9f6c",
-    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.1/fzf-0.61.1-linux_amd64.tar.gz"
+    "tag": "v0.61.2",
+    "updated_at": "2025-04-21T07:56:52.561340",
+    "sha256": "9457eea5b9b4a47a261c5963c9efd8dcd04283a15f940b5aa0577e96425514f2",
+    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.2/fzf-0.61.2-linux_amd64.tar.gz"
   },
   "fzf/linux/arm64": {
-    "tag": "v0.61.1",
-    "updated_at": "2025-04-16T13:09:07.088672",
-    "sha256": "25f6295f718b572ac2ff7de1ffa9e39e619f4f9587386d85bf5b647f0b98fd6b",
-    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.1/fzf-0.61.1-linux_arm64.tar.gz"
+    "tag": "v0.61.2",
+    "updated_at": "2025-04-21T07:56:52.577536",
+    "sha256": "ceb6cd5c7cf4dffeb1a944875cb1c32bb2427dcb7df1d750fc9542b7c8c64caf",
+    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.2/fzf-0.61.2-linux_arm64.tar.gz"
   },
   "fzf/macos/arm64": {
-    "tag": "v0.61.1",
-    "updated_at": "2025-04-16T13:09:07.101505",
-    "sha256": "addc2d9af3281b09661223ea87887c69599d4cf7b7bc9219d7320daadc8639a1",
-    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.1/fzf-0.61.1-darwin_arm64.tar.gz"
+    "tag": "v0.61.2",
+    "updated_at": "2025-04-21T07:56:52.592117",
+    "sha256": "fa56ba0af787ccc97d69f5406a2ddf31c134824275f01c2acf3a3812a061a74f",
+    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.2/fzf-0.61.2-darwin_arm64.tar.gz"
   },
   "git-lfs/linux/amd64": {
     "tag": "v3.6.1",

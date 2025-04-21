@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-0.29.0.post3+g605dcaf-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-2.1.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -39,9 +39,9 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.36.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [duf](https://github.com/muesli/duf) | muesli/duf | 0.8.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [dust](https://github.com/bootandy/dust) | bootandy/dust | 1.2.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.21.0 | Apr 16, 2025 | linux (amd64, arm64) |
+| [eza](https://github.com/eza-community/eza) | eza-community/eza | 0.21.1 | Apr 21, 2025 | linux (amd64, arm64) |
 | [fd](https://github.com/sharkdp/fd) | sharkdp/fd | 10.2.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.2 | Apr 21, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [keychain](https://github.com/funtoo/keychain) | funtoo/keychain | 2.9.0_alpha1 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -55,7 +55,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 56 Tools | 💾 529.07 MB Total Size</h3></div>
+<div align='center'><h3>📦 56 Tools | 💾 529.08 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
@@ -70,11 +70,11 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | delta | 18.64 MB | 6.21 MB |
 | bat | 16.22 MB | 5.41 MB |
 | rg | 15.46 MB | 5.15 MB |
-| fzf | 11.29 MB | 3.76 MB |
+| fzf | 11.3 MB | 3.77 MB |
 | fd | 9.6 MB | 3.2 MB |
 | dust | 7.92 MB | 2.64 MB |
 | duf | 6.55 MB | 2.18 MB |
-| eza | 4.21 MB | 2.11 MB |
+| eza | 4.22 MB | 2.11 MB |
 | hyperfine | 3.6 MB | 1.2 MB |
 | zoxide | 3.16 MB | 1.05 MB |
 | keychain | 149.58 KB | 49.86 KB |
@@ -232,6 +232,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on Apr 17, 2025
+* This README was automatically generated on Apr 21, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
