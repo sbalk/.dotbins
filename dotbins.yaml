@@ -17,11 +17,6 @@ tools:
   rg: BurntSushi/ripgrep
   yazi: sxyazi/yazi
 
-  keychain: 
-    repo: funtoo/keychain
-    tag: 2.9.0_alpha1
-    asset_patterns: keychain
-
   bat:
     repo: sharkdp/bat
     shell_code:
@@ -70,6 +65,11 @@ tools:
     shell_code:
       bash,zsh: |
         eval "$(atuin init __DOTBINS_SHELL__ --disable-up-arrow)"
+
+  keychain:
+    repo: funtoo/keychain
+    tag: 2.9.0_beta4
+    asset_patterns: keychain
 
   uv:
     repo: astral-sh/uv

@@ -1,12 +1,19 @@
 #!/bin/sh
 
-# Distributed under the terms of the GNU General Public License v2
-# Copyright 1999-2005 Gentoo Foundation
-# Copyright 2007 Aron Griffis <agriffis@n01se.net>
-# Copyright 2009-2025 Funtoo Solutions, Inc.
-# lockfile() Copyright 2009 Parallels, Inc.
+versinfo() {
+	qprint
+	qprint "   Copyright ${CYANN}2009-2025${OFF} Daniel Robbins, Funtoo Solutions, Inc;"
+	qprint "   lockfile() Copyright ${CYANN}2009${OFF} Parallels, Inc."
+	qprint "   Copyright ${CYANN}2007${OFF} Aron Griffis;"
+	qprint "   Copyright ${CYANN}2002-2006${OFF} Gentoo Foundation;"
+	qprint
+	qprint " Keychain is free software: you can redistribute it and/or modify"
+	qprint " it under the terms of the ${CYANN}GNU General Public License version 2${OFF} as"
+	qprint " published by the Free Software Foundation."
+	qprint
+}
 
-version=2.9.0_alpha1
+version=2.9.0_beta4
 
 if [ "$PATH" ]
 then
@@ -15,9 +22,8 @@ else
 	PATH=/usr/bin:/bin:/sbin:/usr/sbin:/usr/ucb
 fi
 
-unset mesglog
+unset pidfile_out
 unset myaction
-unset agentsopt
 havelock=false
 unset hostopt
 ignoreopt=false
@@ -33,11 +39,11 @@ confallhosts=false
 quickopt=false
 quietopt=false
 clearopt=false
+allow_inherited=true
 color=true
-inheritwhich=local-once
 unset stopwhich
 unset timeout
-unset agent_socket
+unset ssh_agent_socket
 unset ssh_timeout
 attempts=1
 unset sshavail
@@ -54,6 +60,11 @@ systemdopt=false
 unset ssh_confirm
 unset GREP_OPTIONS
 gpg_prog_name="gpg"
+gpg_started=false
+ssh_allow_forwarded=false
+ssh_allow_gpg=false
+ssh_spawn_gpg=false
+debugopt=false
 
 BLUE="[34;01m"
 CYAN="[36;01m"
@@ -62,7 +73,7 @@ GREEN="[32;01m"
 RED="[31;01m"
 PURP="[35;01m"
 OFF="[0m"
-DEBUG=1
+
 # GNU awk and sed have regex issues in a multibyte environment.  If any locale
 # variables are set, then override by setting LC_ALL
 unset pinentry_locale
@@ -74,35 +85,26 @@ if [ -n "$LANG$LC_ALL" ] || locale 2>/dev/null | grep -E -qv '="?(|POSIX|C)"?$' 
 	export LC_ALL
 fi
 
-# synopsis: qprint "message"
 qprint() {
 	$quietopt || echo "$*" >&2
 }
 
-# synopsis: mesg "message"
-# Prettily print something to stderr, honors quietopt
 mesg() {
 	qprint " ${GREEN}*${OFF} $*"
 }
 
-# synopsis: warn "message"
-# Prettily print a warning to stderr
 warn() {
 	echo " ${RED}* Warning${OFF}: $*" >&2
 }
 
 debug() {
-	[ -n "$DEBUG" ] && echo "${CYAN}debug> $*${OFF}" >&2
+	$debugopt && echo "${CYAN}debug> $*${OFF}" >&2
 }
 
-# synopsis: error "message"
-# Prettily print an error
 error() {
 	echo " ${RED}* Error${OFF}: $*" >&2
 }
 
-# synopsis: die "message"
-# Prettily print an error, then abort
 die() {
 	[ -n "$1" ] && error "$*"
 	qprint
@@ -110,53 +112,37 @@ die() {
 	exit 1
 }
 
-# synopsis: versinfo
-# Display the version information
-versinfo() {
-	qprint
-	qprint "   Copyright ${CYANN}2002-2006${OFF} Gentoo Foundation;"
-	qprint "   Copyright ${CYANN}2007${OFF} Aron Griffis;"
-	qprint "   Copyright ${CYANN}2009-2025${OFF} Funtoo Solutions, Inc;"
-	qprint "   lockfile() Copyright ${CYANN}2009${OFF} Parallels, Inc."
-	qprint
-	qprint " Keychain is free software: you can redistribute it and/or modify"
-	qprint " it under the terms of the ${CYANN}GNU General Public License version 2${OFF} as"
-	qprint " published by the Free Software Foundation."
-	qprint
-}
-
-# synopsis: helpinfo
-# Display the help information. There's no really good way to use qprint for
-# this...
 helpinfo() {
 	cat >&1 <<EOHELP
 SYNOPSIS
-    keychain [ ${GREEN}-hklQqV${OFF} ] [ ${GREEN}--clear${OFF} ${GREEN}--confhost${OFF} ${GREEN}--confallhosts${OFF} ${GREEN}--gpg2${OFF} ${GREEN}--help${OFF} -
-    ${GREEN}-ignore-missing${OFF} ${GREEN}--list${OFF}
-    ${GREEN}--noask${OFF} ${GREEN}--nocolor${OFF} ${GREEN}--nogui${OFF} ${GREEN}--nolock${OFF} ${GREEN}--quick${OFF} ${GREEN}--quiet${OFF} ${GREEN}--version${OFF} ]
-    [ ${GREEN}--agents${OFF} ${CYAN}list${OFF} ] [ ${GREEN}--agent-socket${OFF} ${CYAN}list${OFF} ] [ ${GREEN}--attempts${OFF} ${CYAN}num${OFF} ]
+    keychain [ ${GREEN}-hklQqV${OFF} ] [ ${GREEN}--clear${OFF} ${GREEN}--confhost${OFF} ${GREEN}--confallhosts${OFF} ${GREEN}--debug${OFF} ${GREEN}--gpg2${OFF}
+    ${GREEN}--help${OFF} ${GREEN}--ignore-missing${OFF} ${GREEN}--list${OFF} ${GREEN}--noask${OFF} ${GREEN}--nocolor${OFF} ${GREEN}--nogui${OFF} ${GREEN}--noinherit${OFF}
+    ${GREEN}--nolock${OFF} ${GREEN}--quick${OFF} ${GREEN}--quiet${OFF} ${GREEN}--ssh-allow-forwarded${OFF} ${GREEN}--ssh-spawn-gpg${OFF} ${GREEN}--systemd${OFF}
+    ${GREEN}--version${OFF} [ ${GREEN}--ssh-agent-socket${OFF} ${CYAN}path${OFF} ] [ ${GREEN}--attempts${OFF} ${CYAN}num${OFF} ]
     [ ${GREEN}--dir${OFF} ${CYAN}dirname${OFF} ] [ ${GREEN}--host${OFF} ${CYAN}name${OFF} ] [ ${GREEN}--lockwait${OFF} ${CYAN}seconds${OFF} ]
     [ ${GREEN}--stop${OFF} ${CYAN}which${OFF} ] [ ${GREEN}--timeout${OFF} ${CYAN}minutes${OFF} ] [ keys... ]
 
 OPTIONS
-    ${GREEN}--agents${OFF} ${CYAN}list${OFF}
-        Start the agents listed. By default keychain will start ssh-agent if
-        it is found in your path. The list should be comma-separated, for
-        example "gpg,ssh"
-
-    ${GREEN}--agent-socket${OFF} ${CYAN}path${OFF}
-        Path for SSH_AUTH_SOCK. If set, ssh-agent will try to bind the
-        socket to the given path.
-
     ${GREEN}--attempts${OFF} ${CYAN}num${OFF}
         Try num times to add keys before giving up. The default is 1.
 
     ${GREEN}--clear${OFF}
-        Delete all of ssh-agent's keys. Typically this is used in
-        .bash_profile. The theory behind this is that keychain should assume
-        that you are an intruder until proven otherwise. However, while this
-        option increases security, it still allows your cron jobs to use
-        your ssh keys when you're logged out.
+        Ensure that keys for the agents are wiped initially. This is
+        intended to be used alongside keychain ${GREEN}--eval${OFF} to ensure that only
+        the specified keys are loaded, and that keychain should assume that
+        you are an intruder until proven otherwise and force all interactive
+        logins to specify valid passphrases. This option increases security
+        and still allows your cron jobs to use your ssh keys when you're
+        logged out.
+
+    ${GREEN}--debug${OFF}
+        Keychain 2.9.0 introduces the ${GREEN}--debug${OFF} option, which will output
+        additional information related to how Keychain makes its
+        agent-selection process. Specifically, it will output when an
+        SSH_AUTH_SOCK is rejected because it is being supplied by gpg-agent
+        ${GREEN}--${OFF} and this is not allowed due to no ${GREEN}--ssh-allow-gpg${OFF} option, or when
+        it is rejected because it appears to be from a forwarded SSH
+        connection, and ${GREEN}--ssh-allow-forwarded${OFF} was not supplied.
 
     ${GREEN}--confhost${OFF}
         By default, keychain will look for key pairs in the ~/.ssh/
@@ -217,28 +203,6 @@ OPTIONS
         your keys might not be available on every machine where keychain is
         run.
 
-    ${GREEN}--inherit${OFF} ${CYAN}which${OFF}
-        Attempt to inherit agent variables from the environment. This can be
-        useful in a variety of circumstances, for example when ssh-agent is
-        started by gdm. The following values are valid for "which":
-
-        local       Inherit when a pid (e.g. SSH_AGENT_PID) is set in the
-                    environment. This disallows inheriting a forwarded
-                    agent.
-
-        any         Inherit when a sock (e.g. SSH_AUTH_SOCK) is set in the
-                    environment. This allows inheriting a forwarded agent.
-
-        local-once  Same as "local", but only inherit if keychain isn't
-                    already providing an agent.
-
-        any-once    Same as "any", but only inherit if keychain isn't
-                    already providing an agent.
-
-        By default, keychain-2.5.0 and later will behave as if "--inherit
-        local-once" is specified. You should specify "--noinherit" if you
-        want the older behavior.
-
     ${GREEN}-l${OFF} ${GREEN}--list${OFF}
         List signatures of all active SSH keys, and exit, similar to
         "ssh-add ${GREEN}-l${OFF}".
@@ -267,18 +231,36 @@ OPTIONS
         prompt on the terminal instead of using a graphical program.
 
     ${GREEN}--noinherit${OFF}
-        Don't inherit any agent processes, overriding the default "--inherit
-        local-once"
+        Don't inherit any agent processes, overriding the default behavior
+        of inheriting all non-forwarded ssh-agent and any existing gpg-agent
+        processes. Also see "AGENT DETECTION AND STARTUP ALGORITHM".
 
     ${GREEN}--nolock${OFF}
         Don't attempt to use a lockfile while manipulating files, pids and
         keys.
 
-    ${GREEN}-k${OFF} ${GREEN}--stop${OFF} ${CYAN}which${OFF}
-        Kill currently running agent processes. The following values are
-        valid for "which":
+    ${GREEN}--nosub${OFF}
+        By default, keychain will use gpg-agent in place of ssh-agent if
+        gpg-agent is available and supports this functionality. This option
+        will disable this and any future potential substitution of original
+        programs, so only ssh-agent will be used for SSH support, etc.
 
-        all      Kill all agent processes and quit keychain immediately.
+    ${GREEN}-k${OFF} ${GREEN}--stop${OFF} ${CYAN}which${OFF}
+        Kill currently running ssh-agent processes, wipe pidfiles, and exit.
+
+        Note that previous versions of keychain (2.8.5 and earlier) allowed
+        killing of gpg-agent as well. This functionality was removed as
+        ssh-agent and gpg-agent have a bit different design philosophies and
+        you almost always only have at most one gpg-agent running at a time.
+        Use "killall gpg-agent" if you really want to kill gpg-agent.
+        However, since this option also removes pidfiles, it will remove any
+        gpg-agent processes adopted by keychain that were being used to
+        store ssh keys.
+
+        The following values are valid for "which" which controls which
+        ssh-agents to target:
+
+        all      Kill all ssh-agent processes and quit keychain immediately.
                  Prior to keychain-2.5.0, this was the behavior of the bare
                  "--stop" option.
 
@@ -290,6 +272,48 @@ OPTIONS
         mine     Kill keychain's agent processes, leaving other agents
                  alone.
 
+    ${GREEN}--ssh-agent-socket${OFF} ${CYAN}path${OFF}
+        Use this option to specify the path to the socket file that you
+        would like ssh-agent to create and use as its official socket. By
+        default, ssh-agent will create its own socket file, typically in
+        /tmp.
+
+    ${GREEN}--ssh-allow-forwarded${OFF}
+        By default, keychain will not use a forwarded ssh-agent connection,
+        which is a ssh-agent socket created by SSH that has no associated
+        local process. To permit keychain to use a forwarded ssh-agent
+        connection, specify this option. If a SSH-forwarded socket is used,
+        it will not be persisted in the pidfiles, as it is not likely to be
+        available outside of the currently-active SSH session.
+
+    ${GREEN}--ssh-allow-gpg${OFF}
+        Would you like to have keychain use an existing gpg-agent rather
+        than spawning a new ssh-agent, if one is already running in your
+        environment? This option allows you to do so. When this option is
+        specified, keychain will accept an SSH_AUTH_SOCK environment
+        variable in its environment, even if it was created by gpg-agent. By
+        default, keychain has a special check to filter out any ssh-agent
+        sockets provided by gpg-agent, and will refuse to use them. With
+        this option enabled, this restriction is turned off. Please note
+        that keychain will not actually ${CYAN}spawn${OFF} a gpg-agent for storing SSH
+        keys if none are available ${GREEN}--${OFF} if you want that, see the
+        ${GREEN}--ssh-spawn-gpg${OFF} option, below.
+
+        ALSO NOTE: When a gpg-agent is adopted for ssh-agent duties in this
+        way, the "~/.keychain/\${HOSTNAME}-sh" pidfile will be updated to
+        reference the gpg-agent socket, so it will be seamlessly used by
+        future cron jobs needing an ssh-agent, as well as by future
+        invocations of keychain, as long as the ${GREEN}--ssh-allow-gpg${OFF} or
+        ${GREEN}--ssh-spawn-gpg${OFF} (which implies ${GREEN}--ssh-allow-gpg${OFF}) are specified.
+
+    ${GREEN}--ssh-spawn-gpg${OFF}
+        This is the option to use if you're really on-board with using
+        gpg-agent as a replacement for ssh-agent. Not only will keychain use
+        a running gpg-agent if found as per the ${GREEN}--ssh-allow-gpg${OFF}, but if it
+        needs to spawn a new ssh-agent, it will go ahead and spawn a
+        gpg-agent in its place, and use it instead. Also see notes for the
+        ${GREEN}--ssh-allow-gpg${OFF} option, as this option also implies ${GREEN}--ssh-allow-gpg${OFF}.
+
     ${GREEN}--systemd${OFF}
         Inject environment variables into the systemd ${GREEN}--user${OFF} session.
 
@@ -297,7 +321,9 @@ OPTIONS
         If an ssh-agent process is running then use it. Don't verify the
         list of keys, other than making sure it's non-empty. This option
         avoids locking when possible so that multiple terminals can be
-        opened simultaneously without waiting on each other.
+        opened simultaneously without waiting on each other. See the "THE
+        QUICK SHORT-CIRCUIT" section for more information regarding how this
+        fits into the overall startup algorithm.
 
     ${GREEN}-q${OFF} ${GREEN}--quiet${OFF}
         Only print messages in case of warning, error or required
@@ -324,7 +350,7 @@ OPTIONS
         Show version information.
 
 EOHELP
-} #'
+}
 
 # synopsis: testssh
 # Figure out which ssh is in use, set the global boolean $openssh and $sunssh
@@ -333,23 +359,18 @@ testssh() {
 	# OpenSSH, Sun SSH, and ssh.com
 	openssh=false
 	sunssh=false
+
 	case "$(ssh -V 2>&1)" in
 		*OpenSSH*) openssh=true ;;
 		*Sun?SSH*) sunssh=true ;;
 	esac
-}
-
-# synopsis: getuser
-# Set the global string $me
-getuser() {
-	# id -un gives euid, which might be different from USER or LOGNAME
-	me=$(id -un) || die "Who are you?  id -un doesn't know..."
-}
-
-# synopsis: getos
-# Set the global string $OSTYPE
-getos() {
-	OSTYPE=$(uname) || die 'uname failed'
+	# See if gpg-agent is available and provides ssh-agent functionality:
+	if $ssh_spawn_gpg; then
+		if  ! out="$(gpg-agent --help | grep enable-ssh-support)" || [ -z "$out" ]; then
+			warn "gpg-agent ssh functionality not available; not using..."
+			ssh_spawn_gpg=false
+		fi
+	fi
 }
 
 # synopsis: verifykeydir
@@ -362,31 +383,37 @@ verifykeydir() {
 	elif [ ! -d "${keydir}" ]; then
 		( umask 0077 && mkdir "${keydir}"; ) || die "can't create ${keydir}"
 	fi
+	# Can we write to the keydir? - The ( ) subshell is intentional! We don't want to change the umask globally!
+	if ! ( umask 0177 && :> "$pidf.foo" ); then
+		die "can't write inside $pidf"
+	else
+		rm -f "$pidf.foo"
+	fi
 }
 
 lockfile() {
-	# This function originates from Parallels Inc.'s OpenVZ vpsreboot script #'
+	# This function originates from Parallels Inc.'s OpenVZ vpsreboot script.
 
 	# Description: This function attempts to acquire the lock. If it succeeds,
 	# it returns 0. If it fails, it returns 1. This function retuns immediately
 	# and only tries to acquire the lock once.
 
-		tmpfile="$lockf.$$"
+	tmpfile="$lockf.$$"
 
-		echo $$ >"$tmpfile" 2>/dev/null || exit
-		if ln "$tmpfile" "$lockf" 2>/dev/null; then
-				rm -f "$tmpfile"
+	echo $$ >"$tmpfile" 2>/dev/null || exit
+	if ln "$tmpfile" "$lockf" 2>/dev/null; then
+		rm -f "$tmpfile"
 		havelock=true && return 0
-		fi
-		if kill -0 "$(cat "$lockf" 2>/dev/null)" 2>/dev/null; then
-				rm -f "$tmpfile"
-			return 1
 	fi
-		if ln "$tmpfile" "$lockf" 2>/dev/null; then
-				rm -f "$tmpfile"
+	if kill -0 "$(cat "$lockf" 2>/dev/null)" 2>/dev/null; then
+		rm -f "$tmpfile"
+		return 1
+	fi
+	if ln "$tmpfile" "$lockf" 2>/dev/null; then
+		rm -f "$tmpfile"
 		havelock=true && return 0
-		fi
-		rm -f "$tmpfile" "$lockf" && return 1
+	fi
+	rm -f "$tmpfile" "$lockf" && return 1
 }
 
 takelock() {
@@ -402,15 +429,14 @@ takelock() {
 
 	counter=0
 	mesg "Waiting $lockwait seconds for lock..."
-	while [ "$counter" -lt "$(( lockwait * 2 ))" ]
+	while [ "$counter" -lt "$(( lockwait * 10 ))" ]
 	do
 		lockfile && return 0
-		sleep 0.5; counter=$(( counter + 1 ))
+		sleep 0.1; counter=$(( counter + 1 ))
 	done 
 	rm -f "$lockf" && lockfile && return 0
 	return 1
 }
-
 
 # synopsis: droplock
 # Drops the lock if we're holding it.
@@ -429,7 +455,9 @@ findpids() {
 	# Different systems require different invocations of ps.  Try to generalize
 	# the best we can.	The only requirement is that the agent command name
 	# appears in the line, and the PID is the first item on the line.
-	[ -n "$OSTYPE" ] || getos
+	if [ -z "$OSTYPE" ]; then
+		OSTYPE=$(uname) || die 'uname failed'
+	fi
 
 	# Try systems where we know what to do first
 	case "$OSTYPE" in
@@ -442,10 +470,10 @@ findpids() {
 				[56]*)
 					fp_psout=$(ps -u "$me" 2>/dev/null) ;; # SysV syntax
 				*)
-					fp_psout=$(ps x 2>/dev/null) ;;		# BSD syntax
+					fp_psout=$(ps x 2>/dev/null) ;; # BSD syntax
 			esac ;;
 		GNU|gnu)
-			fp_psout=$(ps -g 2>/dev/null) ;;		# GNU Hurd syntax
+			fp_psout=$(ps -g 2>/dev/null) ;; # GNU Hurd syntax
 	esac
 
 	# If we didn't get a match above, try a list of possibilities...
@@ -473,162 +501,42 @@ findpids() {
 	return 1
 }
 
-# synopsis: stopagent [prog]
-# --stop tells keychain to kill the existing agent(s)
-# prog can be ssh or gpg, defaults to ssh.
-stopagent() {
-	stop_prog=${1-ssh}
-	eval stop_except=\$\{"${stop_prog}_agent_pid"\}
-	stop_mypids=$(findpids "$stop_prog") || die
-
-	if [ -z "$stop_mypids" ]; then
-		mesg "No $stop_prog-agent(s) found running"
-		return 0
-	fi
-
-	case "$stopwhich" in
-		all)
-			# shellcheck disable=SC2086 # intentionally pass as separate arguments:
-			kill $stop_mypids >/dev/null 2>&1
-			mesg "All ${CYANN}$me${OFF}'s $stop_prog-agents stopped: ${CYANN}$stop_mypids${OFF}"
-			;;
-
-		others)
-			# Try to handle the case where we *will* inherit a pid. $stop_except is a single pid.
-			# shellcheck disable=SC2086 # intentionally pass as separate arguments:
-			kill -0 $stop_except >/dev/null 2>&1
-			ret=$?
-			if [ -z "$stop_except" ] || [ $ret != 0 ] || [ "$inheritwhich" = local ] || [ "$inheritwhich" = any ]; then
-				if [ "$inheritwhich" != none ]; then
-					eval stop_except=\$\{"inherit_${stop_prog}_agent_pid"\}
-					kill -0 "$stop_except" >/dev/null 2>&1
-					ret=$?
-					if [ -z "$stop_except" ] || [ $ret != 0 ]; then
-						# Handle ssh2
-						eval stop_except=\$\{"inherit_${stop_prog}2_agent_pid"\}
-					fi
-				fi
-			fi
-
-			# Filter out the running agent pid
-			unset stop_mynewpids
-			for stop_x in $stop_mypids; do
-				[ "$stop_x" -eq "$stop_except" ] 2>/dev/null && continue
-				stop_mynewpids="${stop_mynewpids+$stop_mynewpids }$stop_x"
+stop_ssh_agents() {
+	mesg "Stopping ssh-agent(s)..."
+	takelock || die
+	[ "$stopwhich" != all ] && eval "$(catpidf sh)" # get SSH_AGENT_PID if defined
+	ssh_pids=$(findpids ssh) || die
+	if [ -z "$ssh_pids" ]; then
+		mesg "No ssh-agent(s) found running"
+	elif [ "$stopwhich" = all ]; then
+		# shellcheck disable=SC2086
+		kill $ssh_pids >/dev/null 2>&1
+		mesg "All ${CYANN}$me${OFF}'s ssh-agents stopped: ${CYANN}$ssh_pids${OFF}"
+	elif [ -n "$SSH_AGENT_PID" ]; then
+		if [ "$stopwhich" = mine ]; then
+			kill "$SSH_AGENT_PID" >/dev/null 2>&1
+			mesg "Keychain ssh-agents stopped: ${CYANN}$SSH_AGENT_PID${OFF}"
+		else # others
+			for ssh_pid in $ssh_pids; do
+				[ "$ssh_pid" = "$SSH_AGENT_PID" ] && continue
+				kill "$ssh_pid" >/dev/null 2>&1
+				killed_pids="$killed_pids $ssh_pid"
 			done
-
-			if [ -n "$stop_mynewpids" ]; then
-				# shellcheck disable=SC2086 # intentionally pass as separate arguments:
-				kill $stop_mynewpids >/dev/null 2>&1
-				mesg "Other ${CYANN}$me${OFF}'s $stop_prog-agents stopped: ${CYANN}$stop_mynewpids${OFF}"
-			else
-				mesg "No other $stop_prog-agent(s) than keychain's $stop_except found running"
-			fi
-			;;
-
-		mine)
-			if [ "$stop_except" -gt 0 ] 2>/dev/null; then
-				# shellcheck disable=SC2086 # intentionally pass as separate arguments:
-				kill $stop_except >/dev/null 2>&1
-				mesg "Keychain $stop_prog-agents stopped: ${CYANN}$stop_except${OFF}"
-			else
-				mesg "No keychain $stop_prog-agent found running"
-			fi
-			;;
-	esac
+			mesg "Other ${CYANN}$me${OFF}'s ssh-agents stopped:${CYANN}$killed_pids${OFF}"
+		fi
+	else
+		mesg "No keychain ssh-agent found running"
+	fi
 
 	# remove pid files if keychain-controlled
 	if [ "$stopwhich" != others ]; then
-		if [ "$stop_prog" != ssh ]; then
-			rm -f "${pidf}-$stop_prog" "${cshpidf}-$stop_prog" "${fishpidf}-$stop_prog" 2>/dev/null
-		else
-			rm -f "${pidf}" "${cshpidf}" "${fishpidf}" 2>/dev/null
-		fi
-
-		eval unset "${stop_prog}_agent_pid"
+		rm -f "${pidf}" "${cshpidf}" "${fishpidf}" 2>/dev/null
 	fi
+	qprint && exit 0
 }
 
-# synopsis: inheritagents
-# Save agent variables from the environment before they get wiped out
-inheritagents() {
-	# Verify these global vars are null
-	unset inherit_ssh_auth_sock inherit_ssh_agent_pid
-	unset inherit_ssh2_auth_sock inherit_ssh2_agent_sock
-	unset inherit_gpg_agent_info inherit_gpg_agent_pid
-	# Save variables so we can inherit a running agent
-	if [ "$inheritwhich" != none ]; then
-		if wantagent ssh; then
-			if [ -n "$SSH_AUTH_SOCK" ]; then
-				inherit_ssh_auth_sock="$SSH_AUTH_SOCK"
-				# shellcheck disable=SC2153 # $SSH_AGENT_PID is not a typo:
-				inherit_ssh_agent_pid="$SSH_AGENT_PID"
-			fi
-
-			if [ -n "$SSH2_AUTH_SOCK" ]; then
-				inherit_ssh2_auth_sock="$SSH2_AUTH_SOCK"
-				inherit_ssh2_agent_pid="$SSH2_AGENT_PID"
-			fi
-		fi
-
-		if wantagent gpg; then
-			if [ -n "$GPG_AGENT_INFO" ]; then
-				inherit_gpg_agent_info="$GPG_AGENT_INFO"
-				inherit_gpg_agent_pid=$(echo "$GPG_AGENT_INFO" | cut -f2 -d:)
-			# GnuPG v.2.1+ removes $GPG_AGENT_INFO
-			else
-				gpg_socket_dir="${GNUPGHOME:=$HOME/.gnupg}"
-				if [ ! -S "${GNUPGHOME:=$HOME/.gnupg}/S.gpg-agent" ]; then
-					gpg_socket_dir="${XDG_RUNTIME_DIR}/gnupg"
-				fi
-				if [ -S "${gpg_socket_dir}/S.gpg-agent" ]; then
-					inherit_gpg_agent_pid=$(findpids "${gpg_prog_name}")
-					inherit_gpg_agent_info="${gpg_socket_dir}/S.gpg-agent:${inherit_gpg_agent_pid}:1"
-				fi
-			fi
-		fi
-	fi
-}
-
-# synopsis: validinherit
-# Test inherit_* variables for validity
-validinherit() {
-	vi_agent="$1"
-	vi_status=0
-
-	if [ "$vi_agent" = ssh ]; then
-		if [ -n "$inherit_ssh_auth_sock" ]; then
-			if ! ls "$inherit_ssh_auth_sock" >/dev/null 2>&1; then
-				warn "SSH_AUTH_SOCK in environment is invalid; ignoring it"
-				unset inherit_ssh_auth_sock inherit_ssh_agent_pid
-				vi_status=1
-			fi
-		fi
-
-		if [ -n "$inherit_ssh2_auth_sock" ]; then
-			if ! ls "$inherit_ssh2_auth_sock" >/dev/null 2>&1; then
-				warn "SSH2_AUTH_SOCK in environment is invalid; ignoring it"
-				unset inherit_ssh2_auth_sock inherit_ssh2_agent_pid
-				vi_status=1
-			fi
-		fi
-
-	elif [ "$vi_agent" = gpg ]; then
-		if [ -n "$inherit_gpg_agent_pid" ]; then
-			if ! kill -0 "$inherit_gpg_agent_pid" >/dev/null 2>&1; then
-				unset inherit_gpg_agent_pid inherit_gpg_agent_info
-				warn "GPG_AGENT_INFO in environment is invalid; ignoring it"
-				vi_status=1
-			fi
-		fi
-	fi
-
-	return $vi_status
-}
-
-# synopsis: catpidf_shell shell agents...
-# cat the pid files for the given agents.  This is used by loadagents and also
-# for keychain output when --eval is given.
+# synopsis: catpidf_shell shell
+# cat the pid file for the specified shell.
 catpidf_shell() {
 	case "$1" in
 		*/fish|fish) cp_pidf="$fishpidf" ;;
@@ -636,231 +544,141 @@ catpidf_shell() {
 		*)			 cp_pidf="$pidf" ;;
 	esac
 	shift
-
-	for cp_a in "$@"; do
-		case "${cp_a}" in
-			ssh) [ -f "$cp_pidf" ] && cat "$cp_pidf" ;;
-			*)	 [ -f "${cp_pidf}-$cp_a" ] && cat "${cp_pidf}-$cp_a" ;;
-		esac
-		echo
-	done
-
-	return 0
+	[ ! -f "$cp_pidf" ] && return 1
+	[ -f "$cp_pidf" ] && cat "${cp_pidf}" && echo && return 0
 }
 
 # synopsis: catpidf agents...
-# cat the pid files for the given agents, appropriate for the current value of
-# $SHELL.  This is used for keychain output when --eval is given.
+# cat the ssh pidfile for the current shell
 catpidf() {
-	catpidf_shell "$SHELL" "$@"
+	catpidf_shell "$SHELL"
 }
 
-# synopsis: loadagents agents...
-# Load agent variables from $pidf and copy implementation-specific environment
-# variables into generic global strings
-loadagents() {
-	# shellcheck disable=SC2068 # We are expecting multiple space-delimited arguments:
-	for la_a in $@; do
-		case "$la_a" in
-			ssh)
-				unset SSH_AUTH_SOCK SSH_AGENT_PID SSH2_AUTH_SOCK SSH2_AGENT_PID
-				# shellcheck disable=SC2086
-				eval "$(catpidf_shell sh $la_a)"
-				if [ -n "$SSH_AGENT_PID" ]; then
-					ssh_agent_pid=$SSH_AGENT_PID
-				elif [ -n "$SSH2_AGENT_PID" ]; then
-					ssh_agent_pid=$SSH2_AGENT_PID
+startagent_gpg() {
+	if $gpg_started; then
+		return 0
+	else
+		gpg_started=true
+	fi
+	if gpg_agent_sock="$( echo "GETINFO socket_name" | gpg-connect-agent --no-autostart 2>/dev/null | head -n1 | sed -n 's/^D //;1p' )" && [ -S "$gpg_agent_sock" ]; then
+		mesg "Using existing gpg-agent: ${CYANN}$gpg_agent_sock${OFF}"
+	else
+		gpg_opts="--daemon"
+		[ -n "${timeout}" ] && gpg_opts="$gpg_opts --default-cache-ttl $(( timeout * 60 )) --max-cache-ttl $(( timeout * 60 ))"
+		$ssh_spawn_gpg && gpg_opts="$gpg_opts --enable-ssh-support"
+		mesg "Starting gpg-agent..."
+		# shellcheck disable=SC2086 # this is intentionalh
+		pidfile_out="$(gpg-agent --sh $gpg_opts)"
+		return $?
+	fi
+}
+
+ssh_envcheck() {
+	envcheck_echo=true # if false, don't print out any warnings as we are doing a pre-check...
+	[ "$2" = "quiet" ] && envcheck_echo=false
+	
+	# Initial short-circuits for known abort cases:
+	
+	[ -z "$SSH_AUTH_SOCK" ] && return 1
+	if [ ! -S "$SSH_AUTH_SOCK" ]; then
+		$envcheck_echo && warn "SSH_AUTH_SOCK in $1 is invalid; ignoring it"
+		unset SSH_AUTH_SOCK && return 1
+	fi
+
+	# Throw away the PID with a devug warning if it's invalid:
+
+	if [ -n "$SSH_AGENT_PID" ] && ! kill -0 "$SSH_AGENT_PID" >/dev/null 2>&1; then
+		unset SSH_AGENT_PID && debug "SSH_AGENT_PID in $1 is invalid; ignoring it"
+	fi
+
+	# Now, find potential agents:
+
+	if [ -z "$SSH_AGENT_PID" ]; then
+
+		# There are some cases where we can accept a socket without an associated SSH_AGENT_PID:
+
+		if gpg_socket="$( echo "GETINFO ssh_socket_name" | gpg-connect-agent --no-autostart 2>/dev/null | head -n1 | sed -n 's/^D //;1p' )"; then
+			if [ "$gpg_socket" = "$SSH_AUTH_SOCK" ]; then
+				if $ssh_allow_gpg; then
+					mesg "Using ssh-agent ($1): ${CYANN}$gpg_socket${OFF} (GnuPG)" && return 0
 				else
-					unset ssh_agent_pid
+					unset SSH_AUTH_SOCK && debug "Ignoring SSH_AUTH_SOCK -- this is the GnuPG-supplied socket" && return 1
 				fi
-				;;
+			fi
+		fi
 
-			gpg)
-				# Note: GPG_AGENT_INFO is obsolete; used by GnuPG versions before 2.1.
-				unset GPG_AGENT_INFO
-				# shellcheck disable=SC2086
-				eval "$(catpidf_shell sh $la_a)"
-				if [ -n "$GPG_AGENT_INFO" ]; then
-					la_IFS="$IFS"  # save current IFS
-					IFS=':'		   # set IFS to colon to separate PATH
-					# shellcheck disable=SC2086
-					set -- $GPG_AGENT_INFO
-					IFS="$la_IFS"  # restore IFS
-					gpg_agent_pid=$2
-				fi
-				;;
+		if $ssh_allow_forwarded; then
+			SSH_AGENT_PID="forwarded"
+			mesg "Using ${GREEN}forwarded${OFF} ssh-agent: ${GREEN}$SSH_AUTH_SOCK${OFF}" && return 0
+		else
+			unset SSH_AUTH_SOCK && debug "Ignoring SSH_AUTH_SOCK -- this is a forwarded socket" && return 1
+		fi
+	else
 
+		# We have valid SSH_AGENT_PID, so we accept the socket too:
+		mesg "Existing ssh-agent ($1): ${CYANN}$SSH_AGENT_PID${OFF}" && return 0
+	fi
+}
+
+# synopsis: startagent_ssh
+# This function specifically handles (potential) starting of ssh-agent. Unlike the
+# classic startagent function, it does not handle writing out contents of pidfiles,
+# which will be done in a combined way after startagent_gpg() is called as well.
+
+startagent_ssh() {
+	if $quickopt; then
+		# shellcheck disable=SC2030 # This is fine as sshavail will be called again if needed:
+		if ( unset SSH_AGENT_PID SSH_AUTH_SOCK && eval "$(catpidf_shell sh)" && ssh_envcheck pidfile quiet ) && ( sshavail=$(ssh_l) || { [ $? = 1 ] && [ -z "$mykeys" ]; }; ); then
+			mesg "Found existing ssh-agent (quick)"
+			return 0
+		else
+			warn "Quick start unsuccessful -- doing regular start..."
+		fi
+	fi
+	takelock || die
+	# See if our pidfile is valid without wiping env:
+	if ( unset SSH_AGENT_PID SSH_AUTH_SOCK && eval "$(catpidf_shell sh)" && ssh_envcheck pidfile quiet ); then
+		# Our pidfile is valid! :) We can simply use it:
+		unset SSH_AGENT_PID SSH_AUTH_SOCK && eval "$(catpidf_shell sh)"
+	elif $allow_inherited && ssh_envcheck env; then
+		# If our env is OK, then let's grab it for our pidfile, as long as we don't have a forwarded ssh connection:
+		if [ "$SSH_AGENT_PID" != forwarded ]; then
+			pidfile_out="SSH_AUTH_SOCK=\"$SSH_AUTH_SOCK\"; export SSH_AUTH_SOCK"
+			if [ -n "$SSH_AGENT_PID" ]; then
+				pidfile_out="$pidfile_out
+SSH_AGENT_PID=$SSH_AGENT_PID; export SSH_AGENT_PID"
+			fi
+		fi
+	else  # spawn, we must...
+		if $ssh_spawn_gpg; then
+			startagent_gpg ssh # this function will set pidfile_out itself
+			return $?
+		else
+			mesg "Starting ssh-agent..."
+			# shellcheck disable=SC2086 # We purposely don't want to double-quote the args to ssh-agent so they disappear if not used:
+			pidfile_out="$(ssh-agent ${ssh_timeout} ${ssh_agent_socket})"
+			return $?
+		fi
+	fi
+}
+
+write_pidfile() {
+	if [ -n "$pidfile_out" ]; then
+		pidfile_out=$(echo "$pidfile_out" | grep -v 'Agent pid')
+		case "$pidfile_out" in
+			setenv*)
+				echo "$pidfile_out" >"$cshpidf"
+				echo "$pidfile_out" | awk '{print $2"="$3" export "$2";"}' >"$pidf"
+				;;
 			*)
-				# shellcheck disable=SC2086
-				eval "$(catpidf_shell sh $la_a)"
+				echo "$pidfile_out" >"$pidf"
+				echo "$pidfile_out" | sed 's/;.*/;/' | sed 's/=/ /' | sed 's/^/setenv /' >"$cshpidf"
+				echo "$pidfile_out" | sed 's/;.*/;/' | sed 's/^\(.*\)=\(.*\);/set -e \1; set -x -U \1 \2;/' >"$fishpidf"
 				;;
 		esac
-	done
-
-	return 0
-}
-
-# synopsis: startagent [prog]
-# Starts an agent if it isn't already running.
-# Requires $ssh_agent_pid
-startagent() {
-	start_prog=${1-ssh}
-	unset start_pid
-	start_inherit_pid=none
-	start_mypids=$(findpids "$start_prog") || die
-	
-	# Unfortunately there isn't much way to genericize this without introducing
-	# a lot more supporting code/structures.
-	if [ "$start_prog" = ssh ]; then
-		start_pidf="$pidf"
-		start_cshpidf="$cshpidf"
-		start_fishpidf="$fishpidf"
-		start_pid="$ssh_agent_pid"
-		if [ -n "$inherit_ssh_auth_sock" ] || [ -n "$inherit_ssh2_auth_sock" ]; then
-			if [ -n "$inherit_ssh_agent_pid" ]; then
-				start_inherit_pid="$inherit_ssh_agent_pid"
-			elif [ -n "$inherit_ssh2_agent_pid" ]; then
-				start_inherit_pid="$inherit_ssh2_agent_pid"
-			else
-				start_inherit_pid="forwarded"
-			fi
-		fi
 	else
-		start_pidf="${pidf}-$start_prog"
-		start_cshpidf="${cshpidf}-$start_prog"
-		start_fishpidf="${fishpidf}-$start_prog"
-		if [ "$start_prog" = gpg ]; then
-			start_pid="$gpg_agent_pid"
-			if [ -n "$inherit_gpg_agent_pid" ]; then
-				start_inherit_pid="$inherit_gpg_agent_pid"
-			fi
-		else
-			error "I don't know how to start $start_prog-agent (1)"
-			return 1
-		fi
+		debug skipping creation of pidfiles!
 	fi
-	[ "$start_pid" -gt 0 ] 2>/dev/null || start_pid=none
-
-	# This hack makes the case statement easier
-	if [ "$inheritwhich" = any ] || [ "$inheritwhich" = any-once ]; then
-		start_fwdflg=forwarded
-	else
-		unset start_fwdflg
-	fi
-
-	# Check for an existing agent
-	start_tester="$inheritwhich: $start_mypids $start_fwdflg "
-	case "$start_tester" in
-		none:*" $start_pid "*|*-once:*" $start_pid "*)
-			mesg "Found existing ${start_prog}-agent: ${CYANN}$start_pid${OFF}"
-			return 0
-			;;
-
-		*:*" $start_inherit_pid "*)
-			# This test was postponed until now to prevent generating warnings
-			if ! validinherit "$start_prog"; then
-				# inherit_* vars have been removed from the environment.  Try
-				# again now
-				startagent "$start_prog"
-				return $?
-			fi
-			mesg "Inheriting ${start_prog}-agent ($start_inherit_pid)"
-			;;
-
-		*)
-			# start_inherit_pid might be "forwarded" which we don't allow with,
-			# for example, local-once (the default setting)
-			start_inherit_pid=none
-			;;
-	esac
-
-
-	# The ( ) subshell is intentional! We don't want to change the umask, just get the current pid!
-	if ! ( umask 0177 && :> "$start_pidf" ); then
-		rm -f "$start_pidf" "$start_cshpidf" "$start_fishpidf" 2>/dev/null
-		error "can't create $start_pidf"
-		return 1
-	fi
-
-	# The ( ) subshell is intentional! We don't want to change the umask, just get the current pid!
-	if ! ( umask 0177 && : > "$start_fishpidf" ); then
-		rm -f "$start_pidf" "$start_cshpidf" "$start_fishpidf" 2>/dev/null
-		error "can't create $start_fishpidf"
-		return 1
-	fi
-
-	# Determine content for files
-	unset start_out
-	if [ "$start_inherit_pid" = none ]; then
-
-		# Start the agent.
-		# Branch again since the agents start differently
-		mesg "Starting ${start_prog}-agent..."
-		if [ "$start_prog" = ssh ]; then
-			# shellcheck disable=SC2086 # We purposely don't want to double-quote the args to ssh-agent so they disappear if not used:
-			start_out="$(ssh-agent ${ssh_timeout} ${ssh_agent_socket})"
-			ret=$?
-		elif [ "$start_prog" = gpg ]; then
-			if [ -n "${timeout}" ]; then
-				gpg_cache_ttl="$(( timeout * 60 ))"
-				start_gpg_timeout="--default-cache-ttl $gpg_cache_ttl --max-cache-ttl $gpg_cache_ttl"
-			else
-				unset start_gpg_timeout
-			fi
-			# the 1.9.x series of gpg spews debug on stderr
-			start_out=$(gpg-agent --daemon --write-env-file "$start_gpg_timeout" 2>/dev/null)
-			ret=$?
-		else
-			error "I don't know how to start $start_prog-agent (2)"
-			return 1
-		fi
-		if [ $ret != 0 ] && [ $ret != 2 ]; then
-			rm -f "$start_pidf" "$start_cshpidf" "$start_fishpidf" 2>/dev/null
-			error "Failed to start ${start_prog}-agent"
-			return 1
-		fi
-
-	elif [ "$start_prog" = ssh ] && [ -n "$inherit_ssh_auth_sock" ]; then
-		start_out="SSH_AUTH_SOCK=$inherit_ssh_auth_sock; export SSH_AUTH_SOCK;"
-		if [ "$inherit_ssh_agent_pid" -gt 0 ] 2>/dev/null; then
-			start_out="$start_out
-SSH_AGENT_PID=$inherit_ssh_agent_pid; export SSH_AGENT_PID;"
-		fi
-	elif [ "$start_prog" = ssh ] && [ -n "$inherit_ssh2_auth_sock" ]; then
-		start_out="SSH2_AUTH_SOCK=$inherit_ssh2_auth_sock; export SSH2_AUTH_SOCK;
-SSH2_AGENT_PID=$inherit_ssh2_agent_pid; export SSH2_AGENT_PID;"
-		if [ "$inherit_ssh2_agent_pid" -gt 0 ] 2>/dev/null; then
-			start_out="$start_out
-SSH2_AGENT_PID=$inherit_ssh2_agent_pid; export SSH2_AGENT_PID;"
-		fi
-
-	elif [ "$start_prog" = "${gpg_prog_name}" ] && [ -n "$inherit_gpg_agent_info" ]; then
-		start_out="GPG_AGENT_INFO=$inherit_gpg_agent_info; export GPG_AGENT_INFO;"
-
-	else
-		die "something bad happened"	# should never be here
-	fi
-
-	# Add content to pidfiles.
-	# Some versions of ssh-agent don't understand -s, which means to
-	# generate Bourne shell syntax.  It appears they also ignore SHELL,
-	# according to http://bugs.gentoo.org/show_bug.cgi?id=52874
-	# So make no assumptions.
-	start_out=$(echo "$start_out" | grep -v 'Agent pid')
-	case "$start_out" in
-		setenv*)
-			echo "$start_out" >"$start_cshpidf"
-			echo "$start_out" | awk '{print $2"="$3" export "$2";"}' >"$start_pidf"
-			;;
-		*)
-			echo "$start_out" >"$start_pidf"
-			echo "$start_out" | sed 's/;.*/;/' | sed 's/=/ /' | sed 's/^/setenv /' >"$start_cshpidf"
-			echo "$start_out" | sed 's/;.*/;/' | sed 's/^\(.*\)=\(.*\);/set -e \1; set -x -U \1 \2;/' >"$start_fishpidf"
-			;;
-	esac
-
-	# Hey the agent should be started now... load it up!
-	loadagents "$start_prog"
 }
 
 # synopsis: extract_fingerprints
@@ -1058,6 +876,7 @@ ssh_listmissing() {
 		fi
 
 		# Check if it needs to be added
+		# shellcheck disable=SC2031
 		case " $sshavail " in
 			*" $slm_finger "*)
 				# already know about this key
@@ -1078,62 +897,34 @@ $slm_k"
 	echo "$slm_missing"
 }
 
-# synopsis: add_gpgkey
-# Adds a key to $gpgkeys
-add_gpgkey() {
-	gpgkeys=${gpgkeys+"$gpgkeys
-"}"$1"
+cat_ssh_config_keys() {
+	if $sshconfig; then
+		if $confallhosts; then
+			while IFS= read -r line; do
+			case $line in
+				*[Ii][Dd][Ee][Nn][Tt][Ii][Tt][Yy][Ff][Ii][Ll][Ee]*)
+				echo "$line" | awk '{print $2}'
+			esac
+			done < ~/.ssh/config
+		else
+			confpath "$confhost"
+		fi
+	fi
 }
 
-# synopsis: add_sshkey
-# Adds a key to $sshkeys
-add_sshkey() {
-	sshkeys=${sshkeys+"$sshkeys
-"}"$1"
-}
-
-# synopsis: parse_mykeys
-# Sets $sshkeys and $gpgkeys based on $mykeys
 parse_mykeys() {
-  for pkeypath in "$@"; do
-    mykeys=${mykeys+"$mykeys
-"}"$pkeypath"
-  done
-
-	# Parse $mykeys into positional params to preserve spaces in filenames
-	set -f		   # disable globbing
-	pm_IFS="$IFS"  # save current IFS
-	IFS="
-"				   # set IFS to newline
-	# shellcheck disable=SC2086
-	set -- $mykeys
-	IFS="$pm_IFS"  # restore IFS
-	set +f		   # re-enable globbing
-
-	for pm_k in "$@"; do
-		# Check for ssh
-		if wantagent ssh; then
-			if [ -f "$pm_k" ]; then
-				add_sshkey "$pm_k" ; continue
-			elif [ -f "$HOME/.ssh/$pm_k" ]; then
-				add_sshkey "$HOME/.ssh/$pm_k" ; continue
-			elif [ -f "$HOME/.ssh2/$pm_k" ]; then
-				add_sshkey "$HOME/.ssh2/$pm_k" ; continue
-			fi
+	while IFS= read -r pm_k; do
+		[ -z "$pm_k" ] && continue
+		if [ -f "$pm_k" ]; then
+			echo "sshk:$pm_k"
+		elif [ -f "$HOME/.ssh/$pm_k" ]; then
+			echo "sshk:$HOME/.ssh/$pm_k"
+		elif [ "$1" != "ssh" ] && "${gpg_prog_name}" --list-secret-keys "$pm_k" >/dev/null 2>&1; then
+			echo "gpgk:$pm_k"
+		else
+			echo "miss:$pm_k"
 		fi
-
-		# Check for gpg
-		if wantagent gpg; then
-			 if "${gpg_prog_name}" --list-secret-keys "$pm_k" >/dev/null 2>&1; then
-				add_gpgkey "$pm_k" ; continue
-			fi
-		fi
-
-		$ignoreopt || warn "can't find $pm_k; skipping"
-		continue
 	done
-
-	return 0
 }
 
 # synopsis: setaction
@@ -1146,32 +937,6 @@ setaction() {
 	fi
 }
 
-# synopsis: setagents
-# Check validity of agentsopt
-setagents() {
-	if [ -n "$agentsopt" ]; then
-		agentsopt=$(echo "$agentsopt" | sed 's/,/ /g')
-		unset new_agentsopt
-		for a in $agentsopt; do
-			if command -v "${a}-agent" >/dev/null; then
-				new_agentsopt="${new_agentsopt+$new_agentsopt }${a}"
-			else
-				warn "can't find ${a}-agent, removing from list"
-			fi
-		done
-		agentsopt="${new_agentsopt}"
-	else
-		for a in ssh gpg; do
-			command -v ${a}-agent >/dev/null || continue
-			agentsopt="${agentsopt+$agentsopt }${a}"
-		done
-	fi
-
-	if [ -z "$agentsopt" ]; then
-		die "no agents available to start"
-	fi
-}
-
 # synopsis: confpath
 # Return private key path if found in ~/.ssh/config SSH configuration file.
 # Input: the name of the host we would like to connect to.
@@ -1180,10 +945,10 @@ confpath() {
 	while IFS= read -r line; do
 		# get the Host directives
 		case $line in
-			*"Host "*) h=$(echo "$line" | awk '{print $2}') ;;
+			*[Hh][Oo][Ss][Tt]" "*) h=$(echo "$line" | awk '{print $2}') ;;
 		esac
 		case $line in
-			*IdentityFile*)
+			*[Ii][Dd][Ee][Nn][Tt][Ii][Tt][Yy][Ff][Ii][Ll][Ee]*)
 			if [ "$h" = "$1" ]; then
 				echo "$line" | awk '{print $2}'
 				break
@@ -1192,16 +957,10 @@ confpath() {
 	done < ~/.ssh/config
 }
 
-# synopsis: wantagent prog
-# Return 0 (true) or 1 (false) depending on whether prog is one of the agents in
-# agentsopt
 wantagent() {
-	case "$agentsopt" in
-		"$1"|"$1 "*|*" $1 "*|*" $1")
-			return 0 ;;
-		*)
-			return 1 ;;
-	esac
+	[ "$1" = "gpg" ] && [ -n "$gpgkeys" ] && return 0
+	[ "$1" = "ssh" ] && return 0
+	return 1
 }
 
 #
@@ -1211,30 +970,32 @@ wantagent() {
 # parse the command-line
 while [ -n "$1" ]; do
 	case "$1" in
-		--help|-h)
-			setaction help
-			;;
-		--stop|-k)
-			# As of version 2.5, --stop takes an argument.	For the sake of
-			# backward compatibility, only eat the arg if it's one we recognize.
-			if [ "$2" = mine ]; then
-				stopwhich=mine; shift
-			elif [ "$2" = others ]; then
-				stopwhich=others; shift
-			elif [ "$2" = all ]; then
-				stopwhich=all; shift
-			else
-				# backward compat
-				stopwhich=all-warn
-			fi
-			;;
-		--version|-V)
-			setaction version
-			;;
-		--agents)
-			shift
-			agentsopt="$1"
-			;;
+		--absolute) absoluteopt=true ;;
+		--agents) warn "--agents is deprecated, ignoring." ;;
+		--agent-socket) shift; ssh_agent_socket="-a $1" ;;
+		--confirm) confirmopt=true ;;
+		--debug|-D) debugopt=true ;;
+		--eval) evalopt=true ;;
+		--gpg2) gpg_prog_name="gpg2" ;;
+		--help|-h) setaction help ;;
+		--host) shift; hostopt="$1" ;;
+		--ignore-missing) ignoreopt=true ;;
+		--inherit) shift; warn "--inherit is deprecated, ignoring. Use --ssh-allow-forwarded, --noinherit as needed instead.";;
+		--list|-l) setaction list ;;
+		--list-fp|-L) setaction list-fp ;;
+		--noask) noaskopt=true ;;
+		--nocolor) color=false ;;
+		--nogui) noguiopt=true ;;
+		--noinherit) allow_inherited=false ;;
+		--nolock) nolockopt=true ;;
+		--query) queryopt=true; quietopt=true ;;
+		--quiet|-q) quietopt=true ;;
+		--ssh-allow-gpg) ssh_allow_gpg=true ;;
+		--ssh-spawn-gpg) ssh_spawn_gpg=true; ssh_allow_gpg=true ;;
+		--ssh-agent-socket) shift; ssh_agent_socket="-a $1" ;;
+		--ssh-allow-forwarded) ssh_allow_forwarded=true ;;
+		--systemd) systemdopt=true ;;
+		--version|-V) setaction version ;;
 		--attempts)
 			shift
 			if [ "$1" -gt 0 ] 2>/dev/null; then
@@ -1247,11 +1008,23 @@ while [ -n "$1" ]; do
 			clearopt=true
 			$quickopt && die "--quick and --clear are not compatible"
 			;;
-		--confirm)
-			confirmopt=true
+		--confallhosts|-C)
+			if [ -e ~/.ssh/config ]; then
+				sshconfig=true
+				confallhosts=true
+			else
+				# shellcheck disable=SC2088
+				warn "~/.ssh/config not found; --confallhosts/-C option ignored."
+			fi
 			;;
-		--absolute)
-			absoluteopt=true
+		--confhost|-c)
+			if [ -e ~/.ssh/config ]; then
+				sshconfig=true
+				confhost="$2"
+			else
+				# shellcheck disable=SC2088
+				warn "~/.ssh/config not found; --confhost/-c option ignored."
+			fi
 			;;
 		--dir)
 			shift
@@ -1275,50 +1048,6 @@ while [ -n "$1" ]; do
 				envf="$1"
 			fi
 			;;
-		--eval)
-			evalopt=true
-			;;
-		--list|-l)
-			ssh-add -l
-			quietopt=true
-			;;
-		--list-fp|-L)
-			ssh-add -L
-			quietopt=true
-			;;
-		--query)
-			queryopt=true
-			;;
-		--host)
-			shift
-			hostopt="$1"
-			;;
-		--ignore-missing)
-			ignoreopt=true
-			;;
-		--inherit)
-			shift
-			case "$1" in
-				local|any|local-once|any-once)
-					inheritwhich="$1"
-					;;
-				*)
-					die "--inherit requires an argument (local, any, local-once or any-once)"
-					;;
-			esac
-			;;
-		--noinherit)
-			inheritwhich=none
-			;;
-		--noask)
-			noaskopt=true
-			;;
-		--nogui)
-			noguiopt=true
-			;;
-		--nolock)
-			nolockopt=true
-			;;
 		--lockwait)
 			shift
 			if [ "$1" -ge 0 ] 2>/dev/null; then
@@ -1331,33 +1060,12 @@ while [ -n "$1" ]; do
 			quickopt=true
 			$clearopt && die "--quick and --clear are not compatible"
 			;;
-		--quiet|-q)
-			quietopt=true
-			;;
-		--confhost|-c)
-			if [ -e ~/.ssh/config ]; then
-				sshconfig=true
-				confhost="$2"
-			else
-				# shellcheck disable=SC2088
-				warn "~/.ssh/config not found; --confhost/-c option ignored."
-			fi
-			;;
-    --confallhosts|-C)
-			if [ -e ~/.ssh/config ]; then
-				sshconfig=true
-        confallhosts=true
-			else
-				# shellcheck disable=SC2088
-				warn "~/.ssh/config not found; --confallhosts/-C option ignored."
-			fi
-			;;
-		--nocolor)
-			color=false
-			;;
-		--agent-socket)
-			shift
-			agent_socket=$1
+		--stop|-k)
+			setaction stop
+			case $2 in
+				all|mine|others) stopwhich="$2" ;;
+				*) die "Please specify 'all', 'mine' or 'others' for --stop" ;;
+			esac
 			;;
 		--timeout)
 			shift
@@ -1367,12 +1075,6 @@ while [ -n "$1" ]; do
 				die "--timeout requires a numeric argument greater than zero"
 			fi
 			;;
-		--systemd)
-			systemdopt=true
-			;;
-		--gpg2)
-		    gpg_prog_name="gpg2"
-		    ;;
 		--)
 			shift
 			IFS="
@@ -1396,15 +1098,6 @@ while [ -n "$1" ]; do
 	shift
 done
 
-# Set filenames *after* parsing command-line options to allow
-# modification of $keydir and/or $hostopt
-#
-# pidf holds the specific name of the keychain .ssh-agent-myhostname file.
-# We use the new hostname extension for NFS compatibility. cshpidf is the
-# .ssh-agent file with csh-compatible syntax. fishpidf is the .ssh-agent
-# file with fish-compatible syntax. lockf is the lockfile, used
-# to serialize the execution of multiple ssh-agent processes started
-# simultaneously
 if [ -z "$hostopt" ]; then
 	if [ -z "$HOSTNAME" ]; then
 		hostopt=$(uname -n 2>/dev/null || echo unknown)
@@ -1412,13 +1105,13 @@ if [ -z "$hostopt" ]; then
 		hostopt="$HOSTNAME"
 	fi
 fi
+
 pidf="${keydir}/${hostopt}-sh"
 cshpidf="${keydir}/${hostopt}-csh"
 fishpidf="${keydir}/${hostopt}-fish"
 lockf="${keydir}/${hostopt}-lockf"
 
-# Read the env snippet (especially for things like PATH, but could modify
-# basically anything)
+# Read the env snippet (especially for things like PATH, but could modify basically anything)
 if [ -z "$envf" ]; then
 	envf="${keydir}/${hostopt}-env"
 	[ -f "$envf" ] || envf="${keydir}/env"
@@ -1438,8 +1131,12 @@ fi
 
 $color || unset BLUE CYAN CYANN GREEN PURP OFF RED
 
+[ "$myaction" = list ] && eval "$(catpidf sh)" && exec ssh-add -l
+[ "$myaction" = list-fp ] && eval "$(catpidf sh)" && exec ssh-add -L
+
 qprint #initial newline
 mesg "${PURP}keychain ${OFF}${CYANN}${version}${OFF} ~ ${GREEN}http://www.funtoo.org/Funtoo:Keychain${OFF}"
+
 [ "$myaction" = version ] && { versinfo; exit 0; }
 [ "$myaction" = help ] && { versinfo; helpinfo; exit 0; }
 
@@ -1455,83 +1152,16 @@ else
 	trap 'droplock;' 0		# drop the lock on exit
 fi
 
-setagents						# verify/set $agentsopt
+testssh							# sets $openssh, $sunssh and tweaks $ssh_spawn_gpg
 verifykeydir					# sets up $keydir
-wantagent ssh && testssh		# sets $openssh and $sunssh
-getuser							# sets $me
+me=$(id -un) || die "Who are you?  id -un doesn't know..."
 
-# Inherit agent info from the environment before loadagents wipes it out.
-# Always call this since it checks $inheritopt and sets variables accordingly.
-inheritagents
-
-# --stop: kill the existing ssh-agent(s) and quit
-if [ -n "$stopwhich" ]; then
-	if [ "$stopwhich" = all-warn ]; then
-		warn "--stop without an argument is deprecated; see --help"
-		stopwhich=all
-	fi
-	takelock || die
-	if [ "$stopwhich" = mine ] || [ "$stopwhich" = others ]; then
-		loadagents "$agentsopt"
-	fi
-	for a in $agentsopt; do
-		stopagent "$a"
-	done
-	if [ "$stopwhich" != others ]; then
-		qprint
-		exit 0					# stopagent is always successful
-	fi
-fi
-
-# Note regarding locking: if we're trying to be quick, then don't take the lock.
-# It will be taken later if we discover we can't be quick.
-if $quickopt; then
-	loadagents "$agentsopt"		# sets ssh_agent_pid, etc.
-	unset nagentsopt
-	for a in $agentsopt; do
-		needstart=true
-
-		# Trying to be quick has a price... If we discover the agent isn't running,
-		# then we'll have to check things again (in startagent) after taking the
-		# lock.  So don't do the initial check unless --quick was specified.
-		if [ "$a" = ssh ]; then
-				# try to use existing agent
-				# 0 = found keys, 1 = no keys, 2 = no agent
-			if sshavail=$(ssh_l) || { [ $? = 1 ] && [ -z "$mykeys" ]; }; then
-				mesg "Found existing ssh-agent: ${CYANN}$ssh_agent_pid${OFF}"
-				needstart=false
-			fi
-		elif [ "$a" = gpg ]; then
-			# not much way to be quick on this
-			if [ -n "$gpg_agent_pid" ]; then
-				case " $(findpids "${gpg_prog_name}") " in
-					*" $gpg_agent_pid "*)
-						mesg "Found existing gpg-agent: ${CYANN}$gpg_agent_pid${OFF}"
-						needstart=false ;;
-				esac
-			fi
-		fi
-
-		if $needstart; then
-			nagentsopt="$nagentsopt $a"
-		elif $evalopt; then
-			catpidf "$a"
-		fi
-	done
-	agentsopt="$nagentsopt"
-fi
-
-# If there are no agents remaining, then bow out now...
-[ -n "$agentsopt" ] || { qprint; exit 0; }
-
-# --agent-socket translates argument into `-a` argument to set static SSH_AUTH_SOCKET
-if [ -n "$timeout" ] && wantagent ssh; then
-	ssh_agent_socket="-a $agent_socket"
-fi
+# --stop: kill the existing ssh-agent(s) (not gpg-agent) and quit
+[ "$myaction" = stop ] && stop_ssh_agents
 
 # --timeout translates almost directly to ssh-add/ssh-agent -t, but ssh.com uses
 # minutes and OpenSSH uses seconds
-if [ -n "$timeout" ] && wantagent ssh; then
+if [ -n "$timeout" ]; then
 	ssh_timeout=$timeout
 	if $openssh || $sunssh; then
 		ssh_timeout=$(( ssh_timeout * 60 ))
@@ -1539,166 +1169,147 @@ if [ -n "$timeout" ] && wantagent ssh; then
 	ssh_timeout="-t $ssh_timeout"
 fi
 
-# There are agents remaining to start, and we now know we can't be quick.  Take
-# the lock before continuing
-takelock || die
-loadagents "$agentsopt"
-unset nagentsopt
-for a in $agentsopt; do
-	if $queryopt; then
-		catpidf_shell sh "$a" | cut -d\; -f1
-	elif startagent "$a"; then
-		nagentsopt="${nagentsopt+$nagentsopt }$a"
-		$evalopt && catpidf "$a"
-	fi
-done
-agentsopt="$nagentsopt"
-
-# If we are just querying the services, exit.
-$queryopt && exit 0
-
-# If there are no agents remaining, then duck out now...
-[ -n "$agentsopt" ] || { qprint; exit 0; }
-
-# --confirm translates to ssh-add -c
-if $confirmopt && wantagent ssh; then
-	if $openssh || $sunssh; then
-		ssh_confirm=-c
-	else
-		warn "--confirm only works with OpenSSH"
-	fi
+# Get keys from SSH configuration files if --confhost/--confallhost are specified, as well as command-line:
+all_keys="$(cat_ssh_config_keys | parse_mykeys ssh)$(echo "$mykeys" | parse_mykeys)"
+if ! $ignoreopt; then
+	for key in $(echo "$all_keys" | grep ^miss:); do
+		warn "Can't find key \"${GREEN}$( echo "$key" | cut -c6- )${OFF}\""
+	done
 fi
+sshkeys="$(echo "$all_keys" | sed -n '/^sshk:/s/sshk://p' )"
+gpgkeys="$(echo "$all_keys" | sed -n '/^gpgk:/s/gpgk://p' )"
 
-# --clear: remove all keys from the agent(s)
-if $clearopt; then
-	for a in ${agentsopt}; do
-		if [ "$a" = ssh ]; then
+if $queryopt; then
+	# --query displays current settings, but does not start an agent:
+	catpidf_shell sh | cut -d\; -f1 && exit 0
+else
+	if ! wantagent ssh && ! wantagent gpg; then
+		die "No keys specified. Nothing to do."
+	fi
+	if wantagent ssh; then
+		# This will start gpg-agent as an ssh-agent if such functionality is enabled (default)
+		startagent_ssh || warn "Unable to start an ssh-agent (error code: $?)"
+	fi
+	[ -n "$pidfile_out" ] && write_pidfile && eval "$pidfile_out" > /dev/null
+	if ! $gpg_started && wantagent gpg; then
+		# If we also want gpg, and it hasn't been started yet, start it also. We don't need to
+		# look for pidfile output, as this would have been output from the startagent_ssh->startagent_gpg
+		# call above, and gpg doesn't use pidfiles for gpg stuff anymore.
+		startagent_gpg || warn "Unable to start gpg-agent (error code: $?)"
+	fi
+	if $clearopt; then
+		if wantagent ssh; then
 			if sshout=$(ssh-add -D 2>&1); then
 				mesg "ssh-agent: $sshout"
 			else
 				warn "ssh-agent: $sshout"
 			fi
-		elif [ "$a" = gpg ]; then
-			kill -1 "$gpg_agent_pid" 2>/dev/null
-			mesg "gpg-agent: All identities removed."
-		else
-			warn "--clear not supported for ${a}-agent"
 		fi
-	done
-	trap 'droplock' 2				# done clearing, safe to ctrl-c
+		if wantagent gpg; then
+			out="$( echo RELOADAGENT | gpg-connect-agent --no-autostart 2>/dev/null )"
+			if [ "$out" = "OK" ]; then
+				mesg "gpg-agent: All identities removed."
+			else
+				mesg "gpg-agent: Could not remove identities ($out)"
+			fi
+		fi
+		trap 'droplock' 2 # done clearing, safe to ctrl-c
+	fi
+fi
+
+if $evalopt; then
+	catpidf_shell sh
 fi
 
 if $systemdopt; then
-	for a in $agentsopt; do
-		systemctl --user set-environment "$( catpidf_shell sh "$a" | cut -d\; -f1 )"
-	done
+	systemctl --user set-environment "$( catpidf_shell sh | cut -d\; -f1 )"
 fi
 
 # --noask: "don't ask for keys", so we're all done
 $noaskopt && { qprint; exit 0; }
+$quickopt && { qprint; exit 0; }
 
-# If the --confhost or the --confallhosts option used, and the .ssh/config
-# file exists, either load host key or all keys defined
-if $sshconfig; then
-  if $confallhosts; then
-    # If the --confallhosts option used, load all the private keys defined in
-    # the .ssh/config file and add them to ssh-add
-    while IFS= read -r line; do
-      case $line in
-        *IdentityFile*)
-        currentpath="$(echo "$line" | awk '{print $2}')"
-        eval currentpath="$currentpath"
-        pkeypaths=${pkeypaths+"$pkeypaths
-"}"$currentpath"   
-      esac
-    done < ~/.ssh/config
-  else
-    # If the --confhost option is used, find the private key through 
-    # .ssh/config file and load it with ssh-add
-    pkeypaths=$(confpath "$confhost")
-	  eval pkeypaths="$pkeypaths"
-  fi
-fi
+# This is where we load keys as needed:
 
-# Parse $mykeys into ssh vs. gpg keys; it may be necessary in the future to
-# differentiate on the cmdline
-parse_mykeys "$pkeypaths" || die
-
-# Load ssh keys
 if wantagent ssh; then
-	sshavail=$(ssh_l)				# update sshavail now that we're locked
-	if [ "$myaction" = "list" ]; then
-		for key in $sshavail end; do
-			[ "$key" = "end" ] && continue
-			echo "$key"
-		done
-	else
-		sshkeys="$(ssh_listmissing)"		# cache list of missing keys, newline-separated
-		sshattempts=$attempts
-		savedisplay="$DISPLAY"
+	sshavail=$(ssh_l) # update sshavail now that we're locked
+	sshkeys="$(ssh_listmissing)" # cache list of missing keys, newline-separated
+	sshattempts=$attempts
+	savedisplay="$DISPLAY"
 
-		# Attempt to add the keys
-		while [ -n "$sshkeys" ]; do
+	# Attempt to add the keys
+	while [ -n "$sshkeys" ]; do
 
-			mesg "Adding ${CYANN}$(echo "$sshkeys" | wc -l)${OFF} ssh key(s): $sshkeys"
-
-			# Parse $sshkeys into positional params to preserve spaces in filenames.
-			# This *must* happen after any calls to subroutines because pure Bourne
-			# shell doesn't restore "$@" following a call.	Eeeeek!
-			set -f			# disable globbing
-			old_IFS="$IFS"	# save current IFS
-			IFS="
-	"						# set IFS to newline
-			# shellcheck disable=SC2086
-			set -- $sshkeys
-			IFS="$old_IFS"	# restore IFS
-			set +f			# re-enable globbing
-
-			if $noguiopt || [ -z "$SSH_ASKPASS" ] || [ -z "$DISPLAY" ]; then
-				unset DISPLAY		# DISPLAY="" can cause problems
-				unset SSH_ASKPASS	# make sure ssh-add doesn't try SSH_ASKPASS
-				sshout=$(ssh-add "${ssh_timeout}" ${ssh_confirm} "$@" 2>&1)
-				ret=$?
+		# --confirm translates to ssh-add -c
+		if $confirmopt; then
+			if $openssh || $sunssh; then
+				ssh_confirm=-c
 			else
-				sshout=$(ssh-add "${ssh_timeout}" ${ssh_confirm} "$@" 2>&1 </dev/null)
-				ret=$?
+				warn "--confirm only works with OpenSSH"
 			fi
-			if [ $ret = 0 ]
-			then
-				blurb=""
-				[ -n "$timeout" ] && blurb="life=${timeout}m"
-				[ -n "$timeout" ] && $confirmopt && blurb="${blurb},"
-				$confirmopt && blurb="${blurb}confirm"
-				[ -n "$blurb" ] && blurb=" (${blurb})"
-				mesg "ssh-add: Identities added: $sshkeys${blurb}"
-				break
-			fi
-			if [ "$sshattempts" = 1 ]; then
-				die "Problem adding; giving up"
-			else
-				warn "Problem adding; trying again"
-			fi
+		fi
 
-			# Update the list of missing keys
-			sshavail=$(ssh_l) || die "problem running ssh-add -l"
-			sshkeys="$(ssh_listmissing)"  # remember, newline-separated
+		mesg "Adding ${CYANN}$(echo "$sshkeys" | wc -l)${OFF} ssh key(s): $sshkeys"
 
-			# Decrement the countdown
-			sshattempts=$(( sshattempts -1 ))
-		done
+		# Parse $sshkeys into positional params to preserve spaces in filenames.
+		# This *must* happen after any calls to subroutines because pure Bourne
+		# shell doesn't restore "$@" following a call.	Eeeeek!
+		set -f			# disable globbing
+		old_IFS="$IFS"	# save current IFS
+		IFS="
+"						# set IFS to newline
+		# shellcheck disable=SC2086
+		set -- $sshkeys
+		IFS="$old_IFS"	# restore IFS
+		set +f			# re-enable globbing
 
-		[ -n "$savedisplay" ] && DISPLAY="$savedisplay"
-	fi
+		if $noguiopt || [ -z "$SSH_ASKPASS" ] || [ -z "$DISPLAY" ]; then
+			unset DISPLAY		# DISPLAY="" can cause problems
+			unset SSH_ASKPASS	# make sure ssh-add doesn't try SSH_ASKPASS
+			
+			# shellcheck disable=SC2086 # this is intentional:
+			sshout=$(ssh-add ${ssh_timeout} ${ssh_confirm} "$@" 2>&1)
+			ret=$?
+		else
+			# shellcheck disable=SC2086 # this is intentional:
+			sshout=$(ssh-add ${ssh_timeout} ${ssh_confirm} "$@" 2>&1 </dev/null)
+			ret=$?
+		fi
+		if [ $ret = 0 ]
+		then
+			blurb=""
+			[ -n "$timeout" ] && blurb="life=${timeout}m"
+			[ -n "$timeout" ] && $confirmopt && blurb="${blurb},"
+			$confirmopt && blurb="${blurb}confirm"
+			[ -n "$blurb" ] && blurb=" (${blurb})"
+			mesg "ssh-add: Identities added: $sshkeys${blurb}"
+			break
+		fi
+		if [ "$sshattempts" = 1 ]; then
+			die "Problem adding; giving up (error code: $ret; output: $sshout)"
+		else
+			warn "Problem adding; trying again (error code: $ret; output: $sshout)"
+		fi
+
+		# Update the list of missing keys
+		sshavail=$(ssh_l) || die "problem running ssh-add -l"
+		sshkeys="$(ssh_listmissing)"  # remember, newline-separated
+
+		# Decrement the countdown
+		sshattempts=$(( sshattempts -1 ))
+	done
+
+	[ -n "$savedisplay" ] && DISPLAY="$savedisplay"
 fi
 
 # Load gpg keys
 if wantagent gpg; then
-	gpgkeys="$(gpg_listmissing)"		# cache list of missing keys, newline-separated
+	gpgkeys="$(gpg_listmissing)" # cache list of missing keys, newline-separated
 	gpgattempts=$attempts
 
 	$noguiopt && unset DISPLAY
-	[ -n "$DISPLAY" ] || unset DISPLAY	# DISPLAY="" can cause problems
-	GPG_TTY=$(tty) ; export GPG_TTY		# fall back to ncurses pinentry
+	[ -n "$DISPLAY" ] || unset DISPLAY # DISPLAY="" can cause problems
+	GPG_TTY=$(tty) ; export GPG_TTY # fall back to ncurses pinentry
 
 	# Attempt to add the keys
 	while [ -n "$gpgkeys" ]; do
@@ -1718,7 +1329,12 @@ if wantagent gpg; then
 		set +f			# re-enable globbing
 
 		for k in "$@"; do
-			echo | env LC_ALL="$pinentry_lc_all" "${gpg_prog_name}" --no-options --use-agent --no-tty --sign --local-user "$k" -o- >/dev/null 2>&1 || tryagain=true
+			gpgout="$(echo | env LC_ALL="$pinentry_lc_all" "${gpg_prog_name}" --no-options --use-agent --no-tty --sign --local-user "$k" -o- 2>&1)"
+			ret=$?
+			if [ "$ret" -ne 0 ]; then
+				tryagain=true
+				warn "Error adding gpg key (error code: $ret; output: $gpgout)"
+			fi 
 		done
 		$tryagain || break
 
@@ -1737,5 +1353,3 @@ if wantagent gpg; then
 fi
 
 qprint	# trailing newline
-
-# vim:sw=4 noexpandtab tw=120

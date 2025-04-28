@@ -44,7 +44,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.61.3 | Apr 28, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [keychain](https://github.com/funtoo/keychain) | funtoo/keychain | 2.9.0_alpha1 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [keychain](https://github.com/funtoo/keychain) | funtoo/keychain | 2.9.0_beta4 | Apr 28, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.49.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.1.0-0 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [rg](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -55,7 +55,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 56 Tools | 💾 535.46 MB Total Size</h3></div>
+<div align='center'><h3>📦 56 Tools | 💾 535.45 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
@@ -77,7 +77,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | eza | 4.22 MB | 2.11 MB |
 | hyperfine | 3.6 MB | 1.2 MB |
 | zoxide | 3.16 MB | 1.05 MB |
-| keychain | 149.58 KB | 49.86 KB |
+| keychain | 129.46 KB | 43.15 KB |
 
 ## 💻 Shell Integration
 
@@ -221,7 +221,7 @@ tools:
 
   keychain:
     repo: funtoo/keychain
-    tag: 2.9.0_alpha1
+    tag: 2.9.0_beta4
     asset_patterns: keychain
 
   uv:

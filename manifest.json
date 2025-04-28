@@ -193,22 +193,22 @@
     "url": "https://github.com/sharkdp/hyperfine/releases/download/v1.19.0/hyperfine-v1.19.0-aarch64-apple-darwin.tar.gz"
   },
   "keychain/linux/amd64": {
-    "tag": "2.9.0_alpha1",
-    "updated_at": "2025-04-09T14:13:39.927306",
-    "sha256": "c754a35dca6fb0dd0f62032cca4201f211df0fabf6344a050a877a77970df4e4",
-    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_alpha1/keychain"
+    "tag": "2.9.0_beta4",
+    "updated_at": "2025-04-28T18:20:13.419335",
+    "sha256": "2755826c30a82eb7a0a4b8a92cf60c1cf36451a24b64f45cba8e05a21572f9e1",
+    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_beta4/keychain"
   },
   "keychain/linux/arm64": {
-    "tag": "2.9.0_alpha1",
-    "updated_at": "2025-04-09T14:13:39.936178",
-    "sha256": "c754a35dca6fb0dd0f62032cca4201f211df0fabf6344a050a877a77970df4e4",
-    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_alpha1/keychain"
+    "tag": "2.9.0_beta4",
+    "updated_at": "2025-04-28T18:20:13.423504",
+    "sha256": "2755826c30a82eb7a0a4b8a92cf60c1cf36451a24b64f45cba8e05a21572f9e1",
+    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_beta4/keychain"
   },
   "keychain/macos/arm64": {
-    "tag": "2.9.0_alpha1",
-    "updated_at": "2025-04-09T14:13:39.943695",
-    "sha256": "c754a35dca6fb0dd0f62032cca4201f211df0fabf6344a050a877a77970df4e4",
-    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_alpha1/keychain"
+    "tag": "2.9.0_beta4",
+    "updated_at": "2025-04-28T18:20:13.426370",
+    "sha256": "2755826c30a82eb7a0a4b8a92cf60c1cf36451a24b64f45cba8e05a21572f9e1",
+    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_beta4/keychain"
   },
   "lazygit/linux/amd64": {
     "tag": "v0.49.0",
