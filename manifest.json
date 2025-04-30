@@ -283,22 +283,22 @@
     "url": "https://github.com/starship/starship/releases/download/v1.23.0/starship-aarch64-apple-darwin.tar.gz"
   },
   "uv/linux/amd64": {
-    "tag": "0.6.17",
-    "updated_at": "2025-04-28T18:12:54.838073",
-    "sha256": "28bd6b50be068cc09d8a46b76f8c4b72271d471c6673a5bdb47793622e62224d",
-    "url": "https://github.com/astral-sh/uv/releases/download/0.6.17/uv-x86_64-unknown-linux-musl.tar.gz"
+    "tag": "0.7.1",
+    "updated_at": "2025-04-30T21:14:04.997033",
+    "sha256": "9b714ddf470795d5f1aa5c8111ea153139ae202216ffbe4105fb92f202e0b02b",
+    "url": "https://github.com/astral-sh/uv/releases/download/0.7.1/uv-x86_64-unknown-linux-musl.tar.gz"
   },
   "uv/linux/arm64": {
-    "tag": "0.6.17",
-    "updated_at": "2025-04-28T18:12:54.921282",
-    "sha256": "98750f5c0cd9eb520799d10649efb18441b616150f07e6c1125f616a3fd137e8",
-    "url": "https://github.com/astral-sh/uv/releases/download/0.6.17/uv-aarch64-unknown-linux-musl.tar.gz"
+    "tag": "0.7.1",
+    "updated_at": "2025-04-30T21:14:05.086930",
+    "sha256": "b65409802669913f5fd49ed6656d45c434aa9273fb864aefa0fbbb685b9834b6",
+    "url": "https://github.com/astral-sh/uv/releases/download/0.7.1/uv-aarch64-unknown-linux-musl.tar.gz"
   },
   "uv/macos/arm64": {
-    "tag": "0.6.17",
-    "updated_at": "2025-04-28T18:12:55.005890",
-    "sha256": "e686c73b9314c77a36a6a4c9f94b07c001f0c9157c50c63c764941141c0d0088",
-    "url": "https://github.com/astral-sh/uv/releases/download/0.6.17/uv-aarch64-apple-darwin.tar.gz"
+    "tag": "0.7.1",
+    "updated_at": "2025-04-30T21:14:05.173174",
+    "sha256": "236d70d7738a5f41b45253d68665fda039fecee579939921e0795680d300f55f",
+    "url": "https://github.com/astral-sh/uv/releases/download/0.7.1/uv-aarch64-apple-darwin.tar.gz"
   },
   "yazi/linux/amd64": {
     "tag": "v25.4.8",
