@@ -139,22 +139,22 @@
     "url": "https://github.com/sharkdp/fd/releases/download/v10.2.0/fd-v10.2.0-aarch64-apple-darwin.tar.gz"
   },
   "fzf/linux/amd64": {
-    "tag": "v0.61.3",
-    "updated_at": "2025-04-28T18:12:54.627431",
-    "sha256": "6a4f4b211b6b8944c7320f66db468d731888aa86b19d5b0ccdf28fa0d0e06e47",
-    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.3/fzf-0.61.3-linux_amd64.tar.gz"
+    "tag": "v0.62.0",
+    "updated_at": "2025-05-05T08:26:16.451111",
+    "sha256": "64b56dd484a2317d5f04c28ac0791b36807f034adb419209ad39fb6637255794",
+    "url": "https://github.com/junegunn/fzf/releases/download/v0.62.0/fzf-0.62.0-linux_amd64.tar.gz"
   },
   "fzf/linux/arm64": {
-    "tag": "v0.61.3",
-    "updated_at": "2025-04-28T18:12:54.643910",
-    "sha256": "0a15108bbf20f563e620cb7527515b7db6fcf6ecfec2a2540a58585b9f02c3c6",
-    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.3/fzf-0.61.3-linux_arm64.tar.gz"
+    "tag": "v0.62.0",
+    "updated_at": "2025-05-05T08:26:16.469753",
+    "sha256": "929fd132705d02f222a52e23c076018ef3e699793dd5e8c3183bb11ed9b7696e",
+    "url": "https://github.com/junegunn/fzf/releases/download/v0.62.0/fzf-0.62.0-linux_arm64.tar.gz"
   },
   "fzf/macos/arm64": {
-    "tag": "v0.61.3",
-    "updated_at": "2025-04-28T18:12:54.658007",
-    "sha256": "41a16be1d20a941df345ad3e6350967c28b7dff2a7c3605a3190127299989f4e",
-    "url": "https://github.com/junegunn/fzf/releases/download/v0.61.3/fzf-0.61.3-darwin_arm64.tar.gz"
+    "tag": "v0.62.0",
+    "updated_at": "2025-05-05T08:26:16.487029",
+    "sha256": "7ea045ffec6d5461a983e299eccfaa66324373c6e3d1894568f09e47fa7560c1",
+    "url": "https://github.com/junegunn/fzf/releases/download/v0.62.0/fzf-0.62.0-darwin_arm64.tar.gz"
   },
   "git-lfs/linux/amd64": {
     "tag": "v3.6.1",
@@ -211,22 +211,22 @@
     "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_beta4/keychain"
   },
   "lazygit/linux/amd64": {
-    "tag": "v0.49.0",
-    "updated_at": "2025-04-16T13:09:07.342666",
-    "sha256": "ae9c9a3fcea9cdaf6511a7ca0040210cc71ab481fc773e53737cbfe92da974ce",
-    "url": "https://github.com/jesseduffield/lazygit/releases/download/v0.49.0/lazygit_0.49.0_Linux_x86_64.tar.gz"
+    "tag": "v0.50.0",
+    "updated_at": "2025-05-05T08:26:16.537393",
+    "sha256": "bb2bc0ac8b1e2678c650c5aa8a6fa1595e46f8825ce7e6a3833ca95768179881",
+    "url": "https://github.com/jesseduffield/lazygit/releases/download/v0.50.0/lazygit_0.50.0_Linux_x86_64.tar.gz"
   },
   "lazygit/linux/arm64": {
-    "tag": "v0.49.0",
-    "updated_at": "2025-04-16T13:09:07.382551",
-    "sha256": "68574882593b23f79a32b52ce2bc40c9a08b0b8f9e1b2240243fe69388ed7f47",
-    "url": "https://github.com/jesseduffield/lazygit/releases/download/v0.49.0/lazygit_0.49.0_Linux_arm64.tar.gz"
+    "tag": "v0.50.0",
+    "updated_at": "2025-05-05T08:26:16.580283",
+    "sha256": "3f5728d99263ae2055ce7f767d60e75fef4faf14b5a5511281108d91b1dff624",
+    "url": "https://github.com/jesseduffield/lazygit/releases/download/v0.50.0/lazygit_0.50.0_Linux_arm64.tar.gz"
   },
   "lazygit/macos/arm64": {
-    "tag": "v0.49.0",
-    "updated_at": "2025-04-16T13:09:07.426000",
-    "sha256": "7fa7ecce79d31590d0a53efd15ede55962f1f4b5422dbfd7618a0a2ce4ae7e35",
-    "url": "https://github.com/jesseduffield/lazygit/releases/download/v0.49.0/lazygit_0.49.0_Darwin_arm64.tar.gz"
+    "tag": "v0.50.0",
+    "updated_at": "2025-05-05T08:26:16.626005",
+    "sha256": "a36c2432ab43ca0e65852bb1c620c58e7b4775a30711624c5b23fca89763406e",
+    "url": "https://github.com/jesseduffield/lazygit/releases/download/v0.50.0/lazygit_0.50.0_Darwin_arm64.tar.gz"
   },
   "micromamba/linux/amd64": {
     "tag": "2.1.0-0",
