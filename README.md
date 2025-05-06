@@ -1,6 +1,6 @@
 # 🛠️ dotbins Tool Collection
 
-[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-2.1.0-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
+[![dotbins](https://img.shields.io/badge/powered%20by-dotbins-blue.svg?style=flat-square)](https://github.com/basnijholt/dotbins) [![Version](https://img.shields.io/badge/version-1.1.1.post2+g7941fba.d20250404-green.svg?style=flat-square)](https://github.com/basnijholt/dotbins/releases)
 
 This directory contains command-line tools automatically managed by [dotbins](https://github.com/basnijholt/dotbins).
 
@@ -44,9 +44,9 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [fzf](https://github.com/junegunn/fzf) | junegunn/fzf | 0.62.0 | May 05, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [git-lfs](https://github.com/git-lfs/git-lfs) | git-lfs/git-lfs | 3.6.1 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [hyperfine](https://github.com/sharkdp/hyperfine) | sharkdp/hyperfine | 1.19.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [keychain](https://github.com/funtoo/keychain) | funtoo/keychain | 2.9.0_beta4 | Apr 28, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [keychain](https://github.com/funtoo/keychain) | funtoo/keychain | 2.9.2 | May 06, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [lazygit](https://github.com/jesseduffield/lazygit) | jesseduffield/lazygit | 0.50.0 | May 05, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.1.0-0 | Apr 09, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.1.1-0 | May 06, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [rg](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [starship](https://github.com/starship/starship) | starship/starship | 1.23.0 | Apr 28, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.7.2 | May 01, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -55,14 +55,14 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 56 Tools | 💾 537.77 MB Total Size</h3></div>
+<div align='center'><h3>📦 56 Tools | 💾 538.06 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
 | uv | 107.54 MB | 35.85 MB |
 | atuin | 98.78 MB | 32.93 MB |
 | lazygit | 60.46 MB | 20.15 MB |
-| micromamba | 47.77 MB | 15.92 MB |
+| micromamba | 48.06 MB | 16.02 MB |
 | yazi | 40.41 MB | 13.47 MB |
 | git-lfs | 34.49 MB | 11.5 MB |
 | starship | 28.89 MB | 9.63 MB |
@@ -77,7 +77,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | eza | 4.22 MB | 2.11 MB |
 | hyperfine | 3.6 MB | 1.2 MB |
 | zoxide | 3.16 MB | 1.05 MB |
-| keychain | 129.46 KB | 43.15 KB |
+| keychain | 133.05 KB | 44.35 KB |
 
 ## 💻 Shell Integration
 
@@ -221,7 +221,6 @@ tools:
 
   keychain:
     repo: funtoo/keychain
-    tag: 2.9.0_beta4
     asset_patterns: keychain
 
   uv:
@@ -232,6 +231,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on May 05, 2025
+* This README was automatically generated on May 06, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins

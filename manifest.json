@@ -193,22 +193,22 @@
     "url": "https://github.com/sharkdp/hyperfine/releases/download/v1.19.0/hyperfine-v1.19.0-aarch64-apple-darwin.tar.gz"
   },
   "keychain/linux/amd64": {
-    "tag": "2.9.0_beta4",
-    "updated_at": "2025-04-28T18:20:13.419335",
-    "sha256": "2755826c30a82eb7a0a4b8a92cf60c1cf36451a24b64f45cba8e05a21572f9e1",
-    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_beta4/keychain"
+    "tag": "2.9.2",
+    "updated_at": "2025-05-06T14:06:36.913886",
+    "sha256": "d38eb3129a65355305656a180d6f45ff7fa1e8a7e48e24aaa2a6d1b39b473407",
+    "url": "https://github.com/funtoo/keychain/releases/download/2.9.2/keychain"
   },
   "keychain/linux/arm64": {
-    "tag": "2.9.0_beta4",
-    "updated_at": "2025-04-28T18:20:13.423504",
-    "sha256": "2755826c30a82eb7a0a4b8a92cf60c1cf36451a24b64f45cba8e05a21572f9e1",
-    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_beta4/keychain"
+    "tag": "2.9.2",
+    "updated_at": "2025-05-06T14:06:36.917576",
+    "sha256": "d38eb3129a65355305656a180d6f45ff7fa1e8a7e48e24aaa2a6d1b39b473407",
+    "url": "https://github.com/funtoo/keychain/releases/download/2.9.2/keychain"
   },
   "keychain/macos/arm64": {
-    "tag": "2.9.0_beta4",
-    "updated_at": "2025-04-28T18:20:13.426370",
-    "sha256": "2755826c30a82eb7a0a4b8a92cf60c1cf36451a24b64f45cba8e05a21572f9e1",
-    "url": "https://github.com/funtoo/keychain/releases/download/2.9.0_beta4/keychain"
+    "tag": "2.9.2",
+    "updated_at": "2025-05-06T14:06:36.920536",
+    "sha256": "d38eb3129a65355305656a180d6f45ff7fa1e8a7e48e24aaa2a6d1b39b473407",
+    "url": "https://github.com/funtoo/keychain/releases/download/2.9.2/keychain"
   },
   "lazygit/linux/amd64": {
     "tag": "v0.50.0",
@@ -229,22 +229,22 @@
     "url": "https://github.com/jesseduffield/lazygit/releases/download/v0.50.0/lazygit_0.50.0_Darwin_arm64.tar.gz"
   },
   "micromamba/linux/amd64": {
-    "tag": "2.1.0-0",
-    "updated_at": "2025-04-09T09:21:19.217384",
-    "sha256": "15d4127a9b248907ab99e2804bd86789f1bbd1458d206065c16a9e86c02d6a30",
-    "url": "https://github.com/mamba-org/micromamba-releases/releases/download/2.1.0-0/micromamba-linux-64"
+    "tag": "2.1.1-0",
+    "updated_at": "2025-05-06T14:06:36.939959",
+    "sha256": "0d2dd49fb0171f27a63175e2c21941aafabdd6e46f521c498620b4b14ff604d8",
+    "url": "https://github.com/mamba-org/micromamba-releases/releases/download/2.1.1-0/micromamba-linux-64"
   },
   "micromamba/linux/arm64": {
-    "tag": "2.1.0-0",
-    "updated_at": "2025-04-09T09:21:19.230541",
-    "sha256": "693a3284101bef99139ac4d4febba5d4b7ca5bd1715df9de7293eb8db235cacc",
-    "url": "https://github.com/mamba-org/micromamba-releases/releases/download/2.1.0-0/micromamba-linux-aarch64"
+    "tag": "2.1.1-0",
+    "updated_at": "2025-05-06T14:06:36.959468",
+    "sha256": "1b84928cbdc440fa589b8a7e77f13b9372719307dfdae9aff5bae80fa1417aff",
+    "url": "https://github.com/mamba-org/micromamba-releases/releases/download/2.1.1-0/micromamba-linux-aarch64"
   },
   "micromamba/macos/arm64": {
-    "tag": "2.1.0-0",
-    "updated_at": "2025-04-09T09:21:19.239546",
-    "sha256": "31fa2da6eb9a7b632d6ca237ecd408c4efb19a5714b7412ddab0ad0549f3f8ec",
-    "url": "https://github.com/mamba-org/micromamba-releases/releases/download/2.1.0-0/micromamba-osx-arm64"
+    "tag": "2.1.1-0",
+    "updated_at": "2025-05-06T14:06:36.971457",
+    "sha256": "141d3a0649047c2b46d1c155ae6e95de31218be3aa8aa9d5c5e99865ed5f12be",
+    "url": "https://github.com/mamba-org/micromamba-releases/releases/download/2.1.1-0/micromamba-osx-arm64"
   },
   "rg/linux/amd64": {
     "tag": "14.1.1",

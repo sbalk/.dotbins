@@ -13,19 +13,16 @@ versinfo() {
 	qprint
 }
 
-version=2.9.0_beta4
-
-if [ "$PATH" ]
-then
-	PATH=$PATH:/usr/bin:/bin:/sbin:/usr/sbin:/usr/ucb
-else
-	PATH=/usr/bin:/bin:/sbin:/usr/sbin:/usr/ucb
-fi
-
+NEWLINE="
+"
+version=2.9.2
+PATH="${PATH}${PATH:+:}/usr/bin:/bin:/sbin:/usr/sbin:/usr/ucb"
 unset pidfile_out
 unset myaction
 havelock=false
 unset hostopt
+extended=false
+confallhosts=false
 ignoreopt=false
 noaskopt=false
 noguiopt=false
@@ -33,9 +30,6 @@ nolockopt=false
 lockwait=5
 openssh=unknown
 sunssh=unknown
-confhost=unknown
-sshconfig=false
-confallhosts=false
 quickopt=false
 quietopt=false
 clearopt=false
@@ -45,15 +39,13 @@ unset stopwhich
 unset timeout
 unset ssh_agent_socket
 unset ssh_timeout
-attempts=1
 unset sshavail
 unset sshkeys
 unset gpgkeys
-unset mykeys
+unset cmdline_keys
 keydir="${HOME}/.keychain"
 unset envf
 evalopt=false
-queryopt=false
 confirmopt=false
 absoluteopt=false
 systemdopt=false
@@ -65,8 +57,6 @@ ssh_allow_forwarded=false
 ssh_allow_gpg=false
 ssh_spawn_gpg=false
 debugopt=false
-
-BLUE="[34;01m"
 CYAN="[36;01m"
 CYANN="[36m"
 GREEN="[32;01m"
@@ -86,7 +76,8 @@ if [ -n "$LANG$LC_ALL" ] || locale 2>/dev/null | grep -E -qv '="?(|POSIX|C)"?$' 
 fi
 
 qprint() {
-	$quietopt || echo "$*" >&2
+	# shellcheck disable=SC2048,SC2086
+	$quietopt || echo $* >&2
 }
 
 mesg() {
@@ -94,15 +85,18 @@ mesg() {
 }
 
 warn() {
-	echo " ${RED}* Warning${OFF}: $*" >&2
+	# shellcheck disable=SC2048,SC2086
+	echo " ${RED}* Warning${OFF}: "$* >&2
 }
 
 debug() {
-	$debugopt && echo "${CYAN}debug> $*${OFF}" >&2
+	# shellcheck disable=SC2048,SC2086
+	$debugopt && echo "${CYAN}debug>" $*"${OFF}" >&2
 }
 
 error() {
-	echo " ${RED}* Error${OFF}: $*" >&2
+	# shellcheck disable=SC2048,SC2086
+	echo " ${RED}* Error${OFF}:" $* >&2
 }
 
 die() {
@@ -115,25 +109,40 @@ die() {
 helpinfo() {
 	cat >&1 <<EOHELP
 SYNOPSIS
-    keychain [ ${GREEN}-hklQqV${OFF} ] [ ${GREEN}--clear${OFF} ${GREEN}--confhost${OFF} ${GREEN}--confallhosts${OFF} ${GREEN}--debug${OFF} ${GREEN}--gpg2${OFF}
-    ${GREEN}--help${OFF} ${GREEN}--ignore-missing${OFF} ${GREEN}--list${OFF} ${GREEN}--noask${OFF} ${GREEN}--nocolor${OFF} ${GREEN}--nogui${OFF} ${GREEN}--noinherit${OFF}
-    ${GREEN}--nolock${OFF} ${GREEN}--quick${OFF} ${GREEN}--quiet${OFF} ${GREEN}--ssh-allow-forwarded${OFF} ${GREEN}--ssh-spawn-gpg${OFF} ${GREEN}--systemd${OFF}
-    ${GREEN}--version${OFF} [ ${GREEN}--ssh-agent-socket${OFF} ${CYAN}path${OFF} ] [ ${GREEN}--attempts${OFF} ${CYAN}num${OFF} ]
+    keychain [ ${GREEN}-hklQqV${OFF} ] [ ${GREEN}--clear${OFF} ${GREEN}--confhost${OFF} ${GREEN}--confallhosts${OFF} ${GREEN}--debug${OFF}
+    ${GREEN}--extended${OFF} ${GREEN}--gpg2${OFF} ${GREEN}--help${OFF} ${GREEN}--ignore-missing${OFF} ${GREEN}--list${OFF} ${GREEN}--noask${OFF} ${GREEN}--nocolor${OFF} ${GREEN}--nog${OFF}
+    ui ${GREEN}--noinherit${OFF} ${GREEN}--nolock${OFF} ${GREEN}--quick${OFF} ${GREEN}--quiet${OFF} ${GREEN}--ssh-allow-forwarded${OFF} ${GREEN}--ssh-rm${OFF}
+    ${GREEN}--ssh-spawn-gpg${OFF} ${GREEN}--systemd${OFF} ${GREEN}--version${OFF} ] [ ${GREEN}--ssh-agent-socket${OFF} ${CYAN}path${OFF} ]
     [ ${GREEN}--dir${OFF} ${CYAN}dirname${OFF} ] [ ${GREEN}--host${OFF} ${CYAN}name${OFF} ] [ ${GREEN}--lockwait${OFF} ${CYAN}seconds${OFF} ]
-    [ ${GREEN}--stop${OFF} ${CYAN}which${OFF} ] [ ${GREEN}--timeout${OFF} ${CYAN}minutes${OFF} ] [ keys... ]
+    [ ${GREEN}--stop${OFF} ${CYAN}which${OFF} ] [ ${GREEN}--timeout${OFF} ${CYAN}minutes${OFF} ] [ ${GREEN}--wipe${OFF} ${CYAN}which${OFF} ] [ keys... 
+    ]
 
 OPTIONS
-    ${GREEN}--attempts${OFF} ${CYAN}num${OFF}
-        Try num times to add keys before giving up. The default is 1.
+    ${GREEN}--absolute${OFF}
+        Any arguments to "--dir" are interpreted to be absolute. The default
+        behavior is to append "/.keychain" to the argument for backwards
+        compatibility.
 
     ${GREEN}--clear${OFF}
-        Ensure that keys for the agents are wiped initially. This is
-        intended to be used alongside keychain ${GREEN}--eval${OFF} to ensure that only
-        the specified keys are loaded, and that keychain should assume that
-        you are an intruder until proven otherwise and force all interactive
-        logins to specify valid passphrases. This option increases security
-        and still allows your cron jobs to use your ssh keys when you're
-        logged out.
+        When specified, this option adds an initial step prior to adding any
+        keys to the agents of wiping all existing cached keys/passphrases.
+        This is intended to be used alongside keychain ${GREEN}--eval${OFF} to ensure that
+        only the specified keys are loaded, and that keychain should assume
+        that you are an intruder until proven otherwise and force all
+        interactive logins to specify valid passphrases. This option
+        increases security and still allows your cron jobs to use your ssh
+        keys when you're logged out.
+
+    ${GREEN}--confallhosts${OFF}
+        In addition to any keys specified on the command-line, this option
+        will tell keychain to scour "~/.ssh/config" for all private keys
+        referenced in all "IdentityFile" lines, and load all keys for all
+        hosts.
+
+    ${GREEN}--confirm${OFF}
+        Keys are subject to interactive confirmation by the SSH_ASKPASS
+        program before being used for authentication. See the ${GREEN}-c${OFF} option for
+        ssh-add(1).
 
     ${GREEN}--debug${OFF}
         Keychain 2.9.0 introduces the ${GREEN}--debug${OFF} option, which will output
@@ -144,39 +153,8 @@ OPTIONS
         it is rejected because it appears to be from a forwarded SSH
         connection, and ${GREEN}--ssh-allow-forwarded${OFF} was not supplied.
 
-    ${GREEN}--confhost${OFF}
-        By default, keychain will look for key pairs in the ~/.ssh/
-        directory. The ${GREEN}--confhost${OFF} option will inform keychain to look in
-        ~/.ssh/config for IdentityFile settings defined for the mentioned
-        host (in ${CYAN}keys${OFF}), and use these paths to locate keys.
-
-    ${GREEN}--confallhosts${OFF}
-        By default, keychain will look for key pairs in the ~/.ssh/
-        directory. The ${GREEN}--confallhosts${OFF} option will inform keychain to look in
-        ~/.ssh/config for IdentityFile settings defined for all hosts, and
-        use these paths to locate keys to load.
-
-    ${GREEN}--confirm${OFF}
-        Keys are subject to interactive confirmation by the SSH_ASKPASS
-        program before being used for authentication. See the ${GREEN}-c${OFF} option for
-        ssh-add(1).
-
-    ${GREEN}--absolute${OFF}
-        Any arguments to "--dir" are interpreted to be absolute. The default
-        behavior is to append "/.keychain" to the argument for backwards
-        compatibility.
-
     ${GREEN}--dir${OFF} ${CYAN}dirname${OFF}
         Keychain will use dirname rather than \$HOME/.keychain
-
-    ${GREEN}--query${OFF}
-        Keychain will print lines in KEY=value format representing the
-        values which are set by the agents.
-
-    ${GREEN}--eval${OFF}
-        Keychain will print lines to be evaluated in the shell on stdout. It
-        respects the SHELL environment variable to determine if Bourne shell
-        or C shell output is expected.
 
     ${GREEN}--env${OFF} ${CYAN}filename${OFF}
         After parsing options, keychain will load additional environment
@@ -186,11 +164,32 @@ OPTIONS
         override settings such as PATH, in case ssh is stored in a
         non-standard place.
 
+    ${GREEN}--eval${OFF}
+        Keychain will print lines to be evaluated in the shell on stdout. It
+        respects the SHELL environment variable to determine if Bourne shell
+        or C shell output is expected.
+
+    ${GREEN}--extended${OFF}
+        This enables extended command-line key processing with more
+        features, and is a replacement for the old "--confhost" option. When
+        specified, each key specified on the command-line must have a prefix
+        to explictly. categorize it. SSH keys must have a prefix of "sshk:"
+        immediately followed by the path or key name (the part after the
+        "sshk:" is processed just like a SSH key is without the "--extended"
+        option). GPG keys must be in the format "gpgk:" immediately followed
+        by the 8 or 16-character fingerprint. If "host:<hostname>" is
+        specified, then Keychain will extract the SSH configuration for the
+        specified hostname, grab all identityfile options (private keys)
+        specified, and these keys will be included in the set of keys to be
+        loaded by keychain. This allows multiple keys of multiple types,
+        including SSH-keys-by-host, to be specified together, which wasn't
+        possible with "--confhost".
+
     ${GREEN}--gpg2${OFF}
         This option changes the default gpg calls to use gpg2 instead to
         support distributions such as Ubuntu which has both gpg and gpg2
 
-    ${GREEN}-h${OFF} ${GREEN}--help${OFF}
+    ${GREEN}--help${OFF} ${GREEN}-h${OFF}
         Show help that looks remarkably like this man-page. As of 2.6.10,
         help is sent to stdout so it can be easily piped to a pager.
 
@@ -239,14 +238,25 @@ OPTIONS
         Don't attempt to use a lockfile while manipulating files, pids and
         keys.
 
-    ${GREEN}--nosub${OFF}
-        By default, keychain will use gpg-agent in place of ssh-agent if
-        gpg-agent is available and supports this functionality. This option
-        will disable this and any future potential substitution of original
-        programs, so only ssh-agent will be used for SSH support, etc.
+    ${GREEN}--query${OFF}
+        Keychain will print lines in KEY=value format representing the
+        values which are set by the agents.
 
-    ${GREEN}-k${OFF} ${GREEN}--stop${OFF} ${CYAN}which${OFF}
-        Kill currently running ssh-agent processes, wipe pidfiles, and exit.
+    ${GREEN}--quick${OFF} ${GREEN}-Q${OFF}
+        If an ssh-agent process is running then use it. Don't verify the
+        list of keys, other than making sure it's non-empty. This option
+        avoids locking when possible so that multiple terminals can be
+        opened simultaneously without waiting on each other. See the "THE
+        QUICK SHORT-CIRCUIT" section for more information regarding how this
+        fits into the overall startup algorithm.
+
+    ${GREEN}--quiet${OFF} ${GREEN}-q${OFF}
+        Only print messages in case of warning, error or required
+        interactivity. As of version 2.6.10, this also suppresses
+        "Identities added" messages for ssh-agent.
+
+    ${GREEN}--stop${OFF} ${GREEN}-k${OFF} ${CYAN}which${OFF}
+        Kill currently running ssh-agent processes and exit.
 
         Note that previous versions of keychain (2.8.5 and earlier) allowed
         killing of gpg-agent as well. This functionality was removed as
@@ -287,17 +297,18 @@ OPTIONS
         available outside of the currently-active SSH session.
 
     ${GREEN}--ssh-allow-gpg${OFF}
-        Would you like to have keychain use an existing gpg-agent rather
-        than spawning a new ssh-agent, if one is already running in your
-        environment? This option allows you to do so. When this option is
-        specified, keychain will accept an SSH_AUTH_SOCK environment
-        variable in its environment, even if it was created by gpg-agent. By
-        default, keychain has a special check to filter out any ssh-agent
-        sockets provided by gpg-agent, and will refuse to use them. With
+        Would you like to have keychain use an already-running gpg-agent to
+        store your SSH keys, rather than spawning a new ssh-agent? This
+        option does just that. When this option is specified, keychain will
+        accept an SSH_AUTH_SOCK environment variable in its environment,
+        even if it was created by gpg-agent. Modern versions of gpg-agent
+        are also able to store SSH keys. By default, keychain has a special
+        check to avoid using a gpg-agent that has set the SSH_AUTH_SOCK
+        environment variable, and will instead spawn its own ssh-agent. With
         this option enabled, this restriction is turned off. Please note
-        that keychain will not actually ${CYAN}spawn${OFF} a gpg-agent for storing SSH
-        keys if none are available ${GREEN}--${OFF} if you want that, see the
-        ${GREEN}--ssh-spawn-gpg${OFF} option, below.
+        that this option does not actually instruct keychain to ${CYAN}spawn${OFF} a
+        gpg-agent for storing SSH keys if no agent is available ${GREEN}--${OFF} if you
+        want that, see the ${GREEN}--ssh-spawn-gpg${OFF} option, below.
 
         ALSO NOTE: When a gpg-agent is adopted for ssh-agent duties in this
         way, the "~/.keychain/\${HOSTNAME}-sh" pidfile will be updated to
@@ -314,21 +325,12 @@ OPTIONS
         gpg-agent in its place, and use it instead. Also see notes for the
         ${GREEN}--ssh-allow-gpg${OFF} option, as this option also implies ${GREEN}--ssh-allow-gpg${OFF}.
 
+    ${GREEN}--ssh-rm${OFF} ${GREEN}-r${OFF} ${CYAN}keys${OFF}
+        Only perform the single action of removing the specified cached keys
+        from the running ssh-agent, and then exit.
+
     ${GREEN}--systemd${OFF}
         Inject environment variables into the systemd ${GREEN}--user${OFF} session.
-
-    ${GREEN}-Q${OFF} ${GREEN}--quick${OFF}
-        If an ssh-agent process is running then use it. Don't verify the
-        list of keys, other than making sure it's non-empty. This option
-        avoids locking when possible so that multiple terminals can be
-        opened simultaneously without waiting on each other. See the "THE
-        QUICK SHORT-CIRCUIT" section for more information regarding how this
-        fits into the overall startup algorithm.
-
-    ${GREEN}-q${OFF} ${GREEN}--quiet${OFF}
-        Only print messages in case of warning, error or required
-        interactivity. As of version 2.6.10, this also suppresses
-        "Identities added" messages for ssh-agent.
 
     ${GREEN}--timeout${OFF} ${CYAN}minutes${OFF}
         Allows a timeout to be set for identities added to ssh-agent. When
@@ -346,8 +348,14 @@ OPTIONS
         optionally set different timeouts for keys added by using a
         subsequent invocation of keychain.
 
-    ${GREEN}-V${OFF} ${GREEN}--version${OFF}
+    ${GREEN}--version${OFF} ${GREEN}-V${OFF}
         Show version information.
+
+    ${GREEN}--wipe${OFF} ${CYAN}which${OFF}
+        Only perform the single action of wiping all agent's cached keys.
+        Specify 'ssh', 'gpg' or 'all' for SSH keys, GPG keys and all agents
+        respectively. Also see the "--ssh-rm" action and the "--clear"
+        option.
 
 EOHELP
 }
@@ -504,7 +512,7 @@ findpids() {
 stop_ssh_agents() {
 	mesg "Stopping ssh-agent(s)..."
 	takelock || die
-	[ "$stopwhich" != all ] && eval "$(catpidf sh)" # get SSH_AGENT_PID if defined
+	[ "$stopwhich" != all ] && eval "$(catpidf_shell sh)" # get SSH_AGENT_PID if defined
 	ssh_pids=$(findpids ssh) || die
 	if [ -z "$ssh_pids" ]; then
 		mesg "No ssh-agent(s) found running"
@@ -543,15 +551,8 @@ catpidf_shell() {
 		*csh)		 cp_pidf="$cshpidf" ;;
 		*)			 cp_pidf="$pidf" ;;
 	esac
-	shift
-	[ ! -f "$cp_pidf" ] && return 1
+	[ ! -f "$cp_pidf" ] && debug "pidfile doesn't exist" && return 1
 	[ -f "$cp_pidf" ] && cat "${cp_pidf}" && echo && return 0
-}
-
-# synopsis: catpidf agents...
-# cat the ssh pidfile for the current shell
-catpidf() {
-	catpidf_shell "$SHELL"
 }
 
 startagent_gpg() {
@@ -560,8 +561,9 @@ startagent_gpg() {
 	else
 		gpg_started=true
 	fi
-	if gpg_agent_sock="$( echo "GETINFO socket_name" | gpg-connect-agent --no-autostart 2>/dev/null | head -n1 | sed -n 's/^D //;1p' )" && [ -S "$gpg_agent_sock" ]; then
+	if gpg_agent_sock="$( echo "GETINFO socket_name" | gpg-connect-agent --no-autostart | head -n1 | sed -n 's/^D //;1p' )" && [ -S "$gpg_agent_sock" ]; then
 		mesg "Using existing gpg-agent: ${CYANN}$gpg_agent_sock${OFF}"
+		pidfile_out="SSH_AUTH_SOCK=\"$gpg_agent_sock\"; export SSH_AUTH_SOCK" # make sure we adopt it
 	else
 		gpg_opts="--daemon"
 		[ -n "${timeout}" ] && gpg_opts="$gpg_opts --default-cache-ttl $(( timeout * 60 )) --max-cache-ttl $(( timeout * 60 ))"
@@ -597,7 +599,7 @@ ssh_envcheck() {
 
 		# There are some cases where we can accept a socket without an associated SSH_AGENT_PID:
 
-		if gpg_socket="$( echo "GETINFO ssh_socket_name" | gpg-connect-agent --no-autostart 2>/dev/null | head -n1 | sed -n 's/^D //;1p' )"; then
+		if gpg_socket="$(echo "GETINFO ssh_socket_name" | gpg-connect-agent --no-autostart 2>/dev/null | head -n1 | sed -n 's/^D //;1p' )"; then
 			if [ "$gpg_socket" = "$SSH_AUTH_SOCK" ]; then
 				if $ssh_allow_gpg; then
 					mesg "Using ssh-agent ($1): ${CYANN}$gpg_socket${OFF} (GnuPG)" && return 0
@@ -628,7 +630,7 @@ ssh_envcheck() {
 startagent_ssh() {
 	if $quickopt; then
 		# shellcheck disable=SC2030 # This is fine as sshavail will be called again if needed:
-		if ( unset SSH_AGENT_PID SSH_AUTH_SOCK && eval "$(catpidf_shell sh)" && ssh_envcheck pidfile quiet ) && ( sshavail=$(ssh_l) || { [ $? = 1 ] && [ -z "$mykeys" ]; }; ); then
+		if ( unset SSH_AGENT_PID SSH_AUTH_SOCK && eval "$(catpidf_shell sh)" && ssh_envcheck pidfile quiet ) && ( ssh_l > /dev/null || { [ $? = 1 ] && [ -z "$mykeys" ]; }; ); then
 			mesg "Found existing ssh-agent (quick)"
 			return 0
 		else
@@ -650,6 +652,7 @@ SSH_AGENT_PID=$SSH_AGENT_PID; export SSH_AGENT_PID"
 			fi
 		fi
 	else  # spawn, we must...
+		rm -f "${pidf}" "${cshpidf}" "${fishpidf}" 2>/dev/null # pidfile is either non-existant or invalid
 		if $ssh_spawn_gpg; then
 			startagent_gpg ssh # this function will set pidfile_out itself
 			return $?
@@ -795,7 +798,7 @@ ssh_f() {
 			fi
 			lsf_filename=$(echo "$sf_filename" | sed 's/\.[^\.]*$//').pub
 			if [ ! -f "$lsf_filename" ]; then
-			    warn "Cannot find separate public key for $1."
+				warn "Cannot find separate public key for $1."
 				lsf_filename="$sf_filename"
 			fi
 		fi
@@ -809,27 +812,15 @@ ssh_f() {
 }
 
 # synopsis: gpg_listmissing
-# Uses $gpgkeys
-# Returns a newline-separated list of keys found to be missing.
+# Accepts piped input from stdin. Returns a newline-separated list of keys found to be missing.
 gpg_listmissing() {
 	unset glm_missing
-
 	GPG_TTY=$(tty)
 
-	# Parse $gpgkeys into positional params to preserve spaces in filenames
-	set -f			# disable globbing
-	glm_IFS="$IFS"	# save current IFS
-	IFS="
-"					# set IFS to newline
-	# shellcheck disable=SC2086
-	set -- $gpgkeys
-	IFS="$glm_IFS"	# restore IFS
-	set +f			# re-enable globbing
-
-	for glm_k in "$@"; do
+	while IFS= read -r glm_k; do
+		[ -z "$glm_k" ] && continue
 		# Check if this key is known to the agent.	Don't know another way...
-		if echo | env -i GPG_TTY="$GPG_TTY" PATH="$PATH" GPG_AGENT_INFO="$GPG_AGENT_INFO" \
-				"${gpg_prog_name}" --no-options --use-agent --no-tty --sign --local-user "$glm_k" -o- >/dev/null 2>&1; then
+		if env -i GPG_TTY="$GPG_TTY" PATH="$PATH" GPG_AGENT_INFO="$GPG_AGENT_INFO" "${gpg_prog_name}" --no-autostart --no-options --use-agent --no-tty --sign --local-user "$glm_k" -o- >/dev/null 2>&1 </dev/null; then
 			# already know about this key
 			mesg "Known gpg key: ${CYANN}${glm_k}${OFF}"
 			continue
@@ -843,27 +834,14 @@ $glm_k"
 			fi
 		fi
 	done
-
 	echo "$glm_missing"
 }
 
-# synopsis: ssh_listmissing
-# Uses $sshkeys and $sshavail
-# Returns a newline-separated list of keys found to be missing.
 ssh_listmissing() {
 	unset slm_missing
-
-	# Parse $sshkeys into positional params to preserve spaces in filenames
-	set -f			# disable globbing
-	slm_IFS="$IFS"	# save current IFS
-	IFS="
-"					# set IFS to newline
-	# shellcheck disable=SC2086
-	set -- $sshkeys
-	IFS="$slm_IFS"	# restore IFS
-	set +f			# re-enable globbing
-
-	for slm_k in "$@"; do
+	sshavail=$(ssh_l)
+	while IFS= read -r slm_k; do
+		[ -z "$slm_k" ] && continue
 		# Fingerprint current user-specified key
 		if ! slm_finger=$(ssh_f "$slm_k"); then
 			warn "Unable to extract fingerprint from keyfile ${slm_k}.pub, skipping"
@@ -874,8 +852,6 @@ ssh_listmissing() {
 			warn "Unable to extract exactly one key fingerprint from keyfile ${slm_k}.pub, got $slm_wordcount instead, skipping"
 			continue
 		fi
-
-		# Check if it needs to be added
 		# shellcheck disable=SC2031
 		case " $sshavail " in
 			*" $slm_finger "*)
@@ -893,33 +869,39 @@ $slm_k"
 				;;
 		esac
 	done
-
 	echo "$slm_missing"
 }
 
-cat_ssh_config_keys() {
-	if $sshconfig; then
-		if $confallhosts; then
-			while IFS= read -r line; do
-			case $line in
-				*[Ii][Dd][Ee][Nn][Tt][Ii][Tt][Yy][Ff][Ii][Ll][Ee]*)
-				echo "$line" | awk '{print $2}'
-			esac
-			done < ~/.ssh/config
-		else
-			confpath "$confhost"
-		fi
+# Synopsis: Plow through ~/.ssh/config and grab all IdentityFile lines, and convert
+# them to "sshk:<filename>" if they exist or "miss:<filename>" otherwise.
+all_host_identities() {
+	if [ ! -e ~/.ssh/config ]; then
+		warn "No ~/.ssh/config -- can't extract host identities" && return
 	fi
+	while IFS= read -r line; do
+		case $line in
+			*[Ii][Dd][Ee][Nn][Tt][Ii][Tt][Yy][Ff][Ii][Ll][Ee]*)
+				keyf="$(echo "$line" | awk '{print $2}')"
+				if [ -f "$keyf" ]; then
+					echo "sshk:${keyf}"
+				else
+					echo "miss:${keyf}"
+				fi
+		esac
+	done < ~/.ssh/config
 }
 
-parse_mykeys() {
-	while IFS= read -r pm_k; do
+# Synopsis: this is the default logic for categorizing command-line keys. If a file is
+# specified and is found in ~/.ssh, or just exists, it's a SSH key. If gpg recognizes it,
+# then it's a GPG key. Otherwise, it's a missing key.
+cmdline_keys_to_extkey() {
+	while read -r pm_k; do
 		[ -z "$pm_k" ] && continue
 		if [ -f "$pm_k" ]; then
 			echo "sshk:$pm_k"
 		elif [ -f "$HOME/.ssh/$pm_k" ]; then
 			echo "sshk:$HOME/.ssh/$pm_k"
-		elif [ "$1" != "ssh" ] && "${gpg_prog_name}" --list-secret-keys "$pm_k" >/dev/null 2>&1; then
+		elif "${gpg_prog_name}" --list-secret-keys "$pm_k" >/dev/null 2>&1; then
 			echo "gpgk:$pm_k"
 		else
 			echo "miss:$pm_k"
@@ -927,8 +909,72 @@ parse_mykeys() {
 	done
 }
 
-# synopsis: setaction
-# Sets $myaction or dies if $myaction is already set
+# Synopsis: sees if specified stdin $keyf exists; converts to "sshk:" or "miss:" lines
+keyf_expand() {
+	while read -r keyf; do
+		if [ -f "$keyf" ]; then
+			echo "sshk:$keyf"
+		else
+			echo "miss:$keyf"
+		fi
+	done
+}
+
+# Synopsis: We allow sshk:id_rsa from the command-line, with no path, but this needs
+# to be expanded to the actual filename internally -- or "miss:". Logic is a bit different
+# so we can't use cmdline_keys_to_extkey() code.
+sshk_fixup() {
+	while read -r extkey; do
+		key_pref="$(echo "$extkey" | cut -b1-5)"
+		if [ "$key_pref" != "sshk:" ]; then
+			echo "$extkey"
+		else
+			pm_k="$(echo "$extkey" | cut -b6-)"
+			if [ -f "$pm_k" ]; then
+				echo "sshk:$pm_k"
+			elif [ -f "$HOME/.ssh/$pm_k" ]; then
+				echo "sshk:$HOME/.ssh/$pm_k"
+			else
+				echo "miss:$pm_k"
+			fi
+		fi
+	done
+}
+
+# Synopsis: performs final processing on extended keys. Currently converts each "host:"
+# extkeys to (possibly many) "sshk:" or "miss:" lines. Also validates all keys for basic
+# syntax.
+extkey_expand() {
+	while read -r extkey; do
+		[ -z "$extkey" ] && continue
+		key_pref="$(echo "$extkey" | cut -b1-5)"
+		if [ "$key_pref" = "host:" ]; then
+			ssh -nG "$(echo "$extkey" | cut -b6-)" 2>/dev/null | grep -e ^identityfile | awk '{print $2}' | keyf_expand
+		elif [ "$key_pref" = "sshk:" ] || [ "$key_pref" = "gpgk:" ] || [ "$key_pref" = "miss:" ]; then
+			echo "$extkey"
+		else
+			warn "Unrecognized extended key \"$extkey\". Should have a sshk:, gpgk: or host: prefix."
+		fi
+	done
+}
+
+# Synopsis: gets all extended keys. SSH keys are in "sshk:<filename>" format. GPG fingerprints 
+# are in "gpgk:<fp>" format. Any SSH keys that cannot be found are expanded to "miss:<filename>,
+# which is used for warnings later. If --extended is specified, we expect "sshk:foo" format on
+# the command-line. Otherwise, we use cmdline_keys_to_extkey() to convert the standard command-
+# line arguments into a format that keychain internals expect.
+
+get_all_extkeys() {
+	if $confallhosts; then
+		all_host_identities
+	fi
+	if ! $extended; then
+		echo "$cmdline_keys" | cmdline_keys_to_extkey | extkey_expand
+	else
+		echo "$cmdline_keys" | sshk_fixup | extkey_expand
+	fi
+}
+
 setaction() {
 	if [ -n "$myaction" ]; then
 		die "you can't specify --$myaction and $1 at the same time"
@@ -937,45 +983,40 @@ setaction() {
 	fi
 }
 
-# synopsis: confpath
-# Return private key path if found in ~/.ssh/config SSH configuration file.
-# Input: the name of the host we would like to connect to.
-confpath() {
-	h=""
-	while IFS= read -r line; do
-		# get the Host directives
-		case $line in
-			*[Hh][Oo][Ss][Tt]" "*) h=$(echo "$line" | awk '{print $2}') ;;
-		esac
-		case $line in
-			*[Ii][Dd][Ee][Nn][Tt][Ii][Tt][Yy][Ff][Ii][Ll][Ee]*)
-			if [ "$h" = "$1" ]; then
-				echo "$line" | awk '{print $2}'
-				break
-			fi
-		esac
-	done < ~/.ssh/config
-}
-
 wantagent() {
 	[ "$1" = "gpg" ] && [ -n "$gpgkeys" ] && return 0
 	[ "$1" = "ssh" ] && return 0
 	return 1
 }
 
-#
-# MAIN PROGRAM
-#
+gpg_wipe() {
+	out="$( echo RELOADAGENT | gpg-connect-agent --no-autostart 2>/dev/null )"
+	if [ "$out" = "OK" ]; then
+		mesg "gpg-agent: All identities removed."
+	else
+		mesg "gpg-agent: Could not remove identities ($out)"
+	fi
+}
 
-# parse the command-line
+ssh_wipe() {
+	if sshout=$(ssh-add -D 2>&1); then
+		mesg "ssh-agent: $sshout"
+	else
+		warn "ssh-agent: $sshout"
+	fi
+
+}
+
 while [ -n "$1" ]; do
 	case "$1" in
 		--absolute) absoluteopt=true ;;
-		--agents) warn "--agents is deprecated, ignoring." ;;
-		--agent-socket) shift; ssh_agent_socket="-a $1" ;;
+		--agents) shift; warn "--agents is deprecated, ignoring." ;;
+		--confhost) die "--confhost is deprecated; use \"${CYANN}--extended host:<hostname>${OFF}\" instead." ;;
+		--confallhosts) confallhosts=true ;; 
 		--confirm) confirmopt=true ;;
 		--debug|-D) debugopt=true ;;
 		--eval) evalopt=true ;;
+		--extended|--ext|-e) extended=true ;;
 		--gpg2) gpg_prog_name="gpg2" ;;
 		--help|-h) setaction help ;;
 		--host) shift; hostopt="$1" ;;
@@ -988,43 +1029,19 @@ while [ -n "$1" ]; do
 		--nogui) noguiopt=true ;;
 		--noinherit) allow_inherited=false ;;
 		--nolock) nolockopt=true ;;
-		--query) queryopt=true; quietopt=true ;;
+		--query) setaction query; quietopt=true ;;
 		--quiet|-q) quietopt=true ;;
 		--ssh-allow-gpg) ssh_allow_gpg=true ;;
 		--ssh-spawn-gpg) ssh_spawn_gpg=true; ssh_allow_gpg=true ;;
 		--ssh-agent-socket) shift; ssh_agent_socket="-a $1" ;;
 		--ssh-allow-forwarded) ssh_allow_forwarded=true ;;
+		--ssh-rm|-r) setaction ssh_rm ;;
 		--systemd) systemdopt=true ;;
 		--version|-V) setaction version ;;
-		--attempts)
-			shift
-			if [ "$1" -gt 0 ] 2>/dev/null; then
-				attempts=$1
-			else
-				die "--attempts requires a numeric argument greater than zero"
-			fi
-			;;
+		--attempts) warn "--attempts is now deprecated." ;;
 		--clear)
 			clearopt=true
 			$quickopt && die "--quick and --clear are not compatible"
-			;;
-		--confallhosts|-C)
-			if [ -e ~/.ssh/config ]; then
-				sshconfig=true
-				confallhosts=true
-			else
-				# shellcheck disable=SC2088
-				warn "~/.ssh/config not found; --confallhosts/-C option ignored."
-			fi
-			;;
-		--confhost|-c)
-			if [ -e ~/.ssh/config ]; then
-				sshconfig=true
-				confhost="$2"
-			else
-				# shellcheck disable=SC2088
-				warn "~/.ssh/config not found; --confhost/-c option ignored."
-			fi
 			;;
 		--dir)
 			shift
@@ -1075,14 +1092,14 @@ while [ -n "$1" ]; do
 				die "--timeout requires a numeric argument greater than zero"
 			fi
 			;;
-		--)
+		--wipe)
 			shift
-			IFS="
-"
-			mykeys=${mykeys+"$mykeys
-"}"$*"
-			unset IFS
-			break
+			case $1 in
+				gpg) setaction gpg_wipe ;;
+				ssh) setaction ssh_wipe ;;
+				all) setaction all_wipe ;;
+				*) die "Please specify ssh, gpg or all for --wipe action"
+			esac
 			;;
 		-*)
 			zero=$(basename "$0")
@@ -1091,13 +1108,11 @@ while [ -n "$1" ]; do
 			exit 1
 			;;
 		*)
-			mykeys=${mykeys+"$mykeys
-"}"$1"
+			cmdline_keys="$1${NEWLINE}${cmdline_keys}"
 			;;
 	esac
 	shift
 done
-
 if [ -z "$hostopt" ]; then
 	if [ -z "$HOSTNAME" ]; then
 		hostopt=$(uname -n 2>/dev/null || echo unknown)
@@ -1127,12 +1142,11 @@ if [ -n "$OFF" ]; then
 	tty <&2 >/dev/null 2>&1 || color=false
 fi
 
-#disable color if necessary, right before our initial newline
-
 $color || unset BLUE CYAN CYANN GREEN PURP OFF RED
 
-[ "$myaction" = list ] && eval "$(catpidf sh)" && exec ssh-add -l
-[ "$myaction" = list-fp ] && eval "$(catpidf sh)" && exec ssh-add -L
+# TODO: we can't assume pidfile has been created yet? Or not a big deal?
+[ "$myaction" = list ] && eval "$(catpidf_shell sh)" && exec ssh-add -l
+[ "$myaction" = list-fp ] && eval "$(catpidf_shell sh)" && exec ssh-add -L
 
 qprint #initial newline
 mesg "${PURP}keychain ${OFF}${CYANN}${version}${OFF} ~ ${GREEN}http://www.funtoo.org/Funtoo:Keychain${OFF}"
@@ -1140,20 +1154,19 @@ mesg "${PURP}keychain ${OFF}${CYANN}${version}${OFF} ~ ${GREEN}http://www.funtoo
 [ "$myaction" = version ] && { versinfo; exit 0; }
 [ "$myaction" = help ] && { versinfo; helpinfo; exit 0; }
 
-# Set up traps
 # Don't use signal names because they don't work on Cygwin.
 if $clearopt; then
-	trap '' 2	# disallow ^C until we've had a chance to --clear
-	trap 'droplock; exit 1' 1 15	# drop the lock on signal
-	trap 'droplock;' 0		# drop the lock on exit
+	trap '' 2 # disallow ^C until we've had a chance to --clear
+	trap 'droplock; exit 1' 1 15 # drop the lock on signal
+	trap 'droplock;' 0 # drop the lock on exit
 else
 	# Don't use signal names because they don't work on Cygwin.
 	trap 'droplock; exit 1' 1 2 15	# drop the lock on signal
-	trap 'droplock;' 0		# drop the lock on exit
+	trap 'droplock;' 0 # drop the lock on exit
 fi
 
-testssh							# sets $openssh, $sunssh and tweaks $ssh_spawn_gpg
-verifykeydir					# sets up $keydir
+testssh # sets $openssh, $sunssh and tweaks $ssh_spawn_gpg
+verifykeydir # sets up $keydir
 me=$(id -un) || die "Who are you?  id -un doesn't know..."
 
 # --stop: kill the existing ssh-agent(s) (not gpg-agent) and quit
@@ -1169,19 +1182,35 @@ if [ -n "$timeout" ]; then
 	ssh_timeout="-t $ssh_timeout"
 fi
 
-# Get keys from SSH configuration files if --confhost/--confallhost are specified, as well as command-line:
-all_keys="$(cat_ssh_config_keys | parse_mykeys ssh)$(echo "$mykeys" | parse_mykeys)"
+all_keys="$(get_all_extkeys | sort -u)"
 if ! $ignoreopt; then
 	for key in $(echo "$all_keys" | grep ^miss:); do
 		warn "Can't find key \"${GREEN}$( echo "$key" | cut -c6- )${OFF}\""
 	done
 fi
-sshkeys="$(echo "$all_keys" | sed -n '/^sshk:/s/sshk://p' )"
-gpgkeys="$(echo "$all_keys" | sed -n '/^gpgk:/s/gpgk://p' )"
-
-if $queryopt; then
+sshkeys="$(echo "$all_keys" | sed -n '/^sshk:/s/sshk://p')"
+gpgkeys="$(echo "$all_keys" | sed -n '/^gpgk:/s/gpgk://p')"
+if [ "$myaction" = gpg_wipe ]; then
+	gpg_wipe; qprint; exit 0
+elif [ "$myaction" = ssh_wipe ]; then
+	ssh_wipe; qprint; exit 0
+elif [ "$myaction" = all_wipe ]; then
+	ssh_wipe; gpg_wipe; qprint; exit 0
+elif [ "$myaction" = query ]; then
 	# --query displays current settings, but does not start an agent:
 	catpidf_shell sh | cut -d\; -f1 && exit 0
+elif [ "$myaction" = ssh_rm ]; then
+	if [ -n "$sshkeys" ]; then
+		die "No ssh keys specified to remove."
+	fi
+	for key in $sshkeys; do
+		if sshout=$(ssh-add -d "$key" 2>&1); then
+			mesg "ssh-agent key $key removed."
+		else
+			die "keychain was unable to remove ssh-agent key $key. output: $sshout"
+		fi
+	done
+	qprint; exit 0
 else
 	if ! wantagent ssh && ! wantagent gpg; then
 		die "No keys specified. Nothing to do."
@@ -1199,26 +1228,17 @@ else
 	fi
 	if $clearopt; then
 		if wantagent ssh; then
-			if sshout=$(ssh-add -D 2>&1); then
-				mesg "ssh-agent: $sshout"
-			else
-				warn "ssh-agent: $sshout"
-			fi
+			ssh_wipe
 		fi
 		if wantagent gpg; then
-			out="$( echo RELOADAGENT | gpg-connect-agent --no-autostart 2>/dev/null )"
-			if [ "$out" = "OK" ]; then
-				mesg "gpg-agent: All identities removed."
-			else
-				mesg "gpg-agent: Could not remove identities ($out)"
-			fi
+			gpg_wipe
 		fi
 		trap 'droplock' 2 # done clearing, safe to ctrl-c
 	fi
 fi
 
 if $evalopt; then
-	catpidf_shell sh
+	catpidf_shell "$SHELL"
 fi
 
 if $systemdopt; then
@@ -1229,127 +1249,69 @@ fi
 $noaskopt && { qprint; exit 0; }
 $quickopt && { qprint; exit 0; }
 
-# This is where we load keys as needed:
-
-if wantagent ssh; then
-	sshavail=$(ssh_l) # update sshavail now that we're locked
-	sshkeys="$(ssh_listmissing)" # cache list of missing keys, newline-separated
-	sshattempts=$attempts
+load_ssh_keys() {
+	missing="$(echo "${sshkeys}" | ssh_listmissing)"
 	savedisplay="$DISPLAY"
-
-	# Attempt to add the keys
-	while [ -n "$sshkeys" ]; do
-
-		# --confirm translates to ssh-add -c
-		if $confirmopt; then
-			if $openssh || $sunssh; then
-				ssh_confirm=-c
-			else
-				warn "--confirm only works with OpenSSH"
-			fi
-		fi
-
-		mesg "Adding ${CYANN}$(echo "$sshkeys" | wc -l)${OFF} ssh key(s): $sshkeys"
-
-		# Parse $sshkeys into positional params to preserve spaces in filenames.
-		# This *must* happen after any calls to subroutines because pure Bourne
-		# shell doesn't restore "$@" following a call.	Eeeeek!
-		set -f			# disable globbing
-		old_IFS="$IFS"	# save current IFS
-		IFS="
-"						# set IFS to newline
-		# shellcheck disable=SC2086
-		set -- $sshkeys
-		IFS="$old_IFS"	# restore IFS
-		set +f			# re-enable globbing
-
-		if $noguiopt || [ -z "$SSH_ASKPASS" ] || [ -z "$DISPLAY" ]; then
-			unset DISPLAY		# DISPLAY="" can cause problems
-			unset SSH_ASKPASS	# make sure ssh-add doesn't try SSH_ASKPASS
-			
-			# shellcheck disable=SC2086 # this is intentional:
-			sshout=$(ssh-add ${ssh_timeout} ${ssh_confirm} "$@" 2>&1)
-			ret=$?
+	if $confirmopt; then
+		if $openssh || $sunssh; then
+			ssh_confirm=-c
 		else
-			# shellcheck disable=SC2086 # this is intentional:
-			sshout=$(ssh-add ${ssh_timeout} ${ssh_confirm} "$@" 2>&1 </dev/null)
-			ret=$?
+			warn "--confirm only works with OpenSSH"
 		fi
-		if [ $ret = 0 ]
-		then
-			blurb=""
-			[ -n "$timeout" ] && blurb="life=${timeout}m"
-			[ -n "$timeout" ] && $confirmopt && blurb="${blurb},"
-			$confirmopt && blurb="${blurb}confirm"
-			[ -n "$blurb" ] && blurb=" (${blurb})"
-			mesg "ssh-add: Identities added: $sshkeys${blurb}"
-			break
-		fi
-		if [ "$sshattempts" = 1 ]; then
-			die "Problem adding; giving up (error code: $ret; output: $sshout)"
-		else
-			warn "Problem adding; trying again (error code: $ret; output: $sshout)"
-		fi
-
-		# Update the list of missing keys
-		sshavail=$(ssh_l) || die "problem running ssh-add -l"
-		sshkeys="$(ssh_listmissing)"  # remember, newline-separated
-
-		# Decrement the countdown
-		sshattempts=$(( sshattempts -1 ))
-	done
-
+	fi
+	# Put $missing into args to access $# and other goodies. Since $missing is a line-delimited
+	# list of files with (potentially) spaces, we must do an IFS hack to get each file in
+	# $1, $2, $3, etc. For Bourne-shell compatibility, we don't have another good option:
+	IFS_BAK="$IFS"; IFS="$NEWLINE"
+	# shellcheck disable=SC2086
+	set -- $missing
+	IFS="$IFS_BAK"
+	[ $# -eq 0 ] && return
+	mesg "Adding ${CYANN}$#${OFF} ssh key(s): ${CYANN}$*${OFF}"
+	if $noguiopt || [ -z "$SSH_ASKPASS" ] || [ -z "$DISPLAY" ]; then
+		unset DISPLAY		# DISPLAY="" can cause problems
+		unset SSH_ASKPASS	# make sure ssh-add doesn't try SSH_ASKPASS
+	fi
+	# shellcheck disable=SC2086
+	sshout=$(ssh-add ${ssh_timeout} ${ssh_confirm} "$@" 2>&1)
+	ret=$?
+	if [ $ret = 0 ]; then
+		blurb=""
+		[ -n "$timeout" ] && blurb="life=${timeout}m"
+		[ -n "$timeout" ] && $confirmopt && blurb="${blurb},"
+		$confirmopt && blurb="${blurb}confirm"
+		[ -n "$blurb" ] && blurb=" (${blurb})"
+		mesg "ssh-add: Identities added: $sshkeys${blurb}"
+	else
+		warn "ssh-add failed: (return code: $ret; output: $sshout)"
+	fi
 	[ -n "$savedisplay" ] && DISPLAY="$savedisplay"
-fi
+	return $ret
+}
 
-# Load gpg keys
-if wantagent gpg; then
-	gpgkeys="$(gpg_listmissing)" # cache list of missing keys, newline-separated
-	gpgattempts=$attempts
-
+load_gpg_keys() {
 	$noguiopt && unset DISPLAY
 	[ -n "$DISPLAY" ] || unset DISPLAY # DISPLAY="" can cause problems
-	GPG_TTY=$(tty) ; export GPG_TTY # fall back to ncurses pinentry
-
-	# Attempt to add the keys
-	while [ -n "$gpgkeys" ]; do
-		tryagain=false
-
-		mesg "Adding ${BLUE} $(echo "$gpgkeys" | wc -l)${OFF} gpg key(s): $gpgkeys"
-
-		# Parse $gpgkeys into positional params to preserve spaces in filenames.
-		# This *must* happen after any calls to subroutines because pure Bourne
-		# shell doesn't restore "$@" following a call.	Eeeeek!
-		set -f			# disable globbing
-		old_IFS="$IFS"	# save current IFS
-		IFS="
-"						# set IFS to newline
-		set -- "$gpgkeys"
-		IFS="$old_IFS"	# restore IFS
-		set +f			# re-enable globbing
-
-		for k in "$@"; do
-			gpgout="$(echo | env LC_ALL="$pinentry_lc_all" "${gpg_prog_name}" --no-options --use-agent --no-tty --sign --local-user "$k" -o- 2>&1)"
-			ret=$?
-			if [ "$ret" -ne 0 ]; then
-				tryagain=true
-				warn "Error adding gpg key (error code: $ret; output: $gpgout)"
-			fi 
-		done
-		$tryagain || break
-
-		if [ "$gpgattempts" = 1 ]; then
-			die "Problem adding (is pinentry installed?); giving up"
-		else
-			warn "Problem adding; trying again"
+	GPG_TTY=$(tty) ; export GPG_TTY # fall back to ncurses pinentry 
+	for key in "$@"; do
+		[ -z "$key" ] && continue
+		mesg "Adding gpg key: $key"
+		# the 3>&1, etc. is a temp fd to allow us to capture stderr, while throwing away stdout which is encrypted data, and avoid a "null byte on input" bash warning:
+		gpgout="$(env LC_ALL="$pinentry_lc_all" "${gpg_prog_name}" --no-autostart --no-options --use-agent --sign --local-user "$key" -o- 3>&1 1>/dev/null 2>&3 </dev/null)"
+		ret=$?
+		if [ $ret -ne 0 ]; then
+			warn "Error adding gpg key (error code: $ret; output: $gpgout)"; return 1
 		fi
+	done 
+}
 
-		# Update the list of missing keys
-		gpgkeys="$(gpg_listmissing)"  # remember, newline-separated
+if wantagent ssh; then
+	load_ssh_keys || die "Unable to add keys"
+fi
 
-		# Decrement the countdown
-		gpgattempts=$(( gpgattempts - 1 ))
-	done
+if wantagent gpg; then
+	# shellcheck disable=SC2046
+	load_gpg_keys $(echo "${gpgkeys}" | gpg_listmissing)
 fi
 
 qprint	# trailing newline
