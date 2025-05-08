@@ -33,7 +33,7 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 
 | Tool | Repository | Version | Updated | Platforms & Architectures |
 | :--- | :--------- | :------ | :------ | :------------------------ |
-| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.5.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [atuin](https://github.com/atuinsh/atuin) | atuinsh/atuin | 18.6.0 | May 08, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [bat](https://github.com/sharkdp/bat) | sharkdp/bat | 0.25.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [delta](https://github.com/dandavison/delta) | dandavison/delta | 0.18.2 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [direnv](https://github.com/direnv/direnv) | direnv/direnv | 2.36.0 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
@@ -49,18 +49,18 @@ Learn more: [github.com/basnijholt/dotbins](https://github.com/basnijholt/dotbin
 | [micromamba](https://github.com/mamba-org/micromamba-releases) | mamba-org/micromamba-releases | 2.1.1-0 | May 06, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [rg](https://github.com/BurntSushi/ripgrep) | BurntSushi/ripgrep | 14.1.1 | Apr 01, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [starship](https://github.com/starship/starship) | starship/starship | 1.23.0 | Apr 28, 2025 | linux (amd64, arm64) • macos (arm64) |
-| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.7.2 | May 01, 2025 | linux (amd64, arm64) • macos (arm64) |
+| [uv](https://github.com/astral-sh/uv) | astral-sh/uv | 0.7.3 | May 08, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [yazi](https://github.com/sxyazi/yazi) | sxyazi/yazi | 25.4.8 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | ajeetdsouza/zoxide | 0.9.7 | Apr 16, 2025 | linux (amd64, arm64) • macos (arm64) |
 
 ## 📊 Tool Statistics
 
-<div align='center'><h3>📦 56 Tools | 💾 538.06 MB Total Size</h3></div>
+<div align='center'><h3>📦 56 Tools | 💾 538.94 MB Total Size</h3></div>
 
 | Tool | Total Size | Avg Size per Architecture |
 | :--- | :-------- | :------------------------ |
-| uv | 107.54 MB | 35.85 MB |
-| atuin | 98.78 MB | 32.93 MB |
+| uv | 107.92 MB | 35.97 MB |
+| atuin | 99.28 MB | 33.09 MB |
 | lazygit | 60.46 MB | 20.15 MB |
 | micromamba | 48.06 MB | 16.02 MB |
 | yazi | 40.41 MB | 13.47 MB |
@@ -185,7 +185,7 @@ tools:
     repo: eza-community/eza
     shell_code:
       bash,zsh: |
-        alias l="eza -lah --git --icons"
+        alias l="eza --long --all --git --icons=auto"
   fzf:
     repo: junegunn/fzf
     shell_code:
@@ -231,6 +231,6 @@ tools:
 
 ## ℹ️ Additional Information
 
-* This README was automatically generated on May 06, 2025
+* This README was automatically generated on May 08, 2025
 * Current platform: **macos/arm64**
 * For more information on dotbins, visit https://github.com/basnijholt/dotbins
